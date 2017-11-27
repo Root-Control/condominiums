@@ -1,0 +1,26 @@
+﻿<section>
+  <div class="page-header">
+    <h1>
+      Department_services
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.department_services.create">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+    </h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="department_service in vm.department_services" data-ui-sref="admin.department_services.edit({department_serviceId: department_service._id})" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="department_service.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="department_service.user" ng-bind="department_service.user.displayName"></span>
+        <span ng-if="!department_service.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="department_service.title"></h4>
+      <p class="list-group-item-text" data-ng-bind="department_service.content"></p>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="department_services.$resolved && !department_services.length">
+    No department_services yet, why don't you <a data-ui-sref="admin.department_services.create">create one</a>?
+  </div>
+</section>

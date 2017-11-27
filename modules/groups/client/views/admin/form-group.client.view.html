@@ -1,0 +1,45 @@
+<section>
+    <div class="page-header">
+        <h1>{{vm.group._id ? 'Editar Grupo' : 'Nuevo grupo'}}</h1>
+    </div>
+    <div class="pull-right">
+        <a ng-show="vm.group._id" class="btn btn-primary" ng-click="vm.remove()">
+        <i class="glyphicon glyphicon-trash"></i>
+        </a>
+    </div>
+    <div class="col-md-12">
+        <form name="vm.form.groupForm" class="form-horizontal" ng-submit="vm.save(vm.form.groupForm.$valid)" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="name">Condominio</label>
+                    <select ng-model="vm.group.condominium">
+                        <option value="{{ item._id }}" data-ng-repeat="item in vm.condominiums">{{ item.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group" show-errors>
+                    <label class="control-label" for="name">Nombre</label>
+                    <input name="name" type="text" ng-model="vm.group.name" id="name" class="form-control" placeholder="Nombre" required autofocus>
+                    <div ng-messages="vm.form.groupForm.name.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">Group name is required.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="description">Descripción</label>
+                    <textarea name="description" data-ng-model="vm.group.description" id="description" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
+                </div>
+                <div class="form-group" show-errors>
+                    <label class="control-label" for="avgWaterSupply">Precio promedio de suministro</label>
+                    <input name="avgWaterSupply" type="text" ng-model="vm.group.avgWaterSupply" id="avgWaterSupply" class="form-control" placeholder="Ejm: 10" required autofocus>
+                    <div ng-messages="vm.form.groupForm.avgWaterSupply.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">El precio promedio es requerido.</p>
+                    </div>
+                </div>               
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">{{vm.group._id ? 'Actualizar' : 'Crear'}}</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>
+<!-- vm.condominiums  -->

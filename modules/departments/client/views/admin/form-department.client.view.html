@@ -1,0 +1,43 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.department._id ? 'Editar Departmento' : 'Nuevo Departmento'}}</h1>
+  </div>
+  <div class="pull-right">
+    <a ng-show="vm.department._id" class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.departmentForm" class="form-horizontal" ng-submit="vm.save(vm.form.departmentForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group">
+            <label class="control-label" for="name">Torre</label>
+            <select ng-model="vm.department.tower">
+                <option value="{{ item._id }}" data-ng-repeat="item in vm.towers">{{ item.name }}</option>
+            </select>
+        </div>      
+        <div class="form-group" show-errors>
+          <label class="control-label" for="code">Codigo</label>
+          <input name="code" type="text" ng-model="vm.department.code" id="code" class="form-control" placeholder="Codigo" required autofocus>
+          <div ng-messages="vm.form.departmentForm.code.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">El código del departamento es requerido.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="floor">Piso</label>
+          <input name="floor" type="text" ng-model="vm.department.floor" id="floor" class="form-control" placeholder="Piso" required autofocus>
+          <div ng-messages="vm.form.departmentForm.floor.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">El piso del departamento es requerido.</p>
+          </div>
+        </div>        
+        <div class="form-group">
+          <label class="control-label" for="description">Descripción</label>
+          <textarea name="description" data-ng-model="vm.department.description" id="description" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.department._id ? 'Update' : 'Create'}}</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

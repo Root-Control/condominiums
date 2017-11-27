@@ -1,0 +1,26 @@
+﻿<section>
+  <div class="page-header">
+    <h1>
+      Grupos
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.groups.create">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+    </h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="group in vm.groups" data-ui-sref="admin.groups.edit({groupId: group._id})" class="list-group-item">
+      <small class="list-group-item-text">
+        Creado
+        <span data-ng-bind="group.created | date:'mediumDate'"></span>
+        por
+        <span ng-if="group.user" ng-bind="group.user.displayName"></span>
+        <span ng-if="!group.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="group.name"></h4>
+      <p class="list-group-item-text" data-ng-bind="group.description"></p>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="groups.$resolved && !groups.length">
+    No groups yet, why don't you <a data-ui-sref="admin.groups.create">create one</a>?
+  </div>
+</section>

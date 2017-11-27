@@ -1,0 +1,26 @@
+﻿<section>
+  <div class="page-header">
+    <h1>
+      Condominios
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.condominiums.create">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+    </h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="condominium in vm.condominiums" data-ui-sref="admin.condominiums.edit({condominiumId: condominium._id})" class="list-group-item">
+      <small class="list-group-item-text">
+        Creado:
+        <span data-ng-bind="condominium.created | date:'mediumDate'"></span>
+        por
+        <span ng-if="condominium.user" ng-bind="condominium.user.displayName"></span>
+        <span ng-if="!condominium.user">Usuario eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="condominium.name"></h4>
+      <p class="list-group-item-text" data-ng-bind="condominium.content"></p>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="condominiums.$resolved && !condominiums.length">
+    No hay condominios creados,  <a data-ui-sref="admin.condominiums.create">crea uno aquí</a>?
+  </div>
+</section>

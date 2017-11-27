@@ -1,0 +1,17 @@
+<section>
+  <div class="page-header">
+    <h1 ng-bind="vm.department.code"></h1>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span ng-bind="vm.department.created | date:'mediumDate'"></span>
+      by
+      <span ng-if="vm.department.user" ng-bind="vm.department.user.displayName"></span>
+      <span ng-if="!vm.department.user">Usuario Eliminado</span>
+    </em>
+  </small>
+  <p class="lead" ng-bind="vm.department.code"></p>
+  <p class="lead" ng-bind="vm.department.floor"></p>
+  <p class="lead" ng-bind="vm.department.description"></p>
+</section>

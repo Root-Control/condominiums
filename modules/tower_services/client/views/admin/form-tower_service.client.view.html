@@ -1,0 +1,30 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.tower_service._id ? 'Edit Tower_service' : 'New Tower_service'}}</h1>
+  </div>
+  <div class="pull-right">
+    <a ng-show="vm.tower_service._id" class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.tower_serviceForm" class="form-horizontal" ng-submit="vm.save(vm.form.tower_serviceForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="title">Title</label>
+          <input name="title" type="text" ng-model="vm.tower_service.title" id="title" class="form-control" placeholder="Title" required autofocus>
+          <div ng-messages="vm.form.tower_serviceForm.title.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tower_service title is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="content">Content</label>
+          <textarea name="content" data-ng-model="vm.tower_service.content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.tower_service._id ? 'Update' : 'Create'}}</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

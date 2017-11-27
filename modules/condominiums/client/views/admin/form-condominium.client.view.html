@@ -1,0 +1,30 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.condominium._id ? 'Editar condominio' : 'Nuevo condominio'}}</h1>
+  </div>
+  <div class="pull-right">
+    <a ng-show="vm.condominium._id" class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.condominiumForm" class="form-horizontal" ng-submit="vm.save(vm.form.condominiumForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Nombre</label>
+          <input name="name" type="text" ng-model="vm.condominium.name" id="name" class="form-control" placeholder="Ejm: Condominio B" required autofocus>
+          <div ng-messages="vm.form.condominiumForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">El nombre del condominio es obligatorio.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="address">Dirección</label>
+          <input name="address" type="text" ng-model="vm.condominium.address" id="address" class="form-control" placeholder="Ejm: Av La marina 1853">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.condominium._id ? 'Actualizar' : 'Crear'}}</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

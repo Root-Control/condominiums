@@ -1,0 +1,19 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.client.name }}  {{ vm.client.lastName }}</h1>
+  </div>
+  <small>
+    <em class="text-muted">
+      Creado
+      <span ng-bind="vm.client.created | date:'mediumDate'"></span>
+      por
+      <span ng-if="vm.client.user" ng-bind="vm.client.user.displayName"></span>
+      <span ng-if="!vm.client.user">Usuario Eliminado</span>
+    </em>
+  </small>
+  <p class="lead" ng-bind="vm.client.email"></p>
+  <p class="lead" ng-bind="vm.client.birthDate"></p>
+  <p class="lead" ng-bind="vm.client.phone"></p>
+  <p class="lead" ng-bind="vm.client.cellphone"></p>
+  <p class="lead" ng-bind="vm.client.document"></p>
+</section>

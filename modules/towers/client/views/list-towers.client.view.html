@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Towers</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="tower in vm.towers" ui-sref="towers.view({ towerId: tower._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="tower.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="tower.user" ng-bind="tower.user.displayName"></span>
+        <span ng-if="!tower.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="tower.name"></h4>
+      <p class="list-group-item-text" ng-bind="tower.description"></p>
+    </a>
+  </div>
+</section>

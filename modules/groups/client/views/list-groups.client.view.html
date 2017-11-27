@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Grupos</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="group in vm.groups" ui-sref="groups.view({ groupId: group._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Creado el 
+        <span ng-bind="group.created | date:'dd/MM/yyyy'"></span>
+        por
+        <span ng-if="group.user" ng-bind="group.user.displayName"></span>
+        <span ng-if="!group.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="group.name"></h4>
+      <p class="list-group-item-text" ng-bind="group.description"></p>
+    </a>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+<section>
+  <div class="page-header">
+    <h1 ng-bind="vm.group.name"></h1>
+  </div>
+  <small>
+    <em class="text-muted">
+      Creado el:
+      <span ng-bind="vm.group.created | date:'dd/MM/yyyy'"></span>
+      por
+      <span ng-if="vm.group.user" ng-bind="vm.group.user.displayName"></span>
+      <span ng-if="!vm.group.user">Usuario Eliminado</span>
+    </em>
+  </small>
+  <p class="lead" ng-bind="vm.group.description"></p>
+</section>

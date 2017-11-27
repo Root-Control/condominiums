@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Condominios</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="condominium in vm.condominiums" ui-sref="condominiums.view({ condominiumId: condominium._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Creado:
+        <span ng-bind="condominium.created | date:'dd/MM/yyyy'"></span>
+        por
+        <span ng-if="condominium.user" ng-bind="condominium.user.displayName"></span>
+        <span ng-if="!condominium.user">Usuario eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="condominium.name"></h4>
+      <p class="list-group-item-text" ng-bind="condominium.content"></p>
+    </a>
+  </div>
+</section>
