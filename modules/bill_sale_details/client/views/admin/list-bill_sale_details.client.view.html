@@ -1,0 +1,26 @@
+﻿<section>
+  <div class="page-header">
+    <h1>
+      Bill_sale_details
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.bill_sale_details.create">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+    </h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="bill_sale_detail in vm.bill_sale_details" data-ui-sref="admin.bill_sale_details.edit({bill_sale_detailId: bill_sale_detail._id})" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="bill_sale_detail.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="bill_sale_detail.user" ng-bind="bill_sale_detail.user.displayName"></span>
+        <span ng-if="!bill_sale_detail.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="bill_sale_detail.title"></h4>
+      <p class="list-group-item-text" data-ng-bind="bill_sale_detail.content"></p>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="bill_sale_details.$resolved && !bill_sale_details.length">
+    No bill_sale_details yet, why don't you <a data-ui-sref="admin.bill_sale_details.create">create one</a>?
+  </div>
+</section>

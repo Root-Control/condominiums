@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Service_consumptions</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="service_consumption in vm.service_consumptions" ui-sref="service_consumptions.view({ service_consumptionId: service_consumption._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="service_consumption.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="service_consumption.user" ng-bind="service_consumption.user.displayName"></span>
+        <span ng-if="!service_consumption.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="service_consumption.title"></h4>
+      <p class="list-group-item-text" ng-bind="service_consumption.content"></p>
+    </a>
+  </div>
+</section>

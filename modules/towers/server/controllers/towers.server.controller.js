@@ -21,7 +21,9 @@ exports.create = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(tower);
+      Tower.populate(tower, { path: 'groupAssigned' }, function (err, tower) {
+        res.json(tower);
+      });
     }
   });
 };
@@ -48,6 +50,7 @@ exports.update = function (req, res) {
 
   tower.name = req.body.name;
   tower.description = req.body.description;
+  tower.groupAssigned = req.body.groupAssigned;
 
   tower.save(function (err) {
     if (err) {
@@ -81,7 +84,7 @@ exports.delete = function (req, res) {
  * List of Towers
  */
 exports.list = function (req, res) {
-  Tower.find().sort('-created').populate('user', 'displayName').exec(function (err, towers) {
+  Tower.find().sort('-created').populate('user', 'displayName').populate('groupAssigned', 'name').exec(function (err, towers) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)

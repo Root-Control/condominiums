@@ -6,6 +6,9 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Department = mongoose.model('Department'),
+  Keys = require(path.resolve('./modules/keys/server/controllers/keys.server.controller')),
+  Towers = require(path.resolve('./modules/towers/server/controllers/towers-custom-queries.server.controller')),
+  Groups = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -21,7 +24,24 @@ exports.create = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(department);
+      Towers.searchTowerGroup(department.tower)
+        .then(function (tower) {
+          Groups.searchGroupCondominium(tower)
+            .then(function (group) {
+              let data = {
+                department: department._id,
+                tower: department.tower,
+                group: group._id,
+                condominium: group.condominium,
+                user: req.user
+              };
+              Keys.create(data)
+                .then(function (result) {
+                  console.log(result);
+                  res.json(department);
+                });
+            });
+        });
     }
   });
 };

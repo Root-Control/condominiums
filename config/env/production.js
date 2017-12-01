@@ -9,7 +9,7 @@ module.exports = {
     certificate: './config/sslcerts/cert.pem',
     caBundle: './config/sslcerts/cabundle.crt'
   },
-  port: process.env.PORT || 8443,
+  port: process.env.PORT || 3000,
   // Binding to 127.0.0.1 is safer in production.
   host: process.env.HOST || '0.0.0.0',
   db: {
@@ -47,8 +47,8 @@ module.exports = {
     }
   },
   facebook: {
-    clientID: process.env.FACEBOOK_ID || 'APP_ID',
-    clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
+    clientID: process.env.FACEBOOK_ID || '678873272306607',
+    clientSecret: process.env.FACEBOOK_SECRET || 'd2ac17052063d9184f8482f0786f141e',
     callbackURL: '/api/auth/facebook/callback'
   },
   twitter: {

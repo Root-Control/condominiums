@@ -9,7 +9,6 @@
 
   function TowersAdminListController(TowersService) {
     var vm = this;
-
     vm.towers = TowersService.query();
     console.log(vm.towers);
   }

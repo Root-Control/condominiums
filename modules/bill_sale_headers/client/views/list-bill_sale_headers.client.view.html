@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Bill_sale_headers</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="bill_sale_header in vm.bill_sale_headers" ui-sref="bill_sale_headers.view({ bill_sale_headerId: bill_sale_header._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="bill_sale_header.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="bill_sale_header.user" ng-bind="bill_sale_header.user.displayName"></span>
+        <span ng-if="!bill_sale_header.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="bill_sale_header.title"></h4>
+      <p class="list-group-item-text" ng-bind="bill_sale_header.content"></p>
+    </a>
+  </div>
+</section>

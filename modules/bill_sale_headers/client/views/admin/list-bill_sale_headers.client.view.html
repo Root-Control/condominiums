@@ -1,0 +1,26 @@
+﻿<section>
+  <div class="page-header">
+    <h1>
+      Bill_sale_headers
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.bill_sale_headers.create">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+    </h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="bill_sale_header in vm.bill_sale_headers" data-ui-sref="admin.bill_sale_headers.edit({bill_sale_headerId: bill_sale_header._id})" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="bill_sale_header.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="bill_sale_header.user" ng-bind="bill_sale_header.user.displayName"></span>
+        <span ng-if="!bill_sale_header.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="bill_sale_header.title"></h4>
+      <p class="list-group-item-text" data-ng-bind="bill_sale_header.content"></p>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="bill_sale_headers.$resolved && !bill_sale_headers.length">
+    No bill_sale_headers yet, why don't you <a data-ui-sref="admin.bill_sale_headers.create">create one</a>?
+  </div>
+</section>

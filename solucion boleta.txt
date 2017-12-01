@@ -1,0 +1,14 @@
+Service consumption
+	idservicio
+	qty_consumed
+	idglobal (torre, grupo) que lo consumió
+	
+
+Una vez service consumption se guarde, se optiene su idglobal que es el identificador de
+(torre, grupo, etc), populamos el dato con el service, al popularlo sabemos que tipo es, 1, 2, 3 , 4 etc, al tener esto ya podemos armar nuevas queries.
+
+Al queriar y buscar un campo que contenga ya sea la torre, grupo, departamento o condominio buscamos todos los departamentos que esten situados en los, condominios, grupos, torres que estamos consultando, una vez encontrados éstos, aplicamos el detalle agregando los nuevos items.
+
+Ahora, al tener el array de departamentos , hago query con todos a la vez y obtengo todas las cabeceras de detalle que contengan el array y que a su vez sea del mes, al conocer todas las cabeceras, itero cada una, cogiedo su id y creo un detalle por cada una.
+
+1.- Hacer query a cabeceras con el array obtenido, utilizando array y mes, obtener todas las cabeceras
