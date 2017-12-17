@@ -12,6 +12,9 @@ module.exports = function (app) {
     .get(services.list)
     .post(services.create);
 
+
+  app.route('/api/services/unregistered')
+    .post(services.getUnregisteredServices);
   // Single service routes
   app.route('/api/services/:serviceId').all(servicesPolicy.isAllowed)
     .get(services.read)

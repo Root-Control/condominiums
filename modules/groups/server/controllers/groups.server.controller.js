@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Group = mongoose.model('Group'),
+  Supply = require(path.resolve('./modules/supplies/server/controllers/supplies.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -13,14 +14,23 @@ var path = require('path'),
  */
 exports.create = function (req, res) {
   var group = new Group(req.body);
-  group.user = req.user;
+  var supplies = req.body.supplyCreator;
+  delete req.body.supplyCreator;
 
-  group.save(function (err) {
+  group.user = req.user;
+  group.save(async (err, group) => {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      supplies.forEach(function(key) {
+        key.supplyDescription = group.name;
+        key.entityId = group._id;
+        key.type = 2;
+      });
+      await Supply.bulkSupplies(supplies);
+      console.log('Completed');
       res.json(group);
     }
   });
@@ -50,12 +60,22 @@ exports.update = function (req, res) {
   group.description = req.body.description;
   group.avgWaterSupply = req.body.avgWaterSupply;
 
-  group.save(function (err) {
+  var supplies = req.body.supplyCreator;
+  delete req.body.supplyCreator;
+
+  group.save(async err => {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      supplies.forEach(function(key) {
+        key.supplyDescription = group.name;
+        key.entityId = group._id;
+        key.type = 2;
+      });
+      await Supply.bulkSupplies(supplies);
+      console.log('Completed');
       res.json(group);
     }
   });
@@ -82,7 +102,8 @@ exports.delete = function (req, res) {
  * List of Groups
  */
 exports.list = function (req, res) {
-  Group.find().sort('-created').populate('user', 'displayName').exec(function (err, groups) {
+  let query = req.query;
+  Group.find(query).sort('-created').populate('user', 'displayName').exec(function (err, groups) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)

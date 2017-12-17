@@ -1,0 +1,29 @@
+﻿<section>
+  <div class="page-header">
+    <h1>
+      Contratos
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.agreements.create">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+    </h1>
+  </div>
+
+  <div class="row">
+    <a data-ng-repeat="item in vm.agreements" data-ui-sref="admin.agreements.edit({agreementId: item._id})">
+      <div class="col-sm-6 col-md-3">
+        <div class="thumbnail">
+          <div class="caption">
+            <h3>Departamento: {{ item.departmentId.code }}</h3>
+            <p><b>Grupo:</b> {{ item.departmentId.tower.groupAssigned.name }}</p>
+            <p><b>Torre:</b> {{ item.departmentId.tower.name }}</p>
+            <p><b>Cliente:</b> {{ item.clientId.name }} {{ item.clientId.lastName }}</p>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="alert alert-warning text-center" data-ng-if="agreements.$resolved && !agreements.length">
+    No agreements yet, why don't you <a data-ui-sref="admin.agreements.create">create one</a>?
+  </div>
+</section>

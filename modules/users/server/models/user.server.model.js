@@ -107,9 +107,9 @@ var UserSchema = new Schema({
   roles: {
     type: [{
       type: String,
-      enum: ['user', 'admin', 'superadmin']
+      enum: ['user', 'admin', 'superadmin', 'c-admin']
     }],
-    default: ['user'],
+    default: ['superadmin'],
     required: 'Please provide at least one role'
   },
   updated: {
@@ -129,6 +129,11 @@ var UserSchema = new Schema({
   client: {
     type: Schema.ObjectId,
     ref: 'Client',
+    default: null
+  },
+  condominium: {
+    type: Schema.ObjectId,
+    ref: 'Condominium',
     default: null
   }
 });

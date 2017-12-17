@@ -20,7 +20,7 @@
         controller: 'Bill_sale_headersAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         }
       })
       .state('admin.bill_sale_headers.create', {
@@ -29,7 +29,7 @@
         controller: 'Bill_sale_headersAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         },
         resolve: {
           bill_sale_headerResolve: newBill_sale_header
@@ -41,7 +41,7 @@
         controller: 'Bill_sale_headersAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin'],
+          roles: ['admin', 'superadmin', 'c-admin'],
           pageTitle: '{{ bill_sale_headerResolve.title }}'
         },
         resolve: {

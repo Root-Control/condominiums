@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Supplies</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="supplie in vm.supplies" ui-sref="supplies.view({ supplieId: supplie._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="supplie.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="supplie.user" ng-bind="supplie.user.displayName"></span>
+        <span ng-if="!supplie.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="supplie.title"></h4>
+      <p class="list-group-item-text" ng-bind="supplie.content"></p>
+    </a>
+  </div>
+</section>

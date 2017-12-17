@@ -10,7 +10,7 @@
 
   function menuConfig(Menus) {
     Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Manage Service_consumptions',
+      title: 'Administrar consumos',
       state: 'admin.service_consumptions.list'
     });
   }

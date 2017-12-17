@@ -10,6 +10,9 @@ var validator = require('validator'),
 exports.renderDefaultIndex = function (req, res) {
   var safeUserObject = null;
   if (req.user) {
+    setTimeout(function() {
+      console.log(req.user);
+    }, 3000);
     safeUserObject = {
       displayName: validator.escape(req.user.displayName),
       provider: validator.escape(req.user.provider),
@@ -20,7 +23,8 @@ exports.renderDefaultIndex = function (req, res) {
       email: validator.escape(req.user.email),
       lastName: validator.escape(req.user.lastName),
       firstName: validator.escape(req.user.firstName),
-      additionalProvidersData: req.user.additionalProvidersData
+      additionalProvidersData: req.user.additionalProvidersData,
+      condominium: req.user.condominium
     };
   }
   res.render('modules/core/server/views/default/index', {
@@ -42,7 +46,8 @@ exports.renderAdminIndex = function (req, res) {
       email: validator.escape(req.user.email),
       lastName: validator.escape(req.user.lastName),
       firstName: validator.escape(req.user.firstName),
-      additionalProvidersData: req.user.additionalProvidersData
+      additionalProvidersData: req.user.additionalProvidersData,
+      condominium: req.user.condominium
     };
   }
   res.render('modules/core/server/views/dashboard/index', {

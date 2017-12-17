@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Service = mongoose.model('Service'),
+  Supplie =  require(path.resolve('./modules/supplies/server/controllers/supplies.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -80,10 +81,37 @@ exports.delete = function (req, res) {
 };
 
 /**
+ * get Unregistered Services
+ */
+exports.getUnregisteredServices = async (req, res) => {
+  let entityId = req.body.entityId;
+  let type = req.body.type;
+  let registered = await Supplie.getRegisteredSuppliesByEntity(entityId);
+  let data = {};
+  Service.find({ type: type , _id: { "$nin": registered.idServices } }).exec(function (err, services) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      data.registered = registered.usedServices;
+      data.unregistered = services;
+      res.json(data);
+    }
+  });
+};
+
+/**
+ * get Unregistered Services
+ */
+
+
+/**
  * List of Services
  */
 exports.list = function (req, res) {
-  Service.find().sort('-created').populate('user', 'displayName').exec(function (err, services) {
+  let filter = req.query;
+  Service.find(filter).sort('-created').populate('user', 'displayName').exec(function (err, services) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)

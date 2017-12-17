@@ -13,7 +13,7 @@ acl = new acl(new acl.memoryBackend());
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
-    roles: ['superadmin'],
+    roles: ['superadmin', 'c-admin'],
     allows: [{
       resources: '/api/condominiums',
       permissions: '*'

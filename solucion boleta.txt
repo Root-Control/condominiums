@@ -1,14 +1,16 @@
-Service consumption
-	idservicio
-	qty_consumed
-	idglobal (torre, grupo) que lo consumió
-	
+Suministros ->
 
-Una vez service consumption se guarde, se optiene su idglobal que es el identificador de
-(torre, grupo, etc), populamos el dato con el service, al popularlo sabemos que tipo es, 1, 2, 3 , 4 etc, al tener esto ya podemos armar nuevas queries.
+Cuando se cree una torre, se deben listar todos los servicios de la torre.
 
-Al queriar y buscar un campo que contenga ya sea la torre, grupo, departamento o condominio buscamos todos los departamentos que esten situados en los, condominios, grupos, torres que estamos consultando, una vez encontrados éstos, aplicamos el detalle agregando los nuevos items.
+Ejm: Servicio de agua de torre -> y agregar su numero de suministro 
 
-Ahora, al tener el array de departamentos , hago query con todos a la vez y obtengo todas las cabeceras de detalle que contengan el array y que a su vez sea del mes, al conocer todas las cabeceras, itero cada una, cogiedo su id y creo un detalle por cada una.
+Tanto para torre, para grupo y condominio..
 
-1.- Hacer query a cabeceras con el array obtenido, utilizando array y mes, obtener todas las cabeceras
+Estos items -> (supplyId, entityId, type) irán en el req.body, y luego llamarán a una funcion que agregue
+a los supplies, entonces cuando se quiera agregar el monto facturado por torre ->
+Se listara una torre y saldrán todos sus servicios (ubicados en supplies) y luego se añadirá un monto, el mes es indiferente ya que al inicio se aplicará la busqueda por mes.
+
+
+
+Cuando el cliente inicie sesion y presione un mes, el id de cliente viajará a arrendamiento, capturará el id departamento, una vez capturado el iddepartamento buscamos la boleta cabecera con el identificarodr de departamento, y el mes, una vez obtenemos el id de la boleta buscamos todos los detalles y generamos un objeto para devolver.
+

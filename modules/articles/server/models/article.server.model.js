@@ -67,7 +67,7 @@ function seed(doc, options) {
 
         User
           .findOne({
-            roles: { $in: ['admin', 'superadmin'] }
+            roles: { $in: ['admin', 'superadmin', 'c-admin'] }
           })
           .exec(function (err, admin) {
             if (err) {

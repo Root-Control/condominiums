@@ -8,6 +8,6 @@ var groupsPolicy = require('../policies/groups.server.policy'),
 
 module.exports = function (app) {
   // Groups collection routes
-  app.route('/api/groupforcondominium').all(groupsPolicy.isAllowed)
+  app.route('/api/groupforcondominium')//	.all(groupsPolicy.isAllowed)
     .post(groups.listGroupsForCondominiumId);
 };

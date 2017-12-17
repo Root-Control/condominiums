@@ -21,6 +21,12 @@ var Service_consumptionSchema = new Schema({
     type: Schema.ObjectId,
     required: 'Es requerido el identificador'
   },
+  serviceName: {
+    type: String
+  },
+  supplyCode: {
+    type: String
+  },
   month: {
     type: Number
   },
@@ -28,15 +34,10 @@ var Service_consumptionSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Service'
   },
-  qty_consumed: {
+  total: {
     type: Number
   },
-  measure: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  total: {
+  type: {
     type: Number
   },
   user: {

@@ -1,0 +1,80 @@
+<section>
+  <div class="jumbotron text-center">
+    <h3>SISTEMA DE CONTROL DE CONDOMINIOS</h3>
+  </div>
+  <div class="col-md-12 text-center">
+    <div class="col-sm-6 col-md-3">
+      <p><a ui-sref="condominium-service" ><i class="fa fa-plus-square fa-5x" aria-hidden="true"></i></a></p>
+      REGISTRO DE SUMINISTROS DE CONDOMINIO
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <p><a ui-sref="payment-register" ><i class="fa fa-money fa-5x" aria-hidden="true"></i></a></p>
+      REGISTRO DE PAGOS / BOLETAS
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <p><a ui-sref="#" ><i class="fa fa-users fa-5x" aria-hidden="true"></i></a></p>
+      MIS CLIENTES
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <p><a ui-sref="#" ><i class="fa fa-archive fa-5x" aria-hidden="true"></i></a></p>
+      LISTA DE CONTRATOS
+    </div>
+  </div>
+
+  <div class="alert alert-danger" role="alert" ng-show="vm.contract" style="color: #af4342">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    No tienes ningun departamento asignado, por favor comunícate con gerencia.
+  </div>
+
+  <div class="col-md-3" ng-show="vm.userData && vm.contract" ng-repeat="item in vm.months">
+    <div class="panel panel-success"> 
+ 	    <div class="panel-heading"> 
+ 		   <h2 class="panel-title">{{ item.name }}</h2>
+      </div> 
+ 		<div class="panel-body">
+ 		 <a href="#" data-toggle="modal" data-target="#Boleta" ng-click="vm.createBillHeader(item.name, item.month)">Ver detalle</a>
+ 		</div>
+    </div>
+  </div>
+</section> 	
+
+<div id="Boleta" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Boleta mes de {{ vm.monthSelected }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12">
+          <table class="table table-bordered text-center">
+            <thead>
+              <th>Detalle</th>
+              <th>N° Suministro</th>
+              <th>Recibo</th>
+              <th>Cant. Dep afectados</th>
+              <th>Total</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in vm.items">
+                <td>{{ item.serviceName }}</td>
+                <td>{{ item.supplyCode }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{{ item.qtyDivision }}</td>
+                <td>{{ item.totalAmount }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+

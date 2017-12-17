@@ -23,6 +23,8 @@ exports.signup = function (req, res) {
     userCreation(req)
       .then(function (response) {
         res(null, response);
+      }).catch(function(err) {
+        res(err, null);
       });
     return false;
   }
@@ -36,7 +38,7 @@ exports.signup = function (req, res) {
   user.displayName = user.firstName + ' ' + user.lastName;
 
   // Then save the user
-  user.save(function (err) {
+  user.save(function (err, user) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -58,7 +60,7 @@ exports.signup = function (req, res) {
 };
 
 function userCreation(req) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(async (resolve, reject) => {
     var user = new User(req.body);
     user.provider = 'local';
     user.displayName = req.body.firstName + ' ' + req.body.lastName;
@@ -67,9 +69,10 @@ function userCreation(req) {
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
     user.client = req.body.client;
-    console.log(user);
+    user.condominium = req.body.condominium;
+    user.roles = req.body.condominium ? 'c-admin': 'user';
 
-    user.save(function (err) {
+    user.save(async err => {
       if (err) reject(err);
       else resolve(true);
     });

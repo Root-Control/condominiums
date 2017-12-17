@@ -20,7 +20,7 @@
         controller: 'CondominiumsAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['superadmin']
+          roles: ['superadmin', 'c-admin']
         }
       })
       .state('admin.condominiums.create', {
@@ -29,7 +29,7 @@
         controller: 'CondominiumsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['superadmin']
+          roles: ['superadmin', 'c-admin']
         },
         resolve: {
           condominiumResolve: newCondominium
@@ -41,7 +41,7 @@
         controller: 'CondominiumsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['superadmin'],
+          roles: ['superadmin', 'c-admin'],
           pageTitle: '{{ condominiumResolve.name }}'
         },
         resolve: {

@@ -12,7 +12,7 @@
       title: 'Admin',
       state: 'admin',
       type: 'dropdown',
-      roles: ['admin', 'superadmin']
+      roles: ['admin', 'superadmin', 'c-admin']
     });
   }
 }());

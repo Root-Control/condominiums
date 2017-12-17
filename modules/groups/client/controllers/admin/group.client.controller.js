@@ -5,18 +5,49 @@
     .module('groups.admin')
     .controller('GroupsAdminController', GroupsAdminController);
 
-  GroupsAdminController.$inject = ['$scope', '$state', '$window', 'groupResolve', 'Authentication', 'Notification', 'CondominiumsService'];
+  GroupsAdminController.$inject = ['$scope', '$state', '$window', 'groupResolve', 'Authentication', 'Notification', 'CondominiumsService', 'ServicesService', 'CustomService'];
 
-  function GroupsAdminController($scope, $state, $window, group, Authentication, Notification, CondominiumsService) {
+  function GroupsAdminController($scope, $state, $window, group, Authentication, Notification, CondominiumsService, Service, CustomService) {
     var vm = this;
 
+    vm.typeIdentifier = 2;
     vm.group = group;
-    vm.condominiums = CondominiumsService.query();
     vm.authentication = Authentication;
+    if(vm.authentication.user.roles[0] === 'superadmin') vm.condominiums = CondominiumsService.query();
+
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+    vm.supplyCreator = [];
+    vm.supply = {};
 
+    vm.data = {
+      entityId: vm.group._id,
+      type: vm.typeIdentifier
+    };
+
+    CustomService.unregisteredServices(vm.data, {
+      success: function(response) {
+        vm.registered = response.data.registered;
+        createSupplies(response.data.unregistered);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+
+    function createSupplies(services) {
+      services.forEach(function(key) {
+        vm.supply.serviceName = key.name;
+        vm.supply.supplyCode = '';
+        vm.supply.typeSupply = vm.typeIdentifier;
+        vm.supply.serviceId = key._id;
+        vm.supply.entityId = '';
+        vm.supplyCreator.push(vm.supply);
+        vm.supply = {};
+      });
+      console.log(vm.supplyCreator);
+    }
     // Remove existing Group
     function remove() {
       if ($window.confirm('Are you sure you want to delete?')) {
@@ -29,6 +60,8 @@
 
     // Save Group
     function save(isValid) {
+      if(vm.authentication.user.condominium) vm.group.condominium = vm.authentication.user.condominium;
+      vm.group.supplyCreator = vm.supplyCreator;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.groupForm');
         return false;

@@ -9,7 +9,7 @@
 
   function GroupsListController(GroupsService) {
     var vm = this;
-
+    alert('hjola');
     vm.groups = GroupsService.query();
   }
 }());

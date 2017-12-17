@@ -20,7 +20,7 @@
         controller: 'DepartmentsAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         }
       })
       .state('admin.departments.create', {
@@ -29,7 +29,7 @@
         controller: 'DepartmentsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         },
         resolve: {
           departmentResolve: newDepartment
@@ -41,7 +41,7 @@
         controller: 'DepartmentsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin'],
+          roles: ['admin', 'superadmin', 'c-admin'],
           pageTitle: '{{ departmentResolve.title }}'
         },
         resolve: {

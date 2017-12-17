@@ -22,8 +22,14 @@ exports.create = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      User.signup({ body: { client: client._id, email: client.email, password: 'C@ndomini0', document: client.document, firstName: client.name, lastName: client.lastName } }, function (err, response) {
-        if (response) res.json(client);
+      User.signup({ body: { condominium: req.body.condominium, client: client._id, email: client.email, password: 'C@ndomini0', document: client.document, firstName: client.name, lastName: client.lastName } }, function (err, response) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(client);
+        }
       }, false);
     }
   });

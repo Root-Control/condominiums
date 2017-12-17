@@ -6,6 +6,8 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Tower = mongoose.model('Tower'),
+  CustomGroup = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
+  Supply = require(path.resolve('./modules/supplies/server/controllers/supplies.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -13,15 +15,24 @@ var path = require('path'),
  */
 exports.create = function (req, res) {
   var tower = new Tower(req.body);
-  tower.user = req.user;
+  var supplies = req.body.supplyCreator;
+  delete req.body.supplyCreator;
 
+  tower.user = req.user;
   tower.save(function (err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      Tower.populate(tower, { path: 'groupAssigned' }, function (err, tower) {
+      Tower.populate(tower, { path: 'groupAssigned' }, async (err, tower) => {
+        supplies.forEach(function(key) {
+          key.supplyDescription = tower.name;
+          key.entityId = tower._id;
+          key.type = 3;
+        });
+        await Supply.bulkSupplies(supplies);
+        console.log('Completed');
         res.json(tower);
       });
     }
@@ -51,6 +62,9 @@ exports.update = function (req, res) {
   tower.name = req.body.name;
   tower.description = req.body.description;
   tower.groupAssigned = req.body.groupAssigned;
+  
+  var supplies = req.body.supplyCreator;
+  delete req.body.supplyCreator;
 
   tower.save(function (err) {
     if (err) {
@@ -58,7 +72,16 @@ exports.update = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(tower);
+      Tower.populate(tower, { path: 'groupAssigned' }, async (err, tower) => {
+        supplies.forEach(function(key) {
+          key.supplyDescription = tower.name;
+          key.entityId = tower._id;
+          key.type = 3;
+        });
+        await Supply.bulkSupplies(supplies);
+        console.log('Completed');
+        res.json(tower);
+      });
     }
   });
 };
@@ -83,8 +106,20 @@ exports.delete = function (req, res) {
 /**
  * List of Towers
  */
-exports.list = function (req, res) {
-  Tower.find().sort('-created').populate('user', 'displayName').populate('groupAssigned', 'name').exec(function (err, towers) {
+exports.list = async function (req, res) {
+  let query = {};
+  if(req.query.groupAssigned) query.groupAssigned = req.query.groupAssigned;
+
+  if(req.query.condominiumId) {
+    let groups = [];
+    let data = await CustomGroup.listGroupsForCondominiumId(req.query.condominiumId, 'promise');
+    data.forEach(function(key) {
+      groups.push(key._id);
+    });
+    query = { groupAssigned: { $in: groups } };
+  }
+
+  Tower.find(query).sort('-created').populate('user', 'displayName').populate('groupAssigned', 'name').exec(function (err, towers) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)

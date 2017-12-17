@@ -22,6 +22,9 @@ var Bill_sale_detailSchema = new Schema({
     default: '',
     trim: true
   },
+  supplyCode: {
+    type: String
+  },
   amount: {
     type: Number
   },
@@ -77,7 +80,7 @@ function seed(doc, options) {
 
         User
           .findOne({
-            roles: { $in: ['admin', 'superadmin'] }
+            roles: { $in: ['admin', 'superadmin', 'c-admin'] }
           })
           .exec(function (err, admin) {
             if (err) {

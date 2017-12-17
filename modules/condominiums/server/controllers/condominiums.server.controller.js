@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Condominium = mongoose.model('Condominium'),
+  Supply = require(path.resolve('./modules/supplies/server/controllers/supplies.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -13,9 +14,9 @@ var path = require('path'),
  */
 exports.create = function (req, res) {
   var condominium = new Condominium(req.body);
-  condominium.user = req.user;
 
-  condominium.save(function (err) {
+  condominium.user = req.user;
+  condominium.save(function (err, result) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -58,6 +59,20 @@ exports.update = function (req, res) {
       res.json(condominium);
     }
   });
+};
+
+exports.updateCondominiumsupplies = async (req, res) => {
+  let supplies = req.body.supplyCreator;
+  let condominiumId = mongoose.Types.ObjectId(req.body._id);
+
+  supplies.forEach(function(key) {
+    key.supplyDescription = req.body.name;
+    key.entityId = condominiumId;
+    key.type = 1;
+  });
+  console.log(supplies);
+  await Supply.bulkSupplies(supplies);
+  res.status(200).json({ message: 'Se registraron los servicios correctamente', success: true });
 };
 
 /**

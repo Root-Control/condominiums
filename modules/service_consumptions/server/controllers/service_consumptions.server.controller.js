@@ -12,25 +12,33 @@ let path = require('path'),
   BillHeader = require(path.resolve('./modules/bill_sale_headers/server/controllers/bill_sale_header_service.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+
+exports.bulkConsumption = async (req, res) => {
+  let individualConsume = req.body;
+  for(let i = 0; i < individualConsume.length; i++) {
+    await this.create(individualConsume[i], req.user);
+  }
+  res.json('success');
+};
+
 /**
  * Create an service_consumption
  */
 
-exports.create = async (req, res) => {
-  let service_consumption = new Service_consumption(req.body);
-  service_consumption.user = req.user;
-
-  await service_consumption.save(async (err) => {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      await Service_consumption.populate(service_consumption, { path: 'service' }, async (err, service_consumption) => {
-        await createTransaction(service_consumption, req.user);
-        res.json(service_consumption);
-      });      
-    }
+exports.create = async (data, user) => {
+  return new Promise(async (resolve, reject) => {
+    let service_consumption = new Service_consumption(data);
+    service_consumption.user = user;
+    await service_consumption.save(async (err) => {
+      if (err) reject();
+      else {
+        await Service_consumption.populate(service_consumption, { path: 'service' }, async (err, service_consumption) => {
+          await createTransaction(service_consumption, user);
+          console.log('resolved');
+          resolve();
+        });      
+      }
+    });
   });
 };
 
@@ -132,6 +140,7 @@ let createTransaction = async (consumed, user) => {
     let globalIdentifier = consumed.globalIdentifier;
     let type = consumed.service.type;
     let month = consumed.month;
+    let supplyCode = consumed.supplyCode;
     let data;
     let departmentsToapply;
     let avgWaterSupply;
@@ -173,6 +182,7 @@ let createTransaction = async (consumed, user) => {
       console.log(headers);
       detail = {
         user: user,
+        supplyCode: supplyCode,
         amount: amount,
         serviceName: serviceName,
         qtyDivision: qtyDivision,
@@ -207,3 +217,8 @@ function twoDecimals(num, decimals = 2) {
     num = num.toString().split('e');
     return sign * (num[0] + 'e' + (num[1] ? (+num[1] - decimals) : -decimals));
 }
+
+process.on('unhandledRejection', (err) => { 
+  console.error(err)
+  process.exit(1)
+});

@@ -20,7 +20,7 @@
         controller: 'TowersAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         }
       })
       .state('admin.towers.create', {
@@ -29,7 +29,7 @@
         controller: 'TowersAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         },
         resolve: {
           towerResolve: newTower
@@ -41,7 +41,7 @@
         controller: 'TowersAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin'],
+          roles: ['admin', 'superadmin', 'c-admin'],
           pageTitle: '{{ towerResolve.title }}'
         },
         resolve: {

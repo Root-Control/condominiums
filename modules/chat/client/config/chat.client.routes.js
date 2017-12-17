@@ -15,7 +15,7 @@
         controller: 'ChatController',
         controllerAs: 'vm',
         data: {
-          roles: ['user', 'admin', 'superadmin']
+          roles: ['user', 'admin', 'superadmin', 'c-admin']
         }
       });
   }

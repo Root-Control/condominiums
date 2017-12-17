@@ -1,0 +1,33 @@
+<section>
+  <div class="jumbotron text-center">
+    <h3>Registro de servicios de condominio</h3>
+  </div>
+	<div class="form-group" ng-show="!vm.authentication.user.condominium">
+	    <label class="control-label" for="name">Condominio</label>
+      <select ng-model="vm.condominium" ng-change="vm.getUnregisteredServices()" 
+              data-ng-options="items as items.name for items in vm.condominiums">
+        <option ng-selected="true">Selecciona un condominio</option>
+      </select>
+	</div>
+    <div class="col-md-12" ng-show="vm.supplyCreator.length > 0">
+      <h2>Servicios de Condominio </h2>
+      <table class="table table-responsive">
+        <thead>
+          <th>Servicio</th>
+          <th>Identificador de suministro</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in vm.supplyCreator">
+            <td>{{ item.serviceName }}</td>
+            <td><input type="text" ng-model="item.supplyCode" class="form-control"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-success" ng-click="vm.registerCondominiumServices();">Registrar servicios</button>   
+    </div>
+    <div class="alert alert-info" ng-show="vm.nosupply" style="color: #36b7e3">
+      <strong>Información!</strong> No hay suministros por registrar para:  {{ vm.condominium.name }}.
+    </div>
+</section> 	
+
+

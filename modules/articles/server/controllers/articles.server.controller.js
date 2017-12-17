@@ -88,6 +88,7 @@ exports.list = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      returnMessage(req, res, articles);
       res.json(articles);
     }
   });

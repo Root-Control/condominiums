@@ -20,7 +20,7 @@
         controller: 'ClientsAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         }
       })
       .state('admin.clients.create', {
@@ -29,7 +29,7 @@
         controller: 'ClientsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         },
         resolve: {
           clientResolve: newClient
@@ -41,7 +41,7 @@
         controller: 'ClientsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin'],
+          roles: ['admin', 'superadmin', 'c-admin'],
           pageTitle: '{{ clientResolve.title }}'
         },
         resolve: {

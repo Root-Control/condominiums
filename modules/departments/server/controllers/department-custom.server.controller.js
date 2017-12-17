@@ -13,7 +13,7 @@ let path = require('path'),
 exports.generateBill = async function (req, res) {
   let current_month =  moment().format('M');
   let current_year =  moment().format('Y');
-  current_month = 9;
+  current_month = 0;
 
   let departments = await listDepartments();
   let arrayDepartment;

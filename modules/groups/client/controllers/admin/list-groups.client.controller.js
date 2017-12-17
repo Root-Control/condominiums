@@ -5,11 +5,12 @@
     .module('groups.admin')
     .controller('GroupsAdminListController', GroupsAdminListController);
 
-  GroupsAdminListController.$inject = ['GroupsService'];
+  GroupsAdminListController.$inject = ['GroupsService', 'Authentication'];
 
-  function GroupsAdminListController(GroupsService) {
+  function GroupsAdminListController(GroupsService, Authentication) {
     var vm = this;
-
-    vm.groups = GroupsService.query();
+    vm.authentication = Authentication;
+    if(vm.authentication.user.roles[0] === 'superadmin') vm.groups = GroupsService.query();
+    else vm.groups = GroupsService.query({ condominium: vm.authentication.user.condominium });
   }
 }());

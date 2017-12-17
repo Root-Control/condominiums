@@ -1,0 +1,51 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.agreement._id ? 'Editar contrato' : 'Nuevo contrato / Cliente - Departamento'}}</h1>
+  </div>
+  <div class="pull-right">
+    <a ng-show="vm.agreement._id" class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.agreementForm" class="form-horizontal" ng-submit="vm.save(vm.form.agreementForm.$valid)" novalidate>
+      <fieldset>
+
+        <div class="form-group">
+          <label class="control-label" for="client">Cliente</label>
+          <select data-ng-model="vm.agreement.clientId" class="form-control">
+            <option ng-repeat="item in vm.clients" value="{{ item._id }}">{{ item.name }} {{ item.lastName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="group">Grupo</label>
+          <select ng-model="vm.groupId" ng-change="vm.searchTowers(vm.groupId)" class="form-control">
+              <option value="{{ item._id }}" data-ng-repeat="item in vm.groups">{{ item.name }}</option>
+          </select>
+        </div>
+
+        <div class="form-group" ng-show="vm.groupId">
+          <label class="control-label" for="tower">Torre</label>
+          <select ng-model="vm.towerId" ng-change="vm.searchDepartments(vm.towerId)" class="form-control">
+              <option value="{{ item._id }}" data-ng-repeat="item in vm.towers">{{ item.name }}</option>
+          </select>
+        </div>
+
+        <div class="form-group" ng-show="vm.towerId">
+          <label class="control-label" for="tower">Departamento</label>
+          <select ng-model="vm.agreement.departmentId" class="form-control">
+              <option value="{{ item._id }}" data-ng-repeat="item in vm.departments">{{ item.code }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="extra_info">Información extra</label>
+          <textarea name="extra_info" data-ng-model="vm.agreement.extra_info" id="extra_info" class="form-control" cols="30" rows="10" placeholder="Información extra del contrato."></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.agreement._id ? 'Update' : 'Create'}}</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

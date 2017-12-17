@@ -20,7 +20,7 @@
         controller: 'Service_consumptionsAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         }
       })
       .state('admin.service_consumptions.create', {
@@ -29,7 +29,7 @@
         controller: 'Service_consumptionsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         },
         resolve: {
           service_consumptionResolve: newService_consumption
@@ -41,7 +41,7 @@
         controller: 'Service_consumptionsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin'],
+          roles: ['admin', 'superadmin', 'c-admin'],
           pageTitle: '{{ service_consumptionResolve.title }}'
         },
         resolve: {

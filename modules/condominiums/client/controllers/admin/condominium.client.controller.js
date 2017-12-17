@@ -5,7 +5,7 @@
     .module('condominiums.admin')
     .controller('CondominiumsAdminController', CondominiumsAdminController);
 
-  CondominiumsAdminController.$inject = ['$scope', '$state', '$window', 'condominiumResolve', 'Authentication', 'Notification'];
+  CondominiumsAdminController.$inject = ['$scope', '$state', '$window', 'condominiumResolve', 'Authentication', 'Notification', 'ServicesService'];
 
   function CondominiumsAdminController($scope, $state, $window, condominium, Authentication, Notification) {
     var vm = this;

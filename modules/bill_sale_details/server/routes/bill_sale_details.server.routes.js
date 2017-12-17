@@ -12,14 +12,14 @@ module.exports = function (app) {
     .get(bill_sale_details.list)
     .post(bill_sale_details.create);
 
+  app.route('/api/calculatepay')
+    .get(bill_sale_details.getBillPayment);
+
   // Single bill_sale_detail routes
   app.route('/api/bill_sale_details/:bill_sale_detailId').all(bill_sale_detailsPolicy.isAllowed)
     .get(bill_sale_details.read)
     .put(bill_sale_details.update)
     .delete(bill_sale_details.delete);
-
-  app.route('/api/bill/getbill/:headerid')
-    .get(bill_sale_details.getDetailsByHeader);
 
   // Finish by binding the bill_sale_detail middleware
   app.param('bill_sale_detailId', bill_sale_details.bill_sale_detailByID);

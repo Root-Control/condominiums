@@ -5,13 +5,15 @@
     .module('clients.admin')
     .controller('ClientsAdminController', ClientsAdminController);
 
-  ClientsAdminController.$inject = ['$scope', '$state', '$window', 'clientResolve', 'Authentication', 'Notification'];
+  ClientsAdminController.$inject = ['$scope', '$state', '$window', 'clientResolve', 'Authentication', 'Notification', 'CondominiumsService'];
 
-  function ClientsAdminController($scope, $state, $window, client, Authentication, Notification) {
+  function ClientsAdminController($scope, $state, $window, client, Authentication, Notification, CondominiumsService) {
     var vm = this;
 
     vm.client = client;
+    vm.condominiums = CondominiumsService.query();
     vm.authentication = Authentication;
+
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
@@ -28,6 +30,7 @@
 
     // Save Client
     function save(isValid) {
+      if(vm.authentication.user.roles[0] !== 'superadmin') vm.client.condominium = vm.authentication.user.condominium;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.clientForm');
         return false;

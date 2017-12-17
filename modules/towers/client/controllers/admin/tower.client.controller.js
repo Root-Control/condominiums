@@ -5,17 +5,54 @@
     .module('towers.admin')
     .controller('TowersAdminController', TowersAdminController);
 
-  TowersAdminController.$inject = ['$scope', '$state', '$window', 'towerResolve', 'Authentication', 'Notification', 'GroupsService'];
+  TowersAdminController.$inject = ['$scope', '$state', '$window', 'towerResolve', 'Authentication', 'Notification', 'GroupsService', 'ServicesService', 'CustomService'];
 
-  function TowersAdminController($scope, $state, $window, tower, Authentication, Notification, GroupsService) {
+  function TowersAdminController($scope, $state, $window, tower, Authentication, Notification, GroupsService, Service, CustomService) {
     var vm = this;
 
+    vm.typeIdentifier = 3;
     vm.tower = tower;
-    vm.groups = GroupsService.query();
+
     vm.authentication = Authentication;
+
+    if(vm.authentication.user.roles[0] === 'superadmin') vm.groups = GroupsService.query();
+    else vm.groups = GroupsService.query({ condominium: vm.authentication.user.condominium });
+    
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+    vm.supplyCreator = [];
+    vm.supply = {};
+
+    vm.data = {
+      entityId: vm.tower._id,
+      type: vm.typeIdentifier
+    };
+
+    CustomService.unregisteredServices(vm.data, {
+      success: function(response) {
+        vm.registered = response.data.registered;
+        console.log(response.data);
+        createSupplies(response.data.unregistered);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+
+    function createSupplies(services) {
+      services.forEach(function(key) {
+        vm.supply.serviceName = key.name;
+        vm.supply.supplyCode = '';
+        vm.supply.typeSupply = vm.towerIdentifier;
+        vm.supply.serviceId = key._id;
+        vm.supply.entityId = '';
+        vm.supplyCreator.push(vm.supply);
+        vm.supply = {};
+      });
+      console.log(vm.supplyCreator);
+    }
+
     // Remove existing Tower
     function remove() {
       if ($window.confirm('Are you sure you want to delete?')) {
@@ -28,6 +65,8 @@
 
     // Save Tower
     function save(isValid) {
+      vm.tower.supplyCreator = vm.supplyCreator;
+
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.towerForm');
         return false;

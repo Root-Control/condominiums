@@ -10,7 +10,7 @@
 
   function menuConfig(Menus) {
     Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Manage Bill_sale_details',
+      title: 'Administrar detalles de boleta',
       state: 'admin.bill_sale_details.list'
     });
   }

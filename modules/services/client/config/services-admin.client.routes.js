@@ -20,7 +20,7 @@
         controller: 'ServicesAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         }
       })
       .state('admin.services.create', {
@@ -29,7 +29,7 @@
         controller: 'ServicesAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin']
+          roles: ['admin', 'superadmin', 'c-admin']
         },
         resolve: {
           serviceResolve: newService
@@ -41,7 +41,7 @@
         controller: 'ServicesAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin', 'superadmin'],
+          roles: ['admin', 'superadmin', 'c-admin'],
           pageTitle: '{{ serviceResolve.title }}'
         },
         resolve: {

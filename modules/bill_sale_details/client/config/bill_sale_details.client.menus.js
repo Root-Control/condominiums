@@ -17,7 +17,7 @@
 
     // Add the dropdown list item
     menuService.addSubMenuItem('topbar', 'bill_sale_details', {
-      title: 'List Bill_sale_details',
+      title: 'Listar detalles',
       state: 'bill_sale_details.list',
       roles: ['']
     });

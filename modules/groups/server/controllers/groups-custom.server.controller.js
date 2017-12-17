@@ -9,17 +9,28 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 exports.listGroupsForCondominiumId = function (req, res) {
-  var id = req.body.condominiumId;
-  Group.find({ condominium: id }).sort('-created').populate('user', 'displayName')
-  .populate('condominium', 'name')
-  .exec(function (err, groups) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(groups);
-    }
+  //  Condicion si es una promesa o una ruta
+  return new Promise((resolve, reject) => {
+
+    //  Asigno el argumento 1 como promesa
+    let isPromise = arguments[1];
+    var id = req.body ? req.body.condominiumId : arguments[0];
+
+    Group.find({ condominium: id }).sort('-created').populate('user', 'displayName')
+    .populate('condominium', 'name')
+    .exec(function (err, groups) {
+      if (err) {
+        if(isPromise === 'promise') reject(err);
+        else {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });        
+        }
+      } else {
+        if(isPromise === 'promise') resolve(groups);
+        else res.json(groups);
+      }
+    });
   });
 };
 

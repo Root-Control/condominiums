@@ -34,10 +34,31 @@
       })
       .state('dashboard', {
         url: '/dashboard',
-        templateUrl: '/modules/core/client/views/home.client.view.html',
-        controller: 'HomeController',
-        controllerAs: 'vm'
+        templateUrl: '/modules/core/client/views/dashboard/dashboard.client.view.html',
+        controller: 'DashBoardController',
+        controllerAs: 'vm',
+        data: {
+          roles: ['superadmin', 'admin', 'c-admin']
+        }       
       })
+      .state('condominium-service', {
+        url: '/dashboard/condominium-service',
+        templateUrl: '/modules/core/client/views/dashboard/condominium-service.client.view.html',
+        controller: 'CondominiumServiceController',
+        controllerAs: 'vm',
+        data: {
+          roles: ['superadmin', 'admin', 'c-admin']
+        }       
+      })
+      .state('payment-register', {
+        url: '/dashboard/payment-register',
+        templateUrl: '/modules/core/client/views/dashboard/payment-register.client.view.html',
+        controller: 'PaymentRegisterController',
+        controllerAs: 'vm',
+        data: {
+          roles: ['superadmin', 'admin', 'c-admin']
+        }       
+      })      
       .state('not-found', {
         url: '/not-found',
         templateUrl: '/modules/core/client/views/404.client.view.html',

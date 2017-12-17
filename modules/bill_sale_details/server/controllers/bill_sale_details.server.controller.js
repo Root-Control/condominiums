@@ -6,11 +6,30 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Bill_sale_detail = mongoose.model('Bill_sale_detail'),
+  Agreements = require(path.resolve('./modules/agreements/server/controllers/agreements-custom.server.controller')),
+  Users = require(path.resolve('./modules/users/server/controllers/users/users.custom-queries.server.controller')),
+  Bill_header= require(path.resolve('./modules/bill_sale_headers/server/controllers/bill_sale_header_service.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
  * Create an bill_sale_detail
  */
+exports.getBillPayment = async (req, res) => {
+  let month = req.query.month;
+  console.log(req.query.month);
+  let fullUser = await Users.userClientPopulation(req.user);
+  let department = await Agreements.getDepartmentByAgreement(fullUser.client._id);
+  let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId, month);
+  let details = await this.getDetailsByHeader(header);
+  let data = {
+    fullUser: fullUser,
+    department: department,
+    header: header,
+    details: details
+  };
+  res.json(data);
+};
+
 
 exports.create = function (data, cb) {
   var bill_sale_detail = new Bill_sale_detail(data);
@@ -86,16 +105,12 @@ exports.list = function (req, res) {
   });
 };
 
-exports.getDetailsByHeader = function (req, res) {
-  let id = mongoose.Types.ObjectId(req.params.headerid);
-  Bill_sale_detail.find({ billHeader: id }).sort('-created').populate('user', 'displayName').exec(function (err, bill_sale_details) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(bill_sale_details);
-    }
+exports.getDetailsByHeader = function (headerId) {
+  return new Promise((resolve, reject) => {
+    Bill_sale_detail.find({ billHeader: headerId }).sort('-created').populate('user', 'displayName').exec(function (err, bill_sale_details) {
+      if (err) reject(err);
+      else resolve(bill_sale_details);
+    });
   });
 };
 

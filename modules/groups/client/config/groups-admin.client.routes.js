@@ -20,7 +20,7 @@
         controller: 'GroupsAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['superadmin']
+          roles: ['superadmin', 'c-admin']
         }
       })
       .state('admin.groups.create', {
@@ -29,7 +29,7 @@
         controller: 'GroupsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['superadmin']
+          roles: ['superadmin', 'c-admin']
         },
         resolve: {
           groupResolve: newGroup
@@ -41,7 +41,7 @@
         controller: 'GroupsAdminController',
         controllerAs: 'vm',
         data: {
-          roles: ['superadmin'],
+          roles: ['superadmin', 'c-admin'],
           pageTitle: '{{ groupResolve.title }}'
         },
         resolve: {

@@ -29,3 +29,13 @@ exports.getHeadersByDepartments = async (departments, month) => {
 		});
 	});
 };
+
+exports.getHeaderIdByDepartmentAndMonth = (departmentId, month) => {
+	month = parseInt(month, 10);
+	console.log(departmentId, month);
+	return new Promise(async (resolve, reject) => {
+		Bill_sale_header.findOne({ department: departmentId, month: month }, (err, header) => {
+			resolve(header);
+		});
+	});
+};
