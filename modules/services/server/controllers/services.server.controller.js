@@ -50,6 +50,7 @@ exports.update = function (req, res) {
 
   service.name = req.body.name;
   service.type = req.body.type;
+  service.condominium = req.body.condominium;
   service.globalIdentifier = req.body.globalIdentifier;
 
   service.save(function (err) {
@@ -88,7 +89,7 @@ exports.getUnregisteredServices = async (req, res) => {
   let type = req.body.type;
   let registered = await Supplie.getRegisteredSuppliesByEntity(entityId);
   let data = {};
-  Service.find({ type: type , _id: { "$nin": registered.idServices } }).exec(function (err, services) {
+  Service.find({ type: type , _id: { "$nin": registered.idServices }, condominium: req.body.condominium }).exec(function (err, services) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -111,6 +112,7 @@ exports.getUnregisteredServices = async (req, res) => {
  */
 exports.list = function (req, res) {
   let filter = req.query;
+  console.log(filter);
   Service.find(filter).sort('-created').populate('user', 'displayName').exec(function (err, services) {
     if (err) {
       return res.status(422).send({

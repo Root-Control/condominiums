@@ -12,7 +12,7 @@
             <fieldset>
                 <div class="form-group" ng-hide="vm.authentication.user.roles != 'superadmin'">
                     <label class="control-label" for="name">Condominio</label>
-                    <select ng-model="vm.group.condominium">
+                    <select ng-model="vm.group.condominium" ng-change="vm.getUnregisteredServices()">
                         <option value="{{ item._id }}" data-ng-repeat="item in vm.condominiums">{{ item.name }}</option>
                     </select>
                 </div>

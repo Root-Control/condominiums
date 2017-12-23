@@ -61,13 +61,14 @@ exports.update = function (req, res) {
   });
 };
 
-exports.updateCondominiumsupplies = async (req, res) => {
+exports.updateCondominiumSupplies = async (req, res) => {
   let supplies = req.body.supplyCreator;
   let condominiumId = mongoose.Types.ObjectId(req.body._id);
 
   supplies.forEach(function(key) {
     key.supplyDescription = req.body.name;
     key.entityId = condominiumId;
+    key.condominium = condominiumId;
     key.type = 1;
   });
   console.log(supplies);

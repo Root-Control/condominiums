@@ -15,21 +15,56 @@ var path = require('path'),
  * Create an bill_sale_detail
  */
 exports.getBillPayment = async (req, res) => {
+  let totals = [];
   let month = req.query.month;
-  console.log(req.query.month);
-  let fullUser = await Users.userClientPopulation(req.user);
-  let department = await Agreements.getDepartmentByAgreement(fullUser.client._id);
-  let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId, month);
+  let year = req.query.year;
+  let department;
+  let fullUser;
+  //  Caso Admin, si ha elegido un departament Id 
+  if(req.query.departmentId) {
+    department = { departmentId: req.query.departmentId };
+  } else {
+    fullUser = await Users.userClientPopulation(req.user);
+    department = await Agreements.getDepartmentByAgreement(fullUser.client._id);
+  }
+  let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId, month, year);
   let details = await this.getDetailsByHeader(header);
+  let total = 0;
+  details.forEach((key) => {
+    total = total + key.totalAmount;
+  });
+
   let data = {
     fullUser: fullUser,
     department: department,
     header: header,
-    details: details
+    details: details,
+    total: total.toFixed(2)
   };
   res.json(data);
 };
 
+exports.getTotalsByMonths = async (req, res) => {
+  let totalMonths = [];
+  let month = req.query.month;
+  let department;
+  let fullUser;
+  fullUser = await Users.userClientPopulation(req.user);
+  department = await Agreements.getDepartmentByAgreement(fullUser.client._id);
+
+  for(let i = 1; i<13; i++) {
+    let name = getMonthName(i);
+    let total = 0;
+    let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId._id, i);
+    console.log(header);
+    let details = await this.getDetailsByHeader(header);
+    details.forEach((key) => {
+      total = total + key.totalAmount;
+    });
+    totalMonths.push({ month: i, total: total.toFixed(2), status: '?', name: name });
+  }
+  res.json(totalMonths);
+};
 
 exports.create = function (data, cb) {
   var bill_sale_detail = new Bill_sale_detail(data);
@@ -137,3 +172,45 @@ exports.bill_sale_detailByID = function (req, res, next, id) {
     next();
   });
 };
+
+
+function getMonthName(month) {
+  switch(month) {
+    case 1:
+      return 'Enero';
+      break;
+    case 2:
+      return 'Febrero';
+      break;
+    case 3:
+      return 'Marzo';
+      break;
+    case 4:
+      return 'Abril';
+      break;
+    case 5:
+      return 'Mayo';
+      break;
+    case 6:
+      return 'Junio';
+      break;
+    case 7:
+      return 'Julio';
+      break;
+    case 8:
+      return 'Agosto';
+      break;
+    case 9:
+      return 'Setiembre';
+      break;
+    case 10:
+      return 'Octubre';
+      break;
+    case 11:
+      return 'Noviembre';
+      break;
+    case 12:
+      return 'Diciembre';
+      break;
+  }
+}

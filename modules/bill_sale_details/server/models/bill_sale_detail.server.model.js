@@ -34,12 +34,19 @@ var Bill_sale_detailSchema = new Schema({
   totalAmount: {
     type: Number
   },
+  type: {
+    type: Number
+  },
   comment: {
     type: String
   },
   billHeader: {
     type: Schema.ObjectId,
     ref: 'Bill_sale_header'
+  },
+  consumed: {
+    type: Number,
+    default: 0
   },
   user: {
     type: Schema.ObjectId,

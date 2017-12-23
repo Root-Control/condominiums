@@ -5,16 +5,19 @@
     .module('services.admin')
     .controller('ServicesAdminController', ServicesAdminController);
 
-  ServicesAdminController.$inject = ['$scope', '$state', '$window', 'serviceResolve', 'Authentication', 'Notification'];
+  ServicesAdminController.$inject = ['$scope', '$state', '$window', 'serviceResolve', 'Authentication', 'Notification', 'CondominiumsService'];
 
-  function ServicesAdminController($scope, $state, $window, service, Authentication, Notification) {
+  function ServicesAdminController($scope, $state, $window, service, Authentication, Notification, CondominiumsService) {
     var vm = this;
 
     vm.service = service;
     vm.authentication = Authentication;
+    if (vm.authentication.user.roles[0] === 'superadmin') vm.condominiums = CondominiumsService.query();
+
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+
 
     // Remove existing Service
     function remove() {
@@ -28,6 +31,7 @@
 
     // Save Service
     function save(isValid) {
+      if (vm.authentication.user.roles[0] === 'c-admin') vm.service.condominium = vm.authentication.user.condominium;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.serviceForm');
         return false;

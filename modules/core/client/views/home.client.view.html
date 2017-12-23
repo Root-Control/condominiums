@@ -1,21 +1,27 @@
+<style>
+  .boleta tbody tr td {
+    padding: 10px;
+  }
+</style>
+
 <section>
   <div class="jumbotron text-center">
     <h3>SISTEMA DE CONTROL DE CONDOMINIOS</h3>
   </div>
 
-  <div class="alert alert-danger" role="alert" ng-show="vm.contract" style="color: #af4342">
+  <div class="alert alert-danger" role="alert" ng-show="!vm.contract" style="color: #af4342">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span class="sr-only">Error:</span>
     No tienes ningun departamento asignado, por favor comunícate con gerencia.
   </div>
 
-  <div class="col-md-3" ng-show="vm.userData && vm.contract" ng-repeat="item in vm.months">
+  <div class="col-md-3" ng-show="vm.userData && vm.contract && vm.authentication.user.roles[0] === 'user'" ng-repeat="item in vm.months">
     <div class="panel panel-success"> 
  	    <div class="panel-heading"> 
- 		   <h2 class="panel-title">{{ item.name }}</h2>
+ 		   <h2 class="panel-title">{{ item.name }} Status: ({{ item.status }})</h2>
       </div> 
  		<div class="panel-body">
- 		 <a href="#" data-toggle="modal" data-target="#Boleta" ng-click="vm.createBillHeader(item.name, item.month)">Ver detalle</a>
+ 		 <a href="#" data-toggle="modal" data-target="#Boleta" ng-click="vm.createBillHeader(item.name, item.month)">Ver detalle - S/. {{ item.total }}</a>
  		</div>
     </div>
   </div>
@@ -32,7 +38,7 @@
       </div>
       <div class="modal-body">
         <div class="col-md-12">
-          <table class="table table-bordered text-center">
+          <table class="table table-bordered text-center boleta">
             <thead>
               <th>Detalle</th>
               <th>N° Suministro</th>
@@ -50,6 +56,32 @@
               </tr>
             </tbody>
           </table>
+          Consumo de Agua
+          <table class="table table-bordered text-center boleta" style="padding:0px">
+            <thead>
+              <th>Detalle</th>
+              <th>Lectura Anterior</th>
+              <th>Lectura Actual</th>
+              <th>Recibo</th>
+              <th>Cant. Dep afectados</th>
+              <th>Total</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in vm.individuals">
+                <td>{{ item.serviceName }}</td>
+                <td></td>
+                <td>{{ item.consumed }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{{ item.qtyDivision }}</td>
+                <td>{{ item.totalAmount }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="col-md-12">
+            <div class="col-md-3 col-md-offset-9">
+              <b>TOTAL: S/. {{ vm.total }}</b> 
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

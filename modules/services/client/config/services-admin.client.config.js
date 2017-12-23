@@ -10,7 +10,7 @@
 
   function menuConfig(Menus) {
     Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Manage Services',
+      title: 'Administrar Servicios',
       state: 'admin.services.list'
     });
   }

@@ -28,6 +28,7 @@ exports.create = function (req, res) {
         key.supplyDescription = group.name;
         key.entityId = group._id;
         key.type = 2;
+        key.condominium = group.condominium;
       });
       await Supply.bulkSupplies(supplies);
       console.log('Completed');
@@ -72,6 +73,7 @@ exports.update = function (req, res) {
       supplies.forEach(function(key) {
         key.supplyDescription = group.name;
         key.entityId = group._id;
+        key.condominium = group.condominium;
         key.type = 2;
       });
       await Supply.bulkSupplies(supplies);

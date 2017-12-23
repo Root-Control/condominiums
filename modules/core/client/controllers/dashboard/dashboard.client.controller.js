@@ -8,7 +8,6 @@
  DashBoardController.$inject = ['$scope', '$state', 'Authentication'];
 
   function DashBoardController($scope, $state, Authentication) {
-  	alert('DashBoardController');
     var vm = this;
     vm.authentication = Authentication;
   } 

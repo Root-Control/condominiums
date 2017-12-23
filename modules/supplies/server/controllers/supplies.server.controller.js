@@ -118,7 +118,11 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) { 
   let query = {};
-  if (req.query.type) query.type = parseInt(req.query.type, 10);
+  if (req.query.type) {
+    query.type = parseInt(req.query.type, 10);
+    query.condominium = req.query.condominium;
+  }
+  console.log(query);
     Supplie.find(query).sort('-created').populate('user', 'displayName').exec(function (err, supplies) {
     if (err) {
       return res.status(422).send({

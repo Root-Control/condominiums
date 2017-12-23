@@ -10,8 +10,7 @@
   function HomeController($scope, $state, Authentication, Pay) {
     var vm = this;
     vm.authentication = Authentication;
-    vm.contract = false;
-    console.log(vm.authentication);
+    vm.contract = true;
 
     vm.chargeMonths = function() {
       Pay.verifyContract({
@@ -24,23 +23,16 @@
         }
       });
 
-      vm.months = [];
-      vm.userData = true;
-      vm.months.push({ month: 1, name: 'Enero' });
-      vm.months.push({ month: 2, name: 'Febrero' });
-      vm.months.push({ month: 3, name: 'Marzo' });
-      vm.months.push({ month: 4, name: 'Abril' });
-      vm.months.push({ month: 5, name: 'Mayo' });
-      vm.months.push({ month: 6, name: 'Junio' });
-      vm.months.push({ month: 7, name: 'Julio' });
-      vm.months.push({ month: 8, name: 'Agosto' });
-      vm.months.push({ month: 9, name: 'Setiembre' });
-      vm.months.push({ month: 10, name: 'Octubre' });
-      vm.months.push({ month: 11, name: 'Noviembre' });
-      vm.months.push({ month: 12, name: 'Diciembre' });
+      Pay.getTotals({
+        success: function(response) {
+          vm.userData = true;
+          vm.months = response.data;
+        },
+        error: function(err) {
+
+        }
+      });
     };
-
-
 
     vm.createBillHeader = function(name, month) {
       vm.monthSelected = name;
@@ -48,13 +40,22 @@
       vm.items = [];
       vm.user = [];
       vm.head = [];
-      Pay.calculatePay(month, {
+      vm.individuals = [];
+      Pay.calculatePay(month, 2017, null, {
         success: function(response) {
           vm.department = response.data.department;
           vm.items = response.data.details;
+          vm.total = response.data.total;
+
+          vm.items.forEach(function(key) {
+            if(key.type === 4) {
+              vm.individuals.push(key);
+              vm.items.splice(key, 1);
+            }
+          });
+
           vm.user = response.data.fullUser;
           vm.head = response.data.header;
-          console.log(response.data);
         },
         error: function(err) {
           console.log(err);

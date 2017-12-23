@@ -12,12 +12,11 @@
 
     vm.typeIdentifier = 3;
     vm.tower = tower;
-
     vm.authentication = Authentication;
 
-    if(vm.authentication.user.roles[0] === 'superadmin') vm.groups = GroupsService.query();
+    if (vm.authentication.user.roles[0] === 'superadmin') vm.groups = GroupsService.query();
     else vm.groups = GroupsService.query({ condominium: vm.authentication.user.condominium });
-    
+
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
@@ -25,23 +24,25 @@
     vm.supply = {};
 
     vm.data = {
+      condominium: vm.authentication.user.condominium,
       entityId: vm.tower._id,
       type: vm.typeIdentifier
     };
+    console.log(vm.data);
 
     CustomService.unregisteredServices(vm.data, {
-      success: function(response) {
+      success: function (response) {
         vm.registered = response.data.registered;
         console.log(response.data);
         createSupplies(response.data.unregistered);
       },
-      error: function(err) {
+      error: function (err) {
         console.log(err);
       }
     });
 
     function createSupplies(services) {
-      services.forEach(function(key) {
+      services.forEach(function (key) {
         vm.supply.serviceName = key.name;
         vm.supply.supplyCode = '';
         vm.supply.typeSupply = vm.towerIdentifier;
@@ -65,6 +66,7 @@
 
     // Save Tower
     function save(isValid) {
+      vm.tower.groupAssigned = vm.tower.groupAssigned || vm.group._id;
       vm.tower.supplyCreator = vm.supplyCreator;
 
       if (!isValid) {

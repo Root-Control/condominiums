@@ -13,31 +13,32 @@
     vm.typeIdentifier = 2;
     vm.group = group;
     vm.authentication = Authentication;
-    if(vm.authentication.user.roles[0] === 'superadmin') vm.condominiums = CondominiumsService.query();
-
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
     vm.supplyCreator = [];
     vm.supply = {};
 
-    vm.data = {
-      entityId: vm.group._id,
-      type: vm.typeIdentifier
+    vm.getUnregisteredServices = function () {
+      vm.data = {
+        entityId: vm.group._id,
+        condominium: vm.authentication.user.condominium || vm.group.condominium,
+        type: vm.typeIdentifier
+      };
+      CustomService.unregisteredServices(vm.data, {
+        success: function (response) {
+          vm.registered = response.data.registered;
+          vm.supplyCreator = [];
+          createSupplies(response.data.unregistered);
+        },
+        error: function (err) {
+          console.log(err);
+        }
+      });
     };
 
-    CustomService.unregisteredServices(vm.data, {
-      success: function(response) {
-        vm.registered = response.data.registered;
-        createSupplies(response.data.unregistered);
-      },
-      error: function(err) {
-        console.log(err);
-      }
-    });
-
     function createSupplies(services) {
-      services.forEach(function(key) {
+      services.forEach(function (key) {
         vm.supply.serviceName = key.name;
         vm.supply.supplyCode = '';
         vm.supply.typeSupply = vm.typeIdentifier;
@@ -46,7 +47,6 @@
         vm.supplyCreator.push(vm.supply);
         vm.supply = {};
       });
-      console.log(vm.supplyCreator);
     }
     // Remove existing Group
     function remove() {
@@ -60,7 +60,7 @@
 
     // Save Group
     function save(isValid) {
-      if(vm.authentication.user.condominium) vm.group.condominium = vm.authentication.user.condominium;
+      if (vm.authentication.user.condominium) vm.group.condominium = vm.authentication.user.condominium;
       vm.group.supplyCreator = vm.supplyCreator;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.groupForm');
@@ -81,5 +81,8 @@
         Notification.error({ message: res.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Group save error!' });
       }
     }
+
+    if (vm.authentication.user.roles[0] === 'superadmin') vm.condominiums = CondominiumsService.query();
+    else vm.getUnregisteredServices();
   }
 }());

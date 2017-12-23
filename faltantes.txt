@@ -1,0 +1,5 @@
+1.- Terminar maquetacion.
+2.- Homologar servicio de agua (con suministro avg y medicion anterior)
+3.- Generar pagos
+4.- Creacion de cabeceras automatico (no ruta)
+5.- Separar las boletas por condominio, grupo, torre

@@ -40,6 +40,10 @@ var Service_consumptionSchema = new Schema({
   type: {
     type: Number
   },
+  consumed: {
+    type: Number,
+    default: 0
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'

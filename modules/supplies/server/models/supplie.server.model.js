@@ -35,7 +35,11 @@ var SupplieSchema = new Schema({
   },
   entityId: {
     type: Schema.ObjectId,
-    ref: ['Tower', 'Group', 'Condominium', 'Department']
+    ref: ['Condominium', 'Group', 'Tower']
+  },
+  condominium: {
+    type: Schema.ObjectId,
+    ref: 'Condominium'
   },
   typeSupply: {
     type: Number

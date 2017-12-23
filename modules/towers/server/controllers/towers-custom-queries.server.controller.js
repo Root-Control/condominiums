@@ -19,3 +19,18 @@ exports.searchTowerGroup = function (towerid) {
     });
   });
 };
+
+exports.getTowersByGroups = function(groups) {
+	let towerIds = [];
+	return new Promise((resolve, reject) => {
+	    Tower.find({ groupAssigned: { $in: groups } }).exec(function (err, towers) {
+	      if (err) reject(err);
+	      else {
+	      	towers.forEach((key) => {
+	      		towerIds.push(key._id);
+	      	});
+	      	resolve(towerIds);
+	      }
+	    });		
+	});
+};

@@ -11,8 +11,9 @@
     var vm = this;
 
     vm.department = department;
-    vm.towers = TowersService.query();
     vm.authentication = Authentication;
+    if (vm.authentication.user.roles[0] === 'superadmin') vm.towers = TowersService.query();
+    else vm.towers = TowersService.query({ condominiumId: vm.authentication.user.condominium }); 
     vm.form = {};
     vm.remove = remove;
     vm.save = save;

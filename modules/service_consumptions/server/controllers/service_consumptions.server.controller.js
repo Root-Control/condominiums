@@ -22,6 +22,20 @@ exports.bulkConsumption = async (req, res) => {
 };
 
 /**
+Verify if an service has created
+*/
+
+exports.verifyPreviousConsume = async (departmentId, month) => {
+  return new Promise((resolve, reject) => {
+    Service_consumption.findOne({ type: 4, globalIdentifier: departmentId, month: month}).exec(function (err, service_consumptions) {
+      if (err) reject(err);
+      else resolve(service_consumptions);
+    }); 
+  }); 
+};
+
+
+/**
  * Create an service_consumption
  */
 
@@ -139,6 +153,7 @@ let createTransaction = async (consumed, user) => {
   return new Promise(async (resolve, reject) =>{
     let globalIdentifier = consumed.globalIdentifier;
     let type = consumed.service.type;
+    let qty_consumption = consumed.consumed || 0;
     let month = consumed.month;
     let supplyCode = consumed.supplyCode;
     let data;
@@ -165,6 +180,10 @@ let createTransaction = async (consumed, user) => {
         departmentsToapply = data.departments;
         console.log('Torre -> Depas: ' + departmentsToapply.length);        
         break;
+      case 4: 
+        data = { qty: 1 };
+        departmentsToapply = [globalIdentifier];
+        break;
     }
     let amount = consumed.total;
     let serviceName = consumed.service.name;
@@ -187,7 +206,9 @@ let createTransaction = async (consumed, user) => {
         serviceName: serviceName,
         qtyDivision: qtyDivision,
         totalAmount: totalAmount || 0,
-        billHeader: headers[x]
+        billHeader: headers[x],
+        consumed: qty_consumption,
+        type: type
       };
 
       billDetail.create(detail, function() {

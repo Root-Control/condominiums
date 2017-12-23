@@ -9,9 +9,19 @@
 
   function Pay($http) {
     var me = this;
-    me.calculatePay = function(month, options) {
-      $http.get('/api/calculatepay?month=' + month)
+    me.calculatePay = function(month, year, departmentId, options) {
+      var query;
+      if(!year) year = 2017;
+      if(departmentId === null) query = '?month=' + month + '&year=' + year;
+      else query = '?month=' + month + '&departmentId=' + departmentId + '&year=' + year;
+
+      $http.get('/api/calculatepay' + query)
       .then(options.success, options.error);
+    };
+
+    me.getTotals = function(options) {
+      $http.get('/api/gettotals')
+        .then(options.success, options.error);
     };
 
     me.verifyUserContract = function(options) {
@@ -20,7 +30,8 @@
     };
     return {
       calculatePay: me.calculatePay,
-      verifyContract: me.verifyUserContract
+      verifyContract: me.verifyUserContract,
+      getTotals: me.getTotals
     }
   }
 }());

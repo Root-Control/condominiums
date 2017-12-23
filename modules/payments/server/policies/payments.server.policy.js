@@ -9,50 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Bill_sale_details Permissions
+ * Invoke Payments Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin', 'superadmin', 'c-admin'],
     allows: [{
-      resources: '/api/bill_sale_details',
+      resources: '/api/payments',
       permissions: '*'
     }, {
-      resources: '/api/bill_sale_details/:bill_sale_detailId',
-      permissions: '*'
-    }, {
-      resources: '/api/bill_sale_details/getbill/:headerid',
+      resources: '/api/payments/:paymentId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/bill_sale_details',
+      resources: '/api/payments',
       permissions: ['get']
     }, {
-      resources: '/api/bill_sale_details/:bill_sale_detailId',
+      resources: '/api/payments/:paymentId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/bill_sale_details',
+      resources: '/api/payments',
       permissions: ['get']
     }, {
-      resources: '/api/bill_sale_details/:bill_sale_detailId',
+      resources: '/api/payments/:paymentId',
       permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Bill_sale_details Policy Allows
+ * Check If Payments Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an bill_sale_detail is being processed and the current user created it then allow any manipulation
-  if (req.bill_sale_detail && req.user && req.bill_sale_detail.user && req.bill_sale_detail.user.id === req.user.id) {
+  // If an payment is being processed and the current user created it then allow any manipulation
+  if (req.payment && req.user && req.payment.user && req.payment.user.id === req.user.id) {
     return next();
   }
 

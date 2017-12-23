@@ -30,6 +30,7 @@ exports.create = function (req, res) {
           key.supplyDescription = tower.name;
           key.entityId = tower._id;
           key.type = 3;
+          key.condominium = tower.groupAssigned.condominium;
         });
         await Supply.bulkSupplies(supplies);
         console.log('Completed');
@@ -76,6 +77,7 @@ exports.update = function (req, res) {
         supplies.forEach(function(key) {
           key.supplyDescription = tower.name;
           key.entityId = tower._id;
+          key.condominium = tower.groupAssigned.condominium;
           key.type = 3;
         });
         await Supply.bulkSupplies(supplies);
@@ -108,7 +110,7 @@ exports.delete = function (req, res) {
  */
 exports.list = async function (req, res) {
   let query = {};
-  if(req.query.groupAssigned) query.groupAssigned = req.query.groupAssigned;
+  if (req.query.groupAssigned) query.groupAssigned = req.query.groupAssigned;
 
   if(req.query.condominiumId) {
     let groups = [];
@@ -118,13 +120,13 @@ exports.list = async function (req, res) {
     });
     query = { groupAssigned: { $in: groups } };
   }
-
   Tower.find(query).sort('-created').populate('user', 'displayName').populate('groupAssigned', 'name').exec(function (err, towers) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      console.log(towers);
       res.json(towers);
     }
   });

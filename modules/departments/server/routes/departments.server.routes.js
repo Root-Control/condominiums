@@ -5,13 +5,19 @@
  */
 var departmentsPolicy = require('../policies/departments.server.policy'),
   departments = require('../controllers/departments.server.controller'),
-  bill_departments = require('../controllers/department-custom.server.controller');
+  custom_departments = require('../controllers/department-custom.server.controller');
 
 module.exports = function (app) {
   // Departments collection routes
   app.route('/api/departments').all(departmentsPolicy.isAllowed)
     .get(departments.list)
     .post(departments.create);
+
+  app.route('/api/departmentsbycondominium')
+    .get(custom_departments.getDepartmentsByCondominium);
+
+  app.route('/api/getdepartmentsbycode')
+    .get(custom_departments.getDepartmentsByCodeRegex);
 
   // Single department routes
   app.route('/api/departments/:departmentId').all(departmentsPolicy.isAllowed)
@@ -20,7 +26,7 @@ module.exports = function (app) {
     .delete(departments.delete);
 
   app.route('/api/department/generate')
-    .get(bill_departments.generateBill);
+    .get(custom_departments.generateBill);
   // Finish by binding the department middleware
   app.param('departmentId', departments.departmentByID);
 };

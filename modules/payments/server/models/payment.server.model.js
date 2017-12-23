@@ -10,27 +10,23 @@ var mongoose = require('mongoose'),
   chalk = require('chalk');
 
 /**
- * Service Schema
+ * Payment Schema
  */
-var ServiceSchema = new Schema({
+var PaymentSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
   },
-  name: {
+  title: {
     type: String,
     default: '',
     trim: true,
-    required: 'El nombre del servicio es obligatorio'
+    required: 'Title cannot be blank'
   },
-  type: {
-    type: Number,
-    trim: true,
-    required: 'El tipo de servicio es requerido'
-  },
-  condominium: {
-    type: Schema.ObjectId,
-    ref: 'Condominium'
+  content: {
+    type: String,
+    default: '',
+    trim: true
   },
   user: {
     type: Schema.ObjectId,
@@ -38,16 +34,16 @@ var ServiceSchema = new Schema({
   }
 });
 
-ServiceSchema.statics.seed = seed;
+PaymentSchema.statics.seed = seed;
 
-mongoose.model('Service', ServiceSchema);
+mongoose.model('Payment', PaymentSchema);
 
 /**
-* Seeds the User collection with document (Service)
+* Seeds the User collection with document (Payment)
 * and provided options.
 */
 function seed(doc, options) {
-  var Service = mongoose.model('Service');
+  var Payment = mongoose.model('Payment');
 
   return new Promise(function (resolve, reject) {
 
@@ -87,7 +83,7 @@ function seed(doc, options) {
 
     function skipDocument() {
       return new Promise(function (resolve, reject) {
-        Service
+        Payment
           .findOne({
             title: doc.title
           })
@@ -104,7 +100,7 @@ function seed(doc, options) {
               return resolve(true);
             }
 
-            // Remove Service (overwrite)
+            // Remove Payment (overwrite)
 
             existing.remove(function (err) {
               if (err) {
@@ -121,19 +117,19 @@ function seed(doc, options) {
       return new Promise(function (resolve, reject) {
         if (skip) {
           return resolve({
-            message: chalk.yellow('Database Seeding: Service\t' + doc.title + ' skipped')
+            message: chalk.yellow('Database Seeding: Payment\t' + doc.title + ' skipped')
           });
         }
 
-        var service = new Service(doc);
+        var payment = new Payment(doc);
 
-        service.save(function (err) {
+        payment.save(function (err) {
           if (err) {
             return reject(err);
           }
 
           return resolve({
-            message: 'Database Seeding: Service\t' + service.title + ' added'
+            message: 'Database Seeding: Payment\t' + payment.title + ' added'
           });
         });
       });

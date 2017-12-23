@@ -2,6 +2,12 @@
   <div class="page-header">
     <h1>Registrar consumos</h1>
   </div>
+  <div class="form-group" ng-hide="vm.authentication.user.roles != 'superadmin'">
+      <label class="control-label" for="name">Condominio</label>
+      <select ng-model="vm.condominium">
+          <option value="{{ item._id }}" data-ng-repeat="item in vm.condominiums">{{ item.name }}</option>
+      </select>
+  </div>
   <div class="form-group">
     <label class="control-label" for="name">Indica el mes: </label>
       <select ng-model="vm.month" ng-change="vm.initialize()">
@@ -31,6 +37,7 @@
             <th>Servicio</th>
             <th>{{ vm.type }}</th>
             <th>Código de suministro</th>
+            <th ng-show="vm.individual">Lectura actual</th>
             <th>Monto</th>
           </thead>
           <tbody>
@@ -38,7 +45,8 @@
               <td>{{ item.serviceName }}</td>
               <td>{{ item.supplyDescription }}</td>
               <td>{{ item.supplyCode }}</td>
-              <td><input type="text" ng-model="item.total" name="" class="form-control"></td>
+              <td ng-show="vm.individual"><input type="text" ng-model="item.consumed" class="form-control"></td>
+              <td><input type="text" ng-model="item.total" class="form-control"></td>
             </tr>
           </tbody>
         </table>

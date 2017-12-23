@@ -12,6 +12,9 @@ module.exports = function (app) {
     .get(bill_sale_details.list)
     .post(bill_sale_details.create);
 
+  app.route('/api/gettotals')
+    .get(bill_sale_details.getTotalsByMonths);
+
   app.route('/api/calculatepay')
     .get(bill_sale_details.getBillPayment);
 

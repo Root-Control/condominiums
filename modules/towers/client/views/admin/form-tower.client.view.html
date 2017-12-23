@@ -12,8 +12,8 @@
       <fieldset>
         <div class="form-group">
             <label class="control-label" for="name">Grupo:</label>
-            <select ng-model="vm.tower.groupAssigned">
-                <option value="{{ item._id }}" data-ng-repeat="item in vm.groups">{{ item.name }}</option>
+            <select ng-model="vm.group" data-ng-options="items as items.name for items in vm.groups" ng-change="vm.getUnregisteredServices()">
+               <option ng-selected="true">Selecciona un grupo</option>
             </select>
         </div>      
         <div class="form-group" show-errors>

@@ -7,6 +7,22 @@
       </a>
     </h1>
   </div>
+  <div class="form-group">
+    <label class="control-label" for="name">Grupo:</label>
+    <select class="form-control" ng-model="vm.group" data-ng-options="items as items.name for items in vm.groups" ng-change="vm.getTowersByGroup()">
+       <option selected>Selecciona un grupo</option>
+    </select>
+  </div>
+  <div class="form-group" ng-show="vm.towers.length > 0">
+    <label class="control-label" for="name">Torre:</label>
+    <select class="form-control" ng-model="vm.tower" data-ng-options="items as items.name for items in vm.towers" ng-change="vm.getDepartmentsByTower()">
+       <option ng-selected="true">Selecciona un grupo</option>
+    </select>
+  </div>
+  <div class="alert alert-info" ng-show="vm.departments.length === 0" style="color: #36b7e3">
+    <strong>Info!</strong> No se encontraron departamentos para esta torre..
+  </div>
+
   <div class="list-group">
     <a data-ng-repeat="department in vm.departments" data-ui-sref="admin.departments.edit({departmentId: department._id})" class="list-group-item">
       <small class="list-group-item-text">

@@ -26,7 +26,6 @@ exports.create = function (req, res) {
     }
   });
 };
-
 /**
  * Show the current article
  */
@@ -81,16 +80,17 @@ exports.delete = function (req, res) {
 /**
  * List of Articles
  */
-exports.list = function (req, res) {
-  Article.find().sort('-created').populate('user', 'displayName').exec(function (err, articles) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      returnMessage(req, res, articles);
-      res.json(articles);
-    }
+exports.list = function (req, res, promise) {
+  return new Promise((resolve, reject) => {
+    Article.find().sort('-created').populate('user', 'displayName').exec(function (err, articles) {
+      if (err) {
+        if (promise === 'Promise') reject(err);
+        else return res.status(422).send({ message: errorHandler.getErrorMessage(err) });
+      } else {
+        if (promise === 'Promise') resolve(articles);
+        else res.json(articles);
+      }
+    });
   });
 };
 

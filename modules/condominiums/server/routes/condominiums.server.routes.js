@@ -13,7 +13,7 @@ module.exports = function (app) {
     .post(condominiums.create);
 
   app.route('/api/condominiums/registerservices')
-    .post(condominiums.updateCondominiumsupplies);
+    .post(condominiums.updateCondominiumSupplies);
 
   // Single condominium routes
   app.route('/api/condominiums/:condominiumId').all(condominiumsPolicy.isAllowed)
