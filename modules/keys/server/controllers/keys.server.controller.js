@@ -72,3 +72,13 @@ exports.getDataDepartmentsByCondominium = identifier => {
     });
   });
 };
+
+
+exports.getGroupByDepartmentId = identifier => {
+  return new Promise((resolve, reject) => {
+    Key.findOne({ department: identifier }).exec(function (err, key) {
+      if(err) reject(err);
+      else resolve(key);
+    });
+  });
+};

@@ -7,7 +7,10 @@ let path = require('path'),
   mongoose = require('mongoose'),
   moment = require('moment'),
   Department = mongoose.model('Department'),
+  Groups = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
+  Consumptions = require(path.resolve('./modules/service_consumptions/server/controllers/service_consumptions.server.controller')),
   CustomGroup = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
+  Keys = require(path.resolve('./modules/keys/server/controllers/keys.server.controller')),
   CustomTower = require(path.resolve('./modules/towers/server/controllers/towers-custom-queries.server.controller')),
   Bill = require(path.resolve('./modules/bill_sale_headers/server/controllers/bill_sale_header_service.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -58,6 +61,7 @@ function listDepartments() {
 }
 
 exports.getDepartmentsByCondominium = async(req, res) => {
+  let departmentsResponse = [];
   let groupIds = [];
   let groups = await CustomGroup.listGroupsForCondominiumId(req.query.condominiumId, 'promise');
   groups.forEach((key) => {
@@ -66,14 +70,25 @@ exports.getDepartmentsByCondominium = async(req, res) => {
 
   let towers = await CustomTower.getTowersByGroups(groupIds);
 
-  Department.find({ tower: { $in: towers } }).sort('-created').populate('user', 'displayName').exec(function (err, departments) {
+  Department.find({ tower: { $in: towers } }).sort('-created').populate('user', 'displayName').exec( async function (err, departments) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     }
     else {
-      res.json(departments);
+      //  Obtener el grupo de cada departamento y traer su avgWater
+      for(let i = 0; i < departments.length; i++) {
+        let lastConsume = 0;
+        let keyData = await Keys.getGroupByDepartmentId(departments[i]._id);
+        let avgWaterSupply = await Groups.getAvgWaterSupply(keyData.group);
+        let lastConsumption = await Consumptions.verifyPreviousConsume(departments[i]._id, req.query.month);
+        if(lastConsumption) lastConsume = lastConsumption.consumed;
+        departmentsResponse.push({ _id: departments[i]._id, code: departments[i].code, description: departments[i].description, avgWaterSupply: avgWaterSupply, lastConsume: lastConsume })
+        //  LastConsume
+      }
+
+      res.json(departmentsResponse);
     }
   });
 };

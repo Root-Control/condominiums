@@ -16,8 +16,14 @@
     vm.consumption = {};
     vm.consumptions = [];
     vm.month = 0;
+    vm.tabSelected = {
+      id: 2,
+      type: 'Grupo'
+    };
 
     vm.typeConsumption = function (id, type) {
+      vm.tabSelected.id = id;
+      vm.tabSelected.type = type;
       if (id !== 4) vm.generalSupplies(id, type);
       else vm.individualSupplies(id, type);
     };
@@ -63,6 +69,11 @@
             vm.consumption.total = '';
             vm.consumption.consumed = 0;
             vm.consumption.type = 4;
+
+            vm.consumption.avgWaterSupply = vm.departments[i].avgWaterSupply;
+            vm.consumption.lastConsume = vm.departments[i].lastConsume;
+            vm.consumption.emptyLastConsume = vm.consumption.lastConsume > 0 ? false: true;
+
             vm.consumptions.push(vm.consumption);
             vm.consumption = {};
           }
@@ -82,17 +93,32 @@
     vm.months.push({ name: 'Noviembre', value: 11 }, { name: 'Diciembre', value: 12 });
 
     vm.initialize = function () {
-      vm.typeConsumption(2, 'Grupo');
+      vm.typeConsumption(vm.tabSelected.id, vm.tabSelected.type);
     };
 
     vm.registerServices = function () {
+
+      //  Solo para individuak (Validation)
+      if (vm.tabSelected.id === 4) {
+        vm.negativeTotal = 0;
+        vm.consumptions.forEach(function(key) {
+          key.total = (key.consumed - key.lastConsume) * key.avgWaterSupply;
+          if(key.total < 1) vm.negativeTotal = vm.negativeTotal + 1;
+        });
+        if(vm.negativeTotal > 0) {
+          alert('Verifica los datos por favor');
+          return false;
+        }   
+      };
+      //  Solo para individuak (Validation)
+
       var emptyValues = 0;
       vm.consumptions.forEach(function (key) {
         if (key.total === '') {
           emptyValues = emptyValues + 1;
         }
       });
-      if (emptyValues > 0) {
+      if (emptyValues > 0 && vm.tabSelected.id !== 4) {
         alert('Faltan ' + emptyValues + ' Suministros por agregar');
         return false;
       }
