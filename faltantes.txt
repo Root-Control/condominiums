@@ -1,5 +1,35 @@
-1.- Terminar maquetacion.
-2.- Homologar servicio de agua (con suministro avg y medicion anterior)
-3.- Generar pagos
-4.- Creacion de cabeceras automatico (no ruta)
-5.- Separar las boletas por condominio, grupo, torre
+//	1.- Terminar maquetacion.
+// 	2.- Homologar servicio de agua (con suministro avg y medicion anterior)
+//	3.- Al pedir el consumo anterior, si es diciembre preguntar por el año anterior y guardar por año
+//	4.- Creacion de cabeceras automatico (no ruta)
+//	5.- Alertas de registro
+//	0.- Parsear todos los datos en el recibo
+//	1.- Generar pagos
+
+2.- Separar las boletas por condominio, grupo, torre
+3.- Menu Dashboard
+4.- Se deben registrar obligatoriamente los suministros
+6.- Cron Anual de generacion de pagos
+7.- Implementar recibo, separar los tipos (grupo, torre, global, individual)
+8.- Modulo Configuración (nro cuenta, web, etc)
+
+Fix
+
+1.- En la busqueda de boletas del admin, el propietario sale el mismo, deberia salir el dueño del condominio
+
+
+
+//	Impresión masiva de boletas, torre, condominio, grupo, departamento
+Datos requeridos: 
+	- Dato propietario del departamento
+	- Mes Seleccoinado
+	- Deuda total contabilizada
+	- Lectura anterior de agua
+	- Lectura actual del agua
+	- Avg Del grupo
+	- Consumido (resta)
+	- importe de servicios globales (en un array)
+	- importe de servicios grupales (en un array)
+	- importe de servicios de torre (en un array)
+	- Cantidad de depts, por torre, grupo y condominio
+	- Nombre de torre, grupo dept.

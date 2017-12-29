@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Department = mongoose.model('Department'),
+  CustomDepartment = require(path.resolve('./modules/departments/server/controllers/department-custom.server.controller')),
   Keys = require(path.resolve('./modules/keys/server/controllers/keys.server.controller')),
   Towers = require(path.resolve('./modules/towers/server/controllers/towers-custom-queries.server.controller')),
   Groups = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
@@ -36,8 +37,8 @@ exports.create = function (req, res) {
                 user: req.user
               };
               Keys.create(data)
-                .then(function (result) {
-                  console.log(result);
+                .then(async result =>{
+                  await CustomDepartment.createBillHeadersByDepartment(department);
                   res.json(department);
                 });
             });

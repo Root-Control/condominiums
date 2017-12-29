@@ -23,9 +23,7 @@ exports.getDepartmentByAgreement = function (clientId) {
 };
 
 exports.getUserContract = function (req, res) {
-  console.log(req.user);
   let id = mongoose.Types.ObjectId(req.user.client);
-  console.log(id);
   Agreement.find({ clientId: id }).exec(function(err, agreements) {
     if(err) {
       return res.status(422).send({

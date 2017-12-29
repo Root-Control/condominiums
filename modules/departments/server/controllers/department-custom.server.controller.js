@@ -30,7 +30,7 @@ exports.generateBill = async function (req, res) {
     arrayDepartment = [];
     dep = {};
     for(let i = 12; i > current_month; i--) {
-      dep.status = 'Pending';
+      dep.status = 'Pendiente';
       dep.department = departments[x]._id;
       dep.month = i;
       dep.year = parseInt(current_year, 10);
@@ -49,6 +49,28 @@ exports.generateBill = async function (req, res) {
   }
 
   iterateDepartments(departments);
+};
+
+exports.createBillHeadersByDepartment = async(department) => {
+  return new Promise((resolve, reject) => {
+    let arrayDepartment = [];
+    let current_month =  moment().format('M');
+    let current_year =  moment().format('Y');
+    current_month = 0;
+    let dep = {};
+    for(let i = 12; i > current_month; i--) {
+      dep.status = 'Pendiente';
+      dep.department = department._id;
+      dep.month = i;
+      dep.year = parseInt(current_year, 10);
+      dep.due_date = new Date(current_year + '-' + i + '-' + '25');
+      arrayDepartment.push(dep);
+      dep = {};
+    }
+    Bill.dumpHeaders(arrayDepartment, function () {
+      resolve();
+    });
+  });
 };
 
 function listDepartments() {
@@ -96,9 +118,7 @@ exports.getDepartmentsByCondominium = async(req, res) => {
 
 exports.getDepartmentsByCodeRegex = async(req, res) => {
   let code = req.query.code;
-  console.log(code);
   Department.find({ code: new RegExp(code, 'i') }, function(err, department) {
-    console.log(department);
     res.json(department);
   }).populate('tower', 'name');
 };

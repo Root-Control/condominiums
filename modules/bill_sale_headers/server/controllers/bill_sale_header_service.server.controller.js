@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Bill_sale_header = mongoose.model('Bill_sale_header'),
+  Payment = require(path.resolve('./modules/payments/server/controllers/payments.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -40,3 +41,28 @@ exports.getHeaderIdByDepartmentAndMonth = (departmentId, month, year) => {
 		});
 	});
 };
+
+/**
+ * Update Header status
+ */
+exports.updateHeaderStatus = async (req, res) => {
+	let paymentBody = {
+		billHeader: req.body.billHeader,
+		amountPayment: req.body.amountPayment,
+		amountPayed: req.body.amountPayed,
+		difference: req.body.difference
+	};
+	let status = req.body.difference > 0 ? 'Parcialmente pagado': 'Pagado';
+	let id = req.body.billHeader;
+  Bill_sale_header.findOneAndUpdate({ _id: id }, { $set: { status: 'Pagado' } }, { new: false }, async (err, result) => {
+    if (err) console.log(err);
+    else {
+    	await Payment.create(paymentBody);
+    	res.json(result);
+    }
+  });
+};
+
+ /**
+ * Update Header status
+ */

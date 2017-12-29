@@ -4,6 +4,7 @@
  * Module dependencies
  */
 var bill_sale_headersPolicy = require('../policies/bill_sale_headers.server.policy'),
+  custom_bill_sale_headers = require('../controllers/bill_sale_header_service.server.controller'),
   bill_sale_headers = require('../controllers/bill_sale_headers.server.controller');
 
 module.exports = function (app) {
@@ -11,6 +12,9 @@ module.exports = function (app) {
   app.route('/api/bill_sale_headers').all(bill_sale_headersPolicy.isAllowed)
     .get(bill_sale_headers.list)
     .post(bill_sale_headers.create);
+
+  app.route('/api/custom_bill_sale_headers/updatestatus').all(bill_sale_headersPolicy.isAllowed)
+    .put(custom_bill_sale_headers.updateHeaderStatus);
 
   // Single bill_sale_header routes
   app.route('/api/bill_sale_headers/:bill_sale_headerId').all(bill_sale_headersPolicy.isAllowed)

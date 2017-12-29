@@ -5,9 +5,9 @@
     .module('core')
     .controller('PaymentRegisterController', PaymentRegisterController);
 
-  PaymentRegisterController.$inject = ['$scope', '$state', 'Authentication', 'DepartmentCustomService', 'Pay'];
+  PaymentRegisterController.$inject = ['$window', '$scope', '$state', 'Authentication', 'DepartmentCustomService', 'Pay', 'Messages'];
 
-  function PaymentRegisterController($scope, $state, Authentication, DepartmentCustomService, Pay) {
+  function PaymentRegisterController($window, $scope, $state, Authentication, DepartmentCustomService, Pay, Messages) {
     var vm = this;
     vm.authentication = Authentication;
 
@@ -26,22 +26,38 @@
     };
 
     vm.createBillHeader = function (departmentId) {
-      console.log(departmentId);
       vm.department = [];
       vm.items = [];
       vm.user = [];
       vm.head = [];
-      vm.individuals = [];
+      vm.individuals = {};
+      vm.towerServices = [];
+      vm.groupServices = [];
+      vm.globalServices = [];
       Pay.calculatePay(vm.monthSelected, vm.yearSelected, departmentId, {
         success: function (response) {
+          vm.information = response.data.informative;
+          vm.lastConsume = response.data.lastConsume;
+          vm.avgWaterSupply = response.data.avgWaterSupply;
           vm.department = response.data.department;
           vm.items = response.data.details;
           vm.total = response.data.total;
+          vm.header = response.data.header;
 
-          vm.items.forEach(function (key) {
-            if (key.type === 4) {
-              vm.individuals.push(key);
-              vm.items.splice(key, 1);
+          vm.items.forEach(function(key) {
+            switch(key.type) {
+              case 1:
+                vm.globalServices.push(key);
+              break;
+              case 2:
+                vm.groupServices.push(key);
+              break;
+              case 3:
+                vm.towerServices.push(key);
+              break;
+              case 4:
+                vm.individuals = key;
+              break;
             }
           });
 
@@ -69,8 +85,29 @@
     vm.months.push({ month: 11, name: 'Noviembre' });
     vm.months.push({ month: 12, name: 'Diciembre' });
 
-    vm.pay = function () {
-      alert(vm.department.departmentId + ' ' + vm.monthSelected + ' ' + vm.yearSelected);
+    vm.confirmAndPay = function () {
+      if(!vm.userpay) {
+        Messages.errorMessage('No ingresaste el monto que pago el cliente');
+        return false;
+      }
+      Messages.confirmAction()
+        .then(function() {
+          vm.pay();
+        });
     };
+
+    vm.pay = function () {
+      vm.difference = (vm.total - vm.userpay).toFixed(2);
+      vm.data = { billHeader: vm.header._id, amountPayment: vm.total, amountPayed: vm.userpay, difference: vm.difference };
+      Pay.pay(vm.data, {
+        success: function(response) {
+          Messages.successMessage('Se cancelo el pago correctamente!');
+        },
+        error: function(err) {
+          Messages.errorMessage('Occurio un error, intenta de nuevo');
+        }
+      });
+    };
+    //  https://limonte.github.io/sweetalert2/
   }
 }());

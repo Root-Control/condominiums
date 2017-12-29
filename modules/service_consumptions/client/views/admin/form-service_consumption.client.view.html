@@ -39,6 +39,7 @@
             <th>Código de suministro</th>
             <th ng-show="vm.individual">Lectura anterior</th>
             <th ng-show="vm.individual">Lectura actual</th>
+            <th ng-show="vm.individual">Precio Promedio</th>
             <th>Monto</th>
           </thead>
           <tbody>
@@ -51,6 +52,7 @@
                 <input type="text" class="form-control" name="" ng-model="item.lastConsume" ng-show="item.emptyLastConsume">
               </td>
               <td ng-show="vm.individual"><input type="text" ng-model="item.consumed" class="form-control"></td>
+              <td ng-show="vm.individual">{{ item.avgWaterSupply }}</td>
               <td><input ng-show="!vm.individual" ="text" ng-model="item.total" class="form-control">
                 <span ng-show="vm.individual">{{ (item.consumed - item.lastConsume) * item.avgWaterSupply  }}</span>
               </td>

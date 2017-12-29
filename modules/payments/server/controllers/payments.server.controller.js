@@ -12,18 +12,15 @@ var path = require('path'),
  * Create an payment
  */
 
-exports.create = function (req, res) {
-  var payment = new Payment(req.body);
-  payment.user = req.user;
+exports.create = async (data, user) => {
+  return new Promise((resolve, reject) => {
+    let payment = new Payment(data);
+    payment.user = user;
 
-  payment.save(function (err) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(payment);
-    }
+    payment.save(function (err) {
+      if (err) reject(err);
+      else resolve();
+    });
   });
 };
 /**
@@ -46,8 +43,9 @@ exports.read = function (req, res) {
 exports.update = function (req, res) {
   var payment = req.payment;
 
-  payment.title = req.body.title;
-  payment.content = req.body.content;
+  payment.amountPayed = req.body.amountPayed;
+  payment.amountPayment = req.body.amountPayment;
+  payment.difference = req.body.difference;
 
   payment.save(function (err) {
     if (err) {
@@ -116,4 +114,9 @@ exports.paymentByID = function (req, res, next, id) {
     req.payment = payment;
     next();
   });
+};
+
+
+exports.generatePaymentToPdf = async (type, month) => {
+  //  Types -> 1.- Global, 2- Grupal, 3.- Torre, 4.- Departamento , 5.- Personal (global)
 };

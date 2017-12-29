@@ -17,16 +17,19 @@ var PaymentSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  title: {
-    type: String,
-    default: '',
-    trim: true,
-    required: 'Title cannot be blank'
+  amountPayed: {
+    type: Number
   },
-  content: {
-    type: String,
-    default: '',
-    trim: true
+  amountPayment: {
+    type: Number
+  },
+  difference: {
+    type: Number,
+    default: 0
+  }, 
+  billHeader: {
+    type: Schema.ObjectId,
+    ref: 'Bill_sale_header'
   },
   user: {
     type: Schema.ObjectId,

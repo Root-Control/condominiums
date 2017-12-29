@@ -11,6 +11,7 @@ module.exports = {
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
         'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
         'public/lib/condominio/css/theme-default.css',
+        'public/lib/sweetalert2/dist/sweetalert2.css',
         // endbower
       ],
       js: [
@@ -27,6 +28,7 @@ module.exports = {
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/condominio/js/plugins/jquery/jquery.min.js',
         'public/lib/condominio/js/plugins/jquery/jquery-ui.min.js',
+        'public/lib/sweetalert2/dist/sweetalert2.js',
         'public/lib/condominio/js/plugins/bootstrap/bootstrap.min.js',
         'public/lib/condominio/js/plugins.js',
         'public/lib/condominio/js/actions.js',

@@ -26,9 +26,16 @@ Verify if an service has created
 */
 
 exports.verifyPreviousConsume = async (departmentId, month) => {
-  let previousMonth = month - 1;
+  let previousMonth;
+  let year;
+  if (month > 1) previousMonth = month - 1, year = new Date().getFullYear();
+  else previousMonth = 12, year = new Date().getFullYear() - 1;
+  
+  console.log(previousMonth);
+  console.log(year);
+  
   return new Promise((resolve, reject) => {
-    Service_consumption.findOne({ type: 4, globalIdentifier: departmentId, month: previousMonth}).exec(function (err, service_consumptions) {
+    Service_consumption.findOne({ type: 4, globalIdentifier: departmentId, month: previousMonth, year: year}).exec(function (err, service_consumptions) {
       if (err) reject(err);
       else resolve(service_consumptions);
     }); 

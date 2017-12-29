@@ -33,6 +33,10 @@ var Bill_sale_headerSchema = new Schema({
     type: Date,
     default: ''
   },
+  status: {
+    type: String,
+    default: 'Pendiente'
+  },
   department: {
     type: Schema.ObjectId,
     ref: 'Department'

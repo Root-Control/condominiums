@@ -62,6 +62,7 @@
           for (var i = 0; i < vm.departments.length; i++) {
             vm.consumption.supplyCode = 'Servicio individual';
             vm.consumption.serviceName = vm.service[0].name;
+            vm.consumption.year = new Date().getFullYear();
             vm.consumption.supplyDescription = vm.departments[i].code;
             vm.consumption.globalIdentifier = vm.departments[i]._id;
             vm.consumption.month = vm.month;
@@ -100,17 +101,17 @@
 
       //  Solo para individuak (Validation)
       if (vm.tabSelected.id === 4) {
-        vm.negativeTotal = 0;
+        vm.errorsOrnegativeTotal = 0;
         vm.consumptions.forEach(function(key) {
           key.total = (key.consumed - key.lastConsume) * key.avgWaterSupply;
-          if(key.total < 1) vm.negativeTotal = vm.negativeTotal + 1;
+          if(key.total < 1 || isNaN(key.total)) vm.errorsOrnegativeTotal = vm.errorsOrnegativeTotal + 1;
         });
-        if(vm.negativeTotal > 0) {
+        if(vm.errorsOrnegativeTotal > 0) {
           alert('Verifica los datos por favor');
           return false;
         }   
       };
-      //  Solo para individuak (Validation)
+      //  Solo para individual (Validation)
 
       var emptyValues = 0;
       vm.consumptions.forEach(function (key) {
@@ -124,6 +125,7 @@
       }
       Consumption.bulkConsumption(vm.consumptions, {
         success: function (response) {
+          alert('Registrado correctamente');
           console.log(response);
         },
         error: function (err) {

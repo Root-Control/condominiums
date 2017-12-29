@@ -6,6 +6,9 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Bill_sale_detail = mongoose.model('Bill_sale_detail'),
+  Keys = require(path.resolve('./modules/keys/server/controllers/keys.server.controller')),
+  Groups = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
+  Consumptions = require(path.resolve('./modules/service_consumptions/server/controllers/service_consumptions.server.controller')),
   Agreements = require(path.resolve('./modules/agreements/server/controllers/agreements-custom.server.controller')),
   Users = require(path.resolve('./modules/users/server/controllers/users/users.custom-queries.server.controller')),
   Bill_header= require(path.resolve('./modules/bill_sale_headers/server/controllers/bill_sale_header_service.server.controller')),
@@ -16,6 +19,7 @@ var path = require('path'),
  */
 exports.getBillPayment = async (req, res) => {
   let totals = [];
+  let lastConsume = 0;
   let month = req.query.month;
   let year = req.query.year;
   let department;
@@ -29,6 +33,17 @@ exports.getBillPayment = async (req, res) => {
   }
   let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId, month, year);
   let details = await this.getDetailsByHeader(header);
+
+  //  Get AVG WATER AND LAST CONSUME
+  let condominiumData = await Keys.getGroupByDepartmentId(department.departmentId);
+  let avgWaterSupply = await Groups.getAvgWaterSupply(condominiumData.group);
+  let lastConsumption = await Consumptions.verifyPreviousConsume(department.departmentId, month);
+  if(lastConsumption) lastConsume = lastConsumption.consumed;
+  //  Get AVG WATER AND LAST CONSUME
+
+  //  Get Condominium information
+
+
   let total = 0;
   details.forEach((key) => {
     total = total + key.totalAmount;
@@ -39,7 +54,10 @@ exports.getBillPayment = async (req, res) => {
     department: department,
     header: header,
     details: details,
-    total: total.toFixed(2)
+    total: total.toFixed(2),
+    avgWaterSupply: avgWaterSupply,
+    lastConsume: lastConsume,
+    informative: condominiumData
   };
   res.json(data);
 };
@@ -56,12 +74,11 @@ exports.getTotalsByMonths = async (req, res) => {
     let name = getMonthName(i);
     let total = 0;
     let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId._id, i);
-    console.log(header);
     let details = await this.getDetailsByHeader(header);
     details.forEach((key) => {
       total = total + key.totalAmount;
     });
-    totalMonths.push({ month: i, total: total.toFixed(2), status: '?', name: name });
+    totalMonths.push({ month: i, total: total.toFixed(2), status: header.status, name: name });
   }
   res.json(totalMonths);
 };
@@ -69,7 +86,6 @@ exports.getTotalsByMonths = async (req, res) => {
 exports.create = function (data, cb) {
   var bill_sale_detail = new Bill_sale_detail(data);
   bill_sale_detail.save(function (err) {
-    console.log('done');
     cb();
   });
 };

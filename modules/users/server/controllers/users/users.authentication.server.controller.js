@@ -71,7 +71,6 @@ function userCreation(req) {
     user.client = req.body.client;
     user.condominium = req.body.condominium;
     user.roles = req.body.condominium ? 'c-admin': 'user';
-
     user.save(async err => {
       if (err) reject(err);
       else resolve(true);

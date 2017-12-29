@@ -28,10 +28,16 @@
       $http.get('/api/agreements/verify')
       .then(options.success, options.error);
     };
+
+    me.pay = function(data, options) {
+      $http.put('/api/custom_bill_sale_headers/updatestatus', data)
+        .then(options.success, options.error);
+    };
     return {
       calculatePay: me.calculatePay,
       verifyContract: me.verifyUserContract,
-      getTotals: me.getTotals
-    }
+      getTotals: me.getTotals,
+      pay: me.pay
+    };
   }
 }());

@@ -30,6 +30,10 @@ var Service_consumptionSchema = new Schema({
   month: {
     type: Number
   },
+  year: {
+    type: Number,
+    default: 2017
+  },
   service: {
     type: Schema.ObjectId,
     ref: 'Service'

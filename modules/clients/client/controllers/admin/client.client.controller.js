@@ -17,6 +17,7 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+    vm.checked = false;
 
     // Remove existing Client
     function remove() {
@@ -30,7 +31,9 @@
 
     // Save Client
     function save(isValid) {
-      if(vm.authentication.user.roles[0] !== 'superadmin') vm.client.condominium = vm.authentication.user.condominium;
+      if(vm.authentication.user.roles[0] !== 'superadmin' && vm.checked) vm.client.condominium = vm.authentication.user.condominium;
+      else if(vm.checked == false) vm.client.condominium = null;
+
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.clientForm');
         return false;

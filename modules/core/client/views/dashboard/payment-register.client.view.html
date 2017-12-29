@@ -1,3 +1,74 @@
+<style type="text/css">
+
+  @font-face {
+      font-family: Californian;
+      src: url(./fonts/Californian_FB.ttf);
+  }
+  
+  body {
+    font-family: Californian;
+  }
+
+  .individualpayment>tbody>tr>td, .individualpayment>tbody>tr>th, .individualpayment>tfoot>tr>td, .individualpayment>tfoot>tr>th, .individualpayment>thead>tr>td, .individualpayment>thead>tr>th {
+    padding: 3px !important;
+  }
+
+  .individualpayment > thead > tr > th, .individualpayment > tbody > tr > th, .individualpayment > tfoot > tr > th, .individualpayment > thead > tr > td, .individualpayment > tbody > tr > td, .individualpayment > tfoot > tr > td {
+      border-color: #656C78;
+      padding: 16px 20px;
+      background: none;
+      color: #656C78;
+      font-size: 13px;
+  }
+
+  .detail-pay {
+      color: #fff !important;
+      background-color: #000 !important;  
+      padding: 5px 15px !important; 
+  }
+  .items thead th{
+    background: #2e6da4 !important;
+    color: #fff !important;
+  }
+
+  @media screen {
+    #printSection {
+        display: none;
+    }
+  }
+
+  @media print {
+    body * {
+      visibility:hidden;
+    }
+
+  
+    #printSection, #printSection * {
+      zoom: 97%;
+      visibility:visible;
+      font-family: Californian;
+    }
+
+    #printSection {
+    width: 100%;
+    margin: 0 auto;
+    }
+
+    #printSection {
+      position:absolute;
+      left:0;
+      top:0;
+    }
+    #print {
+      display: none;
+    }
+
+    #close {
+      display: none;
+    }
+  }
+</style>
+
 <section>
   <div class="jumbotron text-center">
     <h3>Registro de pagos</h3>
@@ -67,69 +138,195 @@
 	</div> 
 </section> 	
 
-<div id="Boleta" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
 
-    <!-- Modal content-->
+<div id="Boleta" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="classInfo" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Boleta mes de {{ vm.monthSelected }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h4 class="modal-title" id="classModalLabel">
+              RECIBO MENSUAL - DEPARTAMENTO {{ vm.information.department.code }} - Status: {{ vm.header.status }}
+        </h4>
       </div>
-      <div class="modal-body">
-        <div class="col-md-12">
-          <table class="table table-bordered text-center boleta">
-            <thead>
-              <th>Detalle</th>
-              <th>N° Suministro</th>
-              <th>Recibo</th>
-              <th>Cant. Dep afectados</th>
-              <th>Total</th>
-            </thead>
-            <tbody>
-              <tr ng-repeat="item in vm.items">
-                <td>{{ item.serviceName }}</td>
-                <td>{{ item.supplyCode }}</td>
-                <td>{{ item.amount }}</td>
-                <td>{{ item.qtyDivision }}</td>
-                <td>{{ item.totalAmount }}</td>
-              </tr>
-            </tbody>
-          </table>
-          Consumo de Agua
-          <table class="table table-bordered text-center boleta" style="padding:0px">
-            <thead>
-              <th>Detalle</th>
-              <th>Lectura Anterior</th>
-              <th>Lectura Actual</th>
-              <th>Recibo</th>
-              <th>Cant. Dep afectados</th>
-              <th>Total</th>
-            </thead>
-            <tbody>
-              <tr ng-repeat="item in vm.individuals">
-                <td>{{ item.serviceName }}</td>
-                <td></td>
-                <td>{{ item.consumed }}</td>
-                <td>{{ item.amount }}</td>
-                <td>{{ item.qtyDivision }}</td>
-                <td>{{ item.totalAmount }}</td>
-              </tr>
-            </tbody>
-          </table>
-		    <div class="col-md-12">
-	            <div class="col-md-12">
-	              <!-- <b>TOTAL: S/. {{ vm.total }}</b>  -->
-                <div class="col-md-3"></div>
-                <button class="btn btn-success btn-lg" ng-click="vm.pay()" style="float: right;">PAGAR</button>
-	            </div>
-	      	</div>
+      <div class="modal-body" id="printable">
+        <div class="row">
+          <div class="col-xs-12 visible-xs text-center">
+            <div class="col-xs-6">
+              <img src="./images/innovecrt.png" alt="100px">
+            </div>
+            <div class="col-xs-6">
+              <img src="./images/ciudadnueva.png" alt="" width="100px;">
+            </div>
+          </div>
+          <div class="col-sm-3 hidden-xs">
+            <img src="./images/innovecrt.png" alt="">
+          </div>
+          <div class="col-sm-6">
+        <table class="table table-responsive boleta individualpayment">
+          <tr>
+            <th colspan="2">PROPIETARIO:</th>
+            <td colspan="2">{{ vm.authentication.user.displayName }}</td>
+          </tr>
+          <tr>
+            <th>CUOTA MES:</th>
+            <td>{{ vm.monthSelected }}</td> 
+            <th>DEUDA TOTAL:</th>
+            <td>S/. {{ vm.total }}</td>           
+          </tr>
+          <tr>
+            <th colspan="2">CUENTA ABONAR:</th>
+            <td colspan="2">555 77 855</td>
+          </tr>
+          <tr>
+            <th colspan="2">WEBSITE:</th>
+            <td colspan="2">555 77 855</td>
+          </tr>
+          <tr>
+            <th colspan="2">MOROSIDAD:</th>
+            <td colspan="2">555 77 855</td>
+          </tr>           
+        </table>          
+          </div>
+          <div class="col-sm-3 hidden-xs">
+            <img src="./images/ciudadnueva.png" alt="">
+          </div>
         </div>
+        <br/>
+        <div class="row">
+          <div class="col-sm-10 col-md-offset-1">
+            <table class="table table-responsive boleta individualpayment">
+          <tr>
+            <th>LECTURA PREVIA:</th>
+            <td>{{ vm.lastConsume }}</td>
+            <th>VALOR M3:</th>
+            <td>{{  vm.avgWaterSupply }}</td>
+            <th>AGUA MES:</th>
+          </tr>
+          <tr>
+            <th>LECTURA ACTUAL:</th>
+            <td>{{ vm.individuals.consumed }}</td>
+            <th>CONSUMO:</th>
+            <td>{{ vm.individuals.consumed - vm.lastConsume}}</td>
+            <th>S/. {{ vm.individuals.amount }}</th>         
+          </tr>           
+        </table>
+          </div>
+        <div class="row">
+          <div class="col-sm-10 col-md-offset-1">
+        <div class="panel panel-default" ng-show="vm.globalServices.length > 0">
+          <div class="panel-heading detail-pay text-center">
+          Importes globales del Condominio {{ vm.information.condominium.name }} Afectan a {{ vm.globalServices[0].qtyDivision }} Departamentos
+          </div>
+          <div class="panel-body">
+            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+              <table class="table table-bordered items individualpayment">
+                <div class="text-center"><b>Servicios</b></div>
+                <thead>
+                  <th>Codigo/Suministro</th>
+                  <th>Descripción</th>
+                  <th>Total</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in vm.globalServices">
+                    <td>{{ item.supplyCode }}</td>
+                    <td>{{ item.serviceName }}</td>
+                    <td>S/. {{ item.totalAmount }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+              <table class="table table-bordered items individualpayment">
+                <div class="text-center"><b>Personal</b></div>
+                <thead>
+                  <th>Codigo/Suministro</th>
+                  <th>Descripción</th>
+                  <th>Total</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in vm.globalServices">
+                    <td>AXLMA</td>
+                    <td>Servicio asasas</td>
+                    <td>10</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>            
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-10 col-md-offset-1">
+        <div class="panel panel-default" ng-show="vm.groupServices.length > 0">
+          <div class="panel-heading detail-pay text-center">
+            Importe grupal  Grupo  {{ vm.information.group.name }}- Afectan a {{ vm.groupServices[0].qtyDivision }} Departamentos
+          </div>
+          <div class="panel-body">
+            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+              <table class="table table-bordered items individualpayment">
+                <div class="text-center"><b>Servicios</b></div>
+                <thead>
+                  <th>Codigo/Suministro</th>
+                  <th>Descripción</th>
+                  <th>Total</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in vm.groupServices">
+                    <td>{{ item.supplyCode }}</td>
+                    <td>{{ item.serviceName }}</td>
+                    <td>S/. {{ item.totalAmount }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>            
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-10 col-md-offset-1">
+        <div class="panel panel-default" ng-show="vm.towerServices.length > 0">
+          <div class="panel-heading detail-pay text-center">Importe de torre para la Torre  {{ vm.information.tower.name }} - Afectan {{ vm.towerServices[0].qtyDivision }} Departamentos</div>
+          <div class="panel-body">
+            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+              <table class="table table-bordered items individualpayment">
+                <div class="text-center"><b>Servicios</b></div>
+                <thead>
+                  <th>Codigo/Suministro</th>
+                  <th>Descripción</th>
+                  <th>Total</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in vm.towerServices">
+                    <td>{{ item.supplyCode }}</td>
+                    <td>{{ item.serviceName }}</td>
+                    <td>S/. {{ item.totalAmount }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>            
+          </div>
+        </div>
+          </div>
+        </div>                
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <div class="row">
+          <div class="col-sm-3">
+            <input type="text" class="form-control" ng-model="vm.userpay"  ng-show="vm.header.status === 'Pending'">
+          </div>
+          <div class="col-sm-3">
+            <button style="width: 100%;" type="button" class="btn btn-success" ng-click="vm.confirmAndPay()" id="pay" ng-show="vm.header.status === 'Pending'"> PAGAR</button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="close">CERRAR</button>
+          </div>
+        </div>
+
       </div>
     </div>
-
   </div>
 </div>

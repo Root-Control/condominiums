@@ -20,6 +20,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/bill_sale_headers/:bill_sale_headerId',
       permissions: '*'
+    },{
+      resources: '/api/custom_bill_sale_headers/updatestatus',
+      permissions: '*'
     }]
   }, {
     roles: ['user'],

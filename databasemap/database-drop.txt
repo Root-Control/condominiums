@@ -1,0 +1,1 @@
+db.bill_sale_details.drop(), db.bill_sale_headers.drop(), db.agreements.drop(), db.clients.drop(), db.supplies.drop(), db.service_consumptions.drop(), db.keys.drop(), db.departments.drop(), db.users.drop(), db.services.drop()

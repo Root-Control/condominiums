@@ -9,8 +9,7 @@ var paymentsPolicy = require('../policies/payments.server.policy'),
 module.exports = function (app) {
   // Payments collection routes
   app.route('/api/payments').all(paymentsPolicy.isAllowed)
-    .get(payments.list)
-    .post(payments.create);
+    .get(payments.list);
 
   // Single payment routes
   app.route('/api/payments/:paymentId').all(paymentsPolicy.isAllowed)

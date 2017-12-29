@@ -73,10 +73,9 @@ exports.getDataDepartmentsByCondominium = identifier => {
   });
 };
 
-
 exports.getGroupByDepartmentId = identifier => {
   return new Promise((resolve, reject) => {
-    Key.findOne({ department: identifier }).exec(function (err, key) {
+    Key.findOne({ department: identifier }).populate('department', 'code').populate('condominium', 'name').populate('tower', 'name').populate('group', 'name').exec(function (err, key) {
       if(err) reject(err);
       else resolve(key);
     });
