@@ -29,6 +29,7 @@
     };
 
     vm.generalSupplies = function (id, type) {
+      if(id === 5) vm.personalSupplies = true;
       vm.individual = false;
       vm.consumptions = [];
       vm.type = type;

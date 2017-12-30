@@ -10,7 +10,7 @@
   function CondominiumServiceController($scope, $state, Authentication, CustomService, CondominiumsService, CondominiumCustomService) {
     var vm = this;
     vm.authentication = Authentication;
-    vm.typeIdentifier = 1;
+    vm.typeIdentifier = [1, 5];
     vm.supply = {};
     vm.supplyCreator = [];
 
@@ -37,13 +37,13 @@
       services.forEach(function (key) {
         vm.supply.serviceName = key.name;
         vm.supply.supplyCode = '';
-        vm.supply.typeSupply = vm.typeIdentifier;
+        vm.supply.typeSupply = key.type;
         vm.supply.serviceId = key._id;
         vm.supply.entityId = '';
         vm.supplyCreator.push(vm.supply);
         vm.supply = {};
       });
-      console.log()
+      console.log(vm.supplyCreator);
     }
 
     vm.registerCondominiumServices = function () {

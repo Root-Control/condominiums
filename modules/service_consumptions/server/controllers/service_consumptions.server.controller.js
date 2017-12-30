@@ -188,6 +188,7 @@ let createTransaction = async (consumed, user) => {
         departmentsToapply = data.departments;
         console.log('Torre -> Depas: ' + departmentsToapply.length);        
         break;
+      //  Department
       case 4: 
         data = { qty: 1 };
         departmentsToapply = [globalIdentifier];

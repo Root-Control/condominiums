@@ -6,6 +6,7 @@
 //	0.- Parsear todos los datos en el recibo
 //	1.- Generar pagos
 
+9.- Fix servicio de empleados
 2.- Separar las boletas por condominio, grupo, torre
 3.- Menu Dashboard
 4.- Se deben registrar obligatoriamente los suministros
