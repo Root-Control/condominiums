@@ -99,20 +99,11 @@
     };
 
     vm.registerServices = function () {
-
-      //  Solo para individuak (Validation)
-      if (vm.tabSelected.id === 4) {
-        vm.errorsOrnegativeTotal = 0;
-        vm.consumptions.forEach(function(key) {
-          key.total = (key.consumed - key.lastConsume) * key.avgWaterSupply;
-          if(key.total < 1 || isNaN(key.total)) vm.errorsOrnegativeTotal = vm.errorsOrnegativeTotal + 1;
-        });
-        if(vm.errorsOrnegativeTotal > 0) {
-          alert('Verifica los datos por favor');
-          return false;
-        }   
-      };
-      //  Solo para individual (Validation)
+      if (vm.tabSelected.id === 4 || vm.tabSelected.id === 5) {
+        vm.verification = vm.servicesVerification();
+        console.log(vm.verification);
+        if(!vm.verification) return false;
+      }
 
       var emptyValues = 0;
       vm.consumptions.forEach(function (key) {
@@ -135,6 +126,20 @@
       });
     };
 
+
+    vm.servicesVerification = function() {
+      vm.errorsOrnegativeTotal = 0;
+      vm.consumptions.forEach(function(key) {
+        if(vm.tabSelected.id === 4) key.total = (key.consumed - key.lastConsume) * key.avgWaterSupply;
+        else if (vm.tabSelected.id === 5) key.total = (key.consumed * key.qtyWorkers).toFixed(2);
+        if(key.total < 1 || isNaN(key.total)) vm.errorsOrnegativeTotal = vm.errorsOrnegativeTotal + 1;
+      });
+      if(vm.errorsOrnegativeTotal > 0) {
+        alert('Verifica los datos por favor');
+        return false;
+      }   
+      return true;
+    };
 
     if (vm.authentication.user.roles[0] === 'superadmin') vm.condominiums = CondominiumsService.query();
     else vm.condominium = vm.authentication.user.condominium;

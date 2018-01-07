@@ -34,7 +34,7 @@
         <a class="nav-link" id="contact-tab" data-toggle="tab" href="#department" role="tab" aria-controls="contact" aria-selected="false" ng-click="vm.typeConsumption(5, 'Personal')">Personal</a>
       </li>
     </ul>
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content" id="myTabContent" ng-show="vm.tabSelected.id < 4">
         <table class="table table-responsive table-striped">
           <thead>
             <th>Servicio</th>
@@ -58,6 +58,59 @@
               <td ng-show="vm.individual">{{ item.avgWaterSupply }}</td>
               <td><input ng-show="!vm.individual" ="text" ng-model="item.total" class="form-control">
                 <span ng-show="vm.individual">{{ (item.consumed - item.lastConsume) * item.avgWaterSupply  }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="tab-content" id="myTabContent" ng-show="vm.tabSelected.id == 4">
+        <table class="table table-responsive table-striped">
+          <thead>
+            <th>Servicio</th>
+            <th>{{ vm.type }}</th>
+            <th>Código de suministro</th>
+            <th>Lectura anterior</th>
+            <th>Lectura actual</th>
+            <th>Precio Promedio</th>
+            <th>Monto</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.consumptions">
+              <td>{{ item.serviceName }}</td>
+              <td>{{ item.supplyDescription }}</td>
+              <td>{{ item.supplyCode }}</td>
+              <td>
+                <span ng-show="!item.emptyLastConsume">{{ item.lastConsume }}</span>
+                <input type="text" class="form-control" name="" ng-model="item.lastConsume" ng-show="item.emptyLastConsume">
+              </td>
+              <td><input type="text" ng-model="item.consumed" class="form-control"></td>
+              <td>{{ item.avgWaterSupply }}</td>
+              <td><input ng-show="!vm.individual" ="text" ng-model="item.total" class="form-control">
+                <span>{{ (item.consumed - item.lastConsume) * item.avgWaterSupply  }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="tab-content" id="myTabContent" ng-show="vm.tabSelected.id == 5">
+        <table class="table table-responsive table-striped">
+          <thead>
+            <th>Servicio</th>
+            <th>{{ vm.type }}</th>
+            <th>Código de suministro</th>
+            <th>Cantidad de trabajadores</th>
+            <th>Precio por trabajador</th>
+            <th>Monto</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.consumptions">
+              <td>{{ item.serviceName }}</td>
+              <td>{{ item.supplyDescription }}</td>
+              <td>{{ item.supplyCode }}</td>
+              <td><input type="text" ng-model="item.consumed" name="" class="form-control"></td>
+              <td><input type="text" ng-model="item.qtyWorkers" class="form-control"></td>
+              <td>
+              {{ item.consumed * item.qtyWorkers || 0 }}
               </td>
             </tr>
           </tbody>

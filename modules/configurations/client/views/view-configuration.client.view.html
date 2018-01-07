@@ -1,0 +1,15 @@
+<section>
+  <div class="page-header">
+    <h1 ng-bind="vm.configuration.title"></h1>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span ng-bind="vm.configuration.created | date:'mediumDate'"></span>
+      by
+      <span ng-if="vm.configuration.user" ng-bind="vm.configuration.user.displayName"></span>
+      <span ng-if="!vm.configuration.user">Usuario Eliminado</span>
+    </em>
+  </small>
+  <p class="lead" ng-bind="vm.configuration.content"></p>
+</section>

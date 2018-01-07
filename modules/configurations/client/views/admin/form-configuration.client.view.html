@@ -1,0 +1,33 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.configuration._id ? 'Editar configuración' : 'Crear configuración'}}</h1>
+  </div>
+  <div class="pull-right">
+    <a ng-show="vm.configuration._id" class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.configurationForm" class="form-horizontal" ng-submit="vm.save(vm.form.configurationForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="account_number">Numero de cuenta a abonar:</label>
+          <input name="account_number" type="text" ng-model="vm.configuration.account_number" id="account_number" class="form-control" placeholder="Nro: Cta" required autofocus>
+          <div ng-messages="vm.form.configurationForm.account_number.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Configura el número de cuenta por favor.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="website">Website:</label>
+          <input name="website" type="text" ng-model="vm.configuration.website" id="website" class="form-control" placeholder="Página web del condominio" required autofocus>
+          <div ng-messages="vm.form.configurationForm.website.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Configura el website.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.configuration._id ? 'Actualizar' : 'Crear'}}</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

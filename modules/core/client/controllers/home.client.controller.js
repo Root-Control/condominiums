@@ -45,6 +45,7 @@
       vm.head = [];
       vm.individuals = {};
       vm.towerServices = [];
+      vm.personalServices = [];
       vm.groupServices = [];
       vm.globalServices = [];
       Pay.calculatePay(month, 2017, null, {
@@ -69,6 +70,9 @@
               break;
               case 4:
                 vm.individuals = key;
+              break;
+              case 5:
+                vm.personalServices.push(key);
               break;
             }
           });
@@ -114,5 +118,6 @@
     };
 
     if(vm.authentication.user && vm.authentication.user.roles == 'user') vm.chargeMonths();
+    if(vm.authentication.user && vm.authentication.user.roles == 'admin' || vm.authentication.user.roles == 'c-admin') $state.go('dashboard');
   }
 }());

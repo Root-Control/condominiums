@@ -34,6 +34,7 @@
       vm.towerServices = [];
       vm.groupServices = [];
       vm.globalServices = [];
+      vm.personalServices = [];
       Pay.calculatePay(vm.monthSelected, vm.yearSelected, departmentId, {
         success: function (response) {
           vm.information = response.data.informative;
@@ -57,6 +58,9 @@
               break;
               case 4:
                 vm.individuals = key;
+              break;
+              case 5:
+                vm.personalServices.push(key);
               break;
             }
           });

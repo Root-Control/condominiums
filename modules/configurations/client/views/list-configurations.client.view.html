@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Configurations</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="configuration in vm.configurations" ui-sref="configurations.view({ configurationId: configuration._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="configuration.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="configuration.user" ng-bind="configuration.user.displayName"></span>
+        <span ng-if="!configuration.user">Usuario Eliminado</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="configuration.title"></h4>
+      <p class="list-group-item-text" ng-bind="configuration.content"></p>
+    </a>
+  </div>
+</section>

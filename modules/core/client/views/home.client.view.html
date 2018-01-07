@@ -194,15 +194,17 @@
               <table class="table table-bordered items individualpayment">
                 <div class="text-center"><b>Personal</b></div>
                 <thead>
-                  <th>Codigo/Suministro</th>
+                  <th>Cantidad</th>
+                  <th>Sueldo Unitario</th>
                   <th>Descripción</th>
                   <th>Total</th>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="item in vm.globalServices">
-                    <td>AXLMA</td>
-                    <td>Servicio asasas</td>
-                    <td>10</td>
+                  <tr ng-repeat="item in vm.personalServices">
+                    <td>{{ item.consumed }}</td>
+                    <td>S/. {{ item.amount / item.consumed | number:2 }}</td>
+                    <td>{{ item.supplyCode }}</td>
+                    <td>S/. {{ item.totalAmount | number:2 }}</td>
                   </tr>
                 </tbody>
               </table>

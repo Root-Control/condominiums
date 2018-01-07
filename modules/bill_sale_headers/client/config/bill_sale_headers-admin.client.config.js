@@ -9,9 +9,9 @@
   menuConfig.$inject = ['menuService'];
 
   function menuConfig(Menus) {
-    Menus.addSubMenuItem('topbar', 'admin', {
+/*    Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Manage Bill_sale_headers',
       state: 'admin.bill_sale_headers.list'
-    });
+    });*/
   }
 }());

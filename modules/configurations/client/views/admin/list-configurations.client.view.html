@@ -1,0 +1,28 @@
+﻿<section>
+  <div class="page-header">
+    <h1>
+      Configuración
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.configurations.create" ng-hide="vm.configurations.length">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+    </h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="configuration in vm.configurations" data-ui-sref="admin.configurations.edit({configurationId: configuration._id})" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="configuration.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="configuration.user" ng-bind="configuration.user.displayName"></span>
+        <span ng-if="!configuration.user">Usuario Eliminado</span>
+      </small>
+      <br/>
+      <strong>Nro de cuenta:</strong> {{ configuration.account_number }}
+      <br/>
+      <strong>Website:</strong> {{ configuration.website }}
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="configurations.$resolved && !configurations.length">
+    No configurations yet, why don't you <a data-ui-sref="admin.configurations.create">create one</a>?
+  </div>
+</section>

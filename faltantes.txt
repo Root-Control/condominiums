@@ -13,6 +13,9 @@
 6.- Cron Anual de generacion de pagos
 7.- Implementar recibo, separar los tipos (grupo, torre, global, individual)
 8.- Modulo Configuración (nro cuenta, web, etc)
+9.- Registrar los servicios de años pasados...
+Servicios Activos, inactivos para servicios globales del año 2015-2017.
+
 
 Fix
 

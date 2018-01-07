@@ -193,6 +193,11 @@ let createTransaction = async (consumed, user) => {
         data = { qty: 1 };
         departmentsToapply = [globalIdentifier];
         break;
+      //  Personal
+      case 5:
+        data = await Keys.getDataDepartmentsByCondominium(globalIdentifier);
+        departmentsToapply = data.departments;
+        break;
     }
     let amount = consumed.total;
     let serviceName = consumed.service.name;

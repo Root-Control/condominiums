@@ -9,9 +9,9 @@
   menuConfig.$inject = ['menuService'];
 
   function menuConfig(Menus) {
-    Menus.addSubMenuItem('topbar', 'admin', {
+/*    Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Administrar detalles de boleta',
       state: 'admin.bill_sale_details.list'
-    });
+    });*/
   }
 }());
