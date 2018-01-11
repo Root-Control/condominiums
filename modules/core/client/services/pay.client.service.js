@@ -33,11 +33,24 @@
       $http.put('/api/custom_bill_sale_headers/updatestatus', data)
         .then(options.success, options.error);
     };
+
+    me.paymentDetails = function(data, options) {
+      let allmonths = '';
+      let status = '';
+      console.log(data);
+      if(data.status) status = '&status=' + data.status;
+      if(data.allmonths) allmonths = '&allmonths=' + data.allmonths;
+
+      $http.get('/api/requestpaymentdata?code=' + data.code + status + allmonths)
+        .then(options.success, options.error);
+    };
+
     return {
       calculatePay: me.calculatePay,
       verifyContract: me.verifyUserContract,
       getTotals: me.getTotals,
-      pay: me.pay
+      pay: me.pay,
+      paymentDetails: me.paymentDetails
     };
   }
 }());

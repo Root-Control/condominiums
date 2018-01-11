@@ -28,6 +28,10 @@ var ServiceSchema = new Schema({
     trim: true,
     required: 'El tipo de servicio es requerido'
   },
+  active: {
+    type: Boolean,
+    default: true
+  },
   condominium: {
     type: Schema.ObjectId,
     ref: 'Condominium'

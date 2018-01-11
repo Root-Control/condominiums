@@ -11,6 +11,9 @@ module.exports = function (app) {
   app.route('/api/payments').all(paymentsPolicy.isAllowed)
     .get(payments.list);
 
+  app.route('/api/requestpaymentdata')
+    .get(payments.requestPaymentData);
+
   // Single payment routes
   app.route('/api/payments/:paymentId').all(paymentsPolicy.isAllowed)
     .get(payments.read)

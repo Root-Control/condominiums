@@ -35,3 +35,12 @@ exports.getUserContract = function (req, res) {
     }
   });
 };
+
+exports.getAgreementByDepartment = departmentId => {
+  return new Promise((resolve, reject) => {
+    Agreement.findOne({ departmentId: departmentId }).populate('clientId').exec(function(err, result) {
+      if(err) reject(err);
+      else resolve(result);
+    });
+  });
+};

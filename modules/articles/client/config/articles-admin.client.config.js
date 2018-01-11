@@ -9,10 +9,10 @@
   menuConfig.$inject = ['menuService'];
 
   //  Hiro
-/*  function menuConfig(Menus) {
-    Menus.addSubMenuItem('topbar', 'admin', {
+  function menuConfig(Menus) {
+/*    Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Administrar artículos',
       state: 'admin.articles.list'
-    });
-  }*/
+    });*/
+  }
 }());

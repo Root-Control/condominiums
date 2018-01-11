@@ -115,10 +115,25 @@ exports.getDepartmentsByCondominium = async(req, res) => {
   });
 };
 
+exports.getDepartmentsByCodeRegex = (req, res) => {
+  return new Promise(async(resolve, reject) => {
+    let type = typeof req;
+    let result;
+    if(type === 'string') {
+      result = await search(req);
+      resolve(result);
+    } else {
+      result = await search(req.query.code);
+      res.json(result);
+    }
+  });
+};
 
-exports.getDepartmentsByCodeRegex = async(req, res) => {
-  let code = req.query.code;
-  Department.find({ code: new RegExp(code, 'i') }, function(err, department) {
-    res.json(department);
-  }).populate('tower', 'name');
+let search = async (code) => {
+  return new Promise((resolve, reject) => {
+    Department.find({ code: new RegExp(code, 'i') }, function(err, department) {
+      if(err) reject(err);
+      else resolve(department);
+    }).populate('tower', 'name');
+  });
 };

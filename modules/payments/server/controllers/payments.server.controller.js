@@ -5,7 +5,12 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
+  moment = require('moment'),
   Payment = mongoose.model('Payment'),
+  BillDetails = require(path.resolve('./modules/bill_sale_details/server/controllers/bill_sale_details.server.controller')),
+  Department = require(path.resolve('./modules/departments/server/controllers/department-custom.server.controller')),
+  Agreement = require(path.resolve('./modules/agreements/server/controllers/agreements-custom.server.controller')),
+  BillHeader = require(path.resolve('./modules/bill_sale_headers/server/controllers/bill_sale_header_service.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -116,7 +121,83 @@ exports.paymentByID = function (req, res, next, id) {
   });
 };
 
+exports.requestPaymentData = async (req, res) => {
+  let options = {};
+  let departmentData = {};
+  let current_month = '';
+  let status = 'Pending';
+  let today = moment().format('M');
+  let responseData = [];
+  let fullName = '';
+  let towerName = '';
+  let totalAmount = 0;
+
+  let arrayDepartments = await Department.getDepartmentsByCodeRegex(req.query.code);
+  if(!req.query.allmonths) {
+    let last_period = setYearAndMonth(today);
+    options.month = last_period.month;
+    options.year = last_period.year;
+  }
+
+  if(req.query.status) options.status = req.query.status;
+  
+  for(let i = 0; i < arrayDepartments.length; i++) {
+    //  Iteramos en todos los depas
+
+    //  Obtenemos el nombre del departamento
+    let departmentCode = arrayDepartments[i].code;
+
+    //  Obtenemos el nombre d ela torre
+    let towerName = arrayDepartments[i].tower.name;
+
+    //  Obtenemos la cabecera o el grupo de boletas de el departamento
+    let headers = await BillHeader.getCustomHeadersByDepartments(arrayDepartments[i]._id, options);
+
+    let agreements = await Agreement.getAgreementByDepartment(arrayDepartments[i]._id);
+    if(agreements) fullName = agreements.clientId.name + ' ' + agreements.clientId.lastName;
+    else fullName = 'No existe contrato';
+
+    for(let i = 0; i < headers.length; i ++) {
+      let details = await BillDetails.getDetailsByHeader(headers[i]._id);
+
+      for(let x = 0; x < details.length; x++) {
+        totalAmount = totalAmount + details[x].totalAmount;
+      }
+
+      departmentData.headerId = headers[i]._id;
+      departmentData.month = BillDetails.getMonthName(headers[i].month);
+      departmentData.total = totalAmount.toFixed(2);
+      departmentData.name = departmentCode;
+      departmentData.tower = towerName;
+      departmentData.client = fullName;
+      departmentData.status = headers[i].status;
+      departmentData.paymentOwner = headers[i].paymentOwner;
+
+      responseData.push(departmentData);
+      departmentData = {};
+      totalAmount = 0;
+    }
+  }
+  //console.log(responseData);
+  //  Get Client By Department, 
+  res.json(responseData);
+};
 
 exports.generatePaymentToPdf = async (type, month) => {
   //  Types -> 1.- Global, 2- Grupal, 3.- Torre, 4.- Departamento , 5.- Personal (global)
 };
+
+function setYearAndMonth(month) {
+  let last_month;
+  let last_year;
+  let current_year= moment().format('Y');
+
+  if(parseInt(month, 10) === 1) {
+    last_month = 12;
+    last_year = current_year - 1;
+  } else {
+    last_month = parseInt(month, 10) - 1;
+    last_year = current_year;
+  }
+  return { month: last_month, year: last_year };
+}

@@ -1,0 +1,67 @@
+<section>
+  <div class="jumbotron text-center">
+    <h3>Registro de pagos</h3>
+  </div>
+
+	<div class="row">
+	  <div class="col-lg-6 col-md-6">	  
+		<div class="form-check">
+		    <input type="checkbox" class="form-check-input" id="allmonths" ng-model="vm.allmonths">
+		    <label class="form-check-label" for="allmonths">Todos los meses?</label>
+		</div>	 
+	    <div class="input-group">
+	        <label for="search">Buscar departamento:</label>
+		      <input type="text" id="search" class="form-control" placeholder="Ingresa el departamento" ng-model="vm.code"  ng-keypress="vm.searchDepartment($event)">
+		      <span class="input-group-btn">
+		        <button class="btn btn-secondary"type="button">
+		        	<i class="fa fa-search" aria-hidden="true"></i>
+		        </button>
+		      </span>
+	    </div>
+	  </div>
+	</div>
+	<br/>
+	<table class="table table-bordered" ng-show="vm.details.length > 0">
+		<thead>
+			<th>Nombre de torre</th>
+			<th>N. Dpto</th>
+			<th>Cliente</th>
+			<th>Estado</th>
+			<th>Mes</th>
+			<th>Total</th>
+			<th>Monto a pagar</th>
+			<th>A cta.</th>
+			<th>Responsable</th>
+			<th>Acciones</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in vm.details">
+				<td>{{ item.tower }}</td>
+				<td style="font-size: 12px;">{{ item.name }}</td>
+				<td>{{ item.client }}</td>
+				<td>{{ item.status }}</td>
+				<td>{{ item.month }}</td>
+				<td>S/. {{ item.total }}</td>
+				<td>
+					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento' || item.total == 0">-</label>
+					<input type="text" class="form-control input-sm" ng-model="item.payed" ng-show="item.status == 'Pending' && item.total != 0">
+				</td>
+				<td>
+					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento' || item.total == 0 ">-</label>
+					<div ng-show="item.status == 'Pending'">{{ item.total - item.payed | number: 2 }}</div>
+				</td>
+				<td>
+					<label ng-show="item.total == 0">-</label>
+					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento'">{{ item.paymentOwner }}</label>
+					<input type="text" class="form-control" ng-show="item.status == 'Pending' && item.total != 0" ng-model="item.paymentOwner">				
+				</td>
+				<td>
+					<label ng-show="item.total == 0">No hay deuda</label>
+					<label ng-show="item.status == 'Pagado'">Cancelado</label>
+					<a href="3" ng-show="item.status == 'Refinanciamiento'">Refinanciamiento</a>
+					<button class="btn btn-info" ng-click="vm.confirmPay(item)" ng-show="item.status == 'Pending' && item.total != 0">Pagar</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</section> 	

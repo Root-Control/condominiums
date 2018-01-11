@@ -71,7 +71,7 @@ exports.getTotalsByMonths = async (req, res) => {
   department = await Agreements.getDepartmentByAgreement(fullUser.client._id);
 
   for(let i = 1; i<13; i++) {
-    let name = getMonthName(i);
+    let name = this.getMonthName(i);
     let total = 0;
     let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId._id, i);
     let details = await this.getDetailsByHeader(header);
@@ -190,7 +190,7 @@ exports.bill_sale_detailByID = function (req, res, next, id) {
 };
 
 
-function getMonthName(month) {
+exports.getMonthName = function (month) {
   switch(month) {
     case 1:
       return 'Enero';

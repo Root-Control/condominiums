@@ -58,7 +58,16 @@
         data: {
           roles: ['superadmin', 'admin', 'c-admin']
         }       
-      })      
+      })
+      .state('payment-monthly', {
+        url: '/dashboard/payment-monthly',
+        templateUrl: '/modules/core/client/views/dashboard/payment-monthly.client.view.html',
+        controller: 'MonthlyPaymentRegisterController',
+        controllerAs: 'vm',
+        data: {
+          roles: ['superadmin', 'admin', 'c-admin']
+        }       
+      })            
       .state('not-found', {
         url: '/not-found',
         templateUrl: '/modules/core/client/views/404.client.view.html',

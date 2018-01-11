@@ -21,6 +21,10 @@ var Bill_sale_headerSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
+  paymentOwner: {
+    type: String,
+    default: ''
+  },
   month: {
     type: Number,
     trim: true

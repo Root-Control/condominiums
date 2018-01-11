@@ -10,6 +10,6 @@
   function ServicesListController(ServicesService) {
     var vm = this;
 
-    vm.services = ServicesService.query();
+    vm.services = ServicesService.query({ active: true });
   }
 }());

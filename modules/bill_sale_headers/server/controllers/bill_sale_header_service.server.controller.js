@@ -42,6 +42,15 @@ exports.getHeaderIdByDepartmentAndMonth = (departmentId, month, year) => {
 	});
 };
 
+exports.getCustomHeadersByDepartments = (departmentId, options) => {
+	return new Promise((resolve, reject) => {
+	options.department = departmentId;
+		Bill_sale_header.find(options, (err, headers) => {
+			if(err) reject(err);
+			else resolve(headers);
+		});
+	});
+};
 /**
  * Update Header status
  */
@@ -52,9 +61,10 @@ exports.updateHeaderStatus = async (req, res) => {
 		amountPayed: req.body.amountPayed,
 		difference: req.body.difference
 	};
-	let status = req.body.difference > 0 ? 'Parcialmente pagado': 'Pagado';
+	let paymentOwner = req.body.paymentOwner;
+	let status = req.body.difference > 0 ? 'Refinanciamiento': 'Pagado';
 	let id = req.body.billHeader;
-  Bill_sale_header.findOneAndUpdate({ _id: id }, { $set: { status: 'Pagado' } }, { new: false }, async (err, result) => {
+  Bill_sale_header.findOneAndUpdate({ _id: id }, { $set: { status: status, paymentOwner: paymentOwner } }, { new: false }, async (err, result) => {
     if (err) console.log(err);
     else {
     	await Payment.create(paymentBody);
