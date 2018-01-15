@@ -37,7 +37,6 @@
       swal('Error...', message + '!', 'error');
     };
 
-
     return {
       confirmAction: me.confirmAction,
       successMessage: me.successMessage,

@@ -35,8 +35,8 @@
     };
 
     me.paymentDetails = function(data, options) {
-      let allmonths = '';
-      let status = '';
+      var allmonths = '';
+      var status = '';
       console.log(data);
       if(data.status) status = '&status=' + data.status;
       if(data.allmonths) allmonths = '&allmonths=' + data.allmonths;
