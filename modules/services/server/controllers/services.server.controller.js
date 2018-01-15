@@ -45,13 +45,16 @@ exports.read = function (req, res) {
 /**
  * Update an service
  */
-exports.update = function (req, res) {
+exports.update = async (req, res) => {
   var service = req.service;
 
   service.name = req.body.name;
   service.type = req.body.type;
   service.condominium = req.body.condominium;
   service.globalIdentifier = req.body.globalIdentifier;
+  service.active = req.body.active;
+
+  await Supplie.listAndUpdateSupplieStatus(service._id, req.body.active);
 
   service.save(function (err) {
     if (err) {

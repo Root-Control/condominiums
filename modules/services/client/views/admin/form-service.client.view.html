@@ -36,6 +36,10 @@
             <p class="help-block error-text" ng-message="required">Este campo es obligatorio.</p>
           </div>
         </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="deactivate" ng-model="vm.service.active">
+            <label class="form-check-label" for="deactivate">Servicio Activo</label>
+        </div>  
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.service._id ? 'Actualizar' : 'Crear'}}</button>
         </div>

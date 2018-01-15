@@ -51,6 +51,7 @@ exports.update = function (req, res) {
   payment.amountPayed = req.body.amountPayed;
   payment.amountPayment = req.body.amountPayment;
   payment.difference = req.body.difference;
+  payment.transactionNumber = req.body.transactionNumber;
 
   payment.save(function (err) {
     if (err) {
@@ -159,6 +160,8 @@ exports.requestPaymentData = async (req, res) => {
 
     for(let i = 0; i < headers.length; i ++) {
       let details = await BillDetails.getDetailsByHeader(headers[i]._id);
+      let existentPayment = await this.getPaymentByHeaderId(headers[i]._id);
+
 
       for(let x = 0; x < details.length; x++) {
         totalAmount = totalAmount + details[x].totalAmount;
@@ -172,6 +175,9 @@ exports.requestPaymentData = async (req, res) => {
       departmentData.client = fullName;
       departmentData.status = headers[i].status;
       departmentData.paymentOwner = headers[i].paymentOwner;
+
+      departmentData.transactionNumber = existentPayment ? existentPayment.transactionNumber : '';
+      departmentData.difference = existentPayment ? existentPayment.difference : '';
 
       responseData.push(departmentData);
       departmentData = {};
@@ -201,3 +207,11 @@ function setYearAndMonth(month) {
   }
   return { month: last_month, year: last_year };
 }
+
+exports.getPaymentByHeaderId = async id => {
+  return new Promise((resolve, reject) => {
+    Payment.findOne({ billHeader: id }).exec(function (err, payment) {
+      resolve(payment);
+    });
+  });
+};

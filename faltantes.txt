@@ -6,15 +6,19 @@
 //	0.- Parsear todos los datos en el recibo
 //	1.- Generar pagos
 
-9.- Fix servicio de empleados
-2.- Separar las boletas por condominio, grupo, torre
-3.- Menu Dashboard
-4.- Se deben registrar obligatoriamente los suministros
-6.- Cron Anual de generacion de pagos
-7.- Implementar recibo, separar los tipos (grupo, torre, global, individual)
-8.- Modulo Configuración (nro cuenta, web, etc)
-9.- Registrar los servicios de años pasados...
-Servicios Activos, inactivos para servicios globales del año 2015-2017.
+
+2.- Activable - desactivable services & supplies
+3.- Nuevo item (Refinanciamiento)
+
+4.- Fix servicio de empleados
+5.- Separar las boletas por condominio, grupo, torre
+6.- Menu Dashboard
+7.- Se deben registrar obligatoriamente los suministros
+8.- Cron Anual de generacion de pagos
+9.- Implementar recibo, separar los tipos (grupo, torre, global, individual)
+10.- Modulo Configuración (nro cuenta, web, etc)
+11.- Registrar los servicios de años pasados...
+12.- Servicios Activos, inactivos para servicios globales del año 2015-2017.
 
 
 Fix

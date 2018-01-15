@@ -22,7 +22,7 @@
           confirmButtonText: 'Si, continuar!',
           confirmButtonClass: 'btn btn-success',
           cancelButtonClass: 'btn btn-danger'
-        }).then((result) => {
+        }).then(function (result) {
           if (result.value)  resolve();
           else if (result.dismiss === 'cancel') swal('Acción cancelada', 'No se realizaron cambios!', 'error');
         });

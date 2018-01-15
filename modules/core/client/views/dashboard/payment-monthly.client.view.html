@@ -32,6 +32,7 @@
 			<th>Monto a pagar</th>
 			<th>A cta.</th>
 			<th>Responsable</th>
+			<th>Nro Trans.</th>
 			<th>Acciones</th>
 		</thead>
 		<tbody>
@@ -47,7 +48,8 @@
 					<input type="text" class="form-control input-sm" ng-model="item.payed" ng-show="item.status == 'Pending' && item.total != 0">
 				</td>
 				<td>
-					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento' || item.total == 0 ">-</label>
+					<label ng-show="item.status == 'Pagado' || item.total == 0 ">-</label>
+					<label ng-show="item.status == 'Refinanciamiento'">{{ item.differente }}</label>
 					<div ng-show="item.status == 'Pending'">{{ item.total - item.payed | number: 2 }}</div>
 				</td>
 				<td>
@@ -56,12 +58,36 @@
 					<input type="text" class="form-control" ng-show="item.status == 'Pending' && item.total != 0" ng-model="item.paymentOwner">				
 				</td>
 				<td>
+					<label ng-show="item.total == 0">-</label>
+					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento'">{{ item.transactionNumber }}</label>	<input type="text" class="form-control" ng-show="item.status == 'Pending' && item.total != 0" ng-model="item.transactionNumber">	
+				</td>
+				<td>
 					<label ng-show="item.total == 0">No hay deuda</label>
 					<label ng-show="item.status == 'Pagado'">Cancelado</label>
-					<a href="3" ng-show="item.status == 'Refinanciamiento'">Refinanciamiento</a>
+					<a href="#" ng-show="item.status == 'Refinanciamiento'" data-toggle="modal" data-target="#refinance">Refinanciamiento</a>
 					<button class="btn btn-info" ng-click="vm.confirmPay(item)" ng-show="item.status == 'Pending' && item.total != 0">Pagar</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 </section> 	
+
+<div id="refinance" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Panel de refinanciamiento.</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

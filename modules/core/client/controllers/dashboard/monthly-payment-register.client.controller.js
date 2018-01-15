@@ -32,7 +32,9 @@
               vm.detailObject.total = response.data[i].total;
               vm.detailObject.tower = response.data[i].tower;
               vm.detailObject.paymentOwner = response.data[i].paymentOwner;
+              vm.detailObject.transactionNumber = response.data[i].transactionNumber;
               vm.detailObject.payed = 0;
+              vm.detailObject.difference = response.data[i].difference;
               vm.details.push(vm.detailObject);
               vm.detailObject = {};
             }
@@ -59,7 +61,7 @@
 
   vm.pay = function(item) {
     vm.difference = (item.total - item.payed).toFixed(2);
-    vm.data = { billHeader: item.headerId, amountPayment: item.total, amountPayed: item.payed , difference: vm.difference, paymentOwner: item.paymentOwner };
+    vm.data = { billHeader: item.headerId, amountPayment: item.total, amountPayed: item.payed , difference: vm.difference, paymentOwner: item.paymentOwner, transactionNumber: item.transactionNumber };
     Pay.pay(vm.data, {
       success: function(response) {
         Messages.successMessage('Se cancelo el pago correctamente!');

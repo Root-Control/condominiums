@@ -26,7 +26,11 @@ var PaymentSchema = new Schema({
   difference: {
     type: Number,
     default: 0
-  }, 
+  },
+  transactionNumber: {
+    type: String,
+    default: ''
+  },
   billHeader: {
     type: Schema.ObjectId,
     ref: 'Bill_sale_header'

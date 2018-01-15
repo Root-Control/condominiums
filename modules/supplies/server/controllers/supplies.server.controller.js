@@ -121,9 +121,9 @@ exports.list = function (req, res) {
   if (req.query.type) {
     query.type = parseInt(req.query.type, 10);
     query.condominium = req.query.condominium;
+    query.active = true;
   }
-  console.log(query);
-    Supplie.find(query).sort('-created').populate('user', 'displayName').exec(function (err, supplies) {
+  Supplie.find(query).sort('-created').populate('user', 'displayName').exec(function (err, supplies) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -155,5 +155,22 @@ exports.supplieByID = function (req, res, next, id) {
     }
     req.supplie = supplie;
     next();
+  });
+};
+
+exports.listAndUpdateSupplieStatus = (serviceId, status) => {
+  return new Promise(async (resolve, reject) => {
+    Supplie.find().exec(async(err, supplies) => {
+      if(err) reject(err);
+      else {
+        for(let i = 0; i < supplies.length; i++) {
+          if(supplies[i].serviceId.toString() == serviceId.toString()) {
+            supplies[i].active = status;
+            await supplies[i].save();
+          }
+        }
+        resolve();
+      }
+    });
   });
 };

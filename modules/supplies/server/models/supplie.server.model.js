@@ -47,6 +47,10 @@ var SupplieSchema = new Schema({
   serviceName: {
     type: String
   },
+  active: {
+    type: Boolean,
+    default: true
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'

@@ -59,7 +59,8 @@ exports.updateHeaderStatus = async (req, res) => {
 		billHeader: req.body.billHeader,
 		amountPayment: req.body.amountPayment,
 		amountPayed: req.body.amountPayed,
-		difference: req.body.difference
+		difference: req.body.difference,
+		transactionNumber: req.body.transactionNumber
 	};
 	let paymentOwner = req.body.paymentOwner;
 	let status = req.body.difference > 0 ? 'Refinanciamiento': 'Pagado';
