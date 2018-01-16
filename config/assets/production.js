@@ -25,11 +25,9 @@ module.exports = {
         'public/lib/angular-ui-router/release/angular-ui-router.min.js',
         'public/lib/ng-file-upload/ng-file-upload.min.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
-        'public/lib/condominio/js/plugins/jquery/jquery.min.js',
-        'public/lib/condominio/js/plugins/jquery/jquery-ui.min.js',
-        'public/lib/condominio/js/plugins/bootstrap/bootstrap.min.js',
-        'public/lib/condominio/js/plugins.js',
-        'public/lib/condominio/js/actions.js',
+        'public/lib/jquery/dist/jquery.min.js',
+        'public/lib/jquery-ui/jquery-ui.min.js',
+        'public/lib/bootstrap/dist/js/bootstrap.min.js',
         'public/lib/sweetalert2/dist/sweetalert2.js',
         // endbower
       ]
