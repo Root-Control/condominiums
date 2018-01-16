@@ -65,6 +65,7 @@ exports.getBillPayment = async (req, res) => {
 exports.getTotalsByMonths = async (req, res) => {
   let totalMonths = [];
   let month = req.query.month;
+  let year = req.query.year || 2018;
   let department;
   let fullUser;
   fullUser = await Users.userClientPopulation(req.user);
@@ -73,7 +74,7 @@ exports.getTotalsByMonths = async (req, res) => {
   for(let i = 1; i<13; i++) {
     let name = this.getMonthName(i);
     let total = 0;
-    let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId._id, i);
+    let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId._id, i, year);
     let details = await this.getDetailsByHeader(header);
     details.forEach((key) => {
       total = total + key.totalAmount;

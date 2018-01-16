@@ -33,7 +33,7 @@ exports.getHeadersByDepartments = async (departments, month) => {
 
 exports.getHeaderIdByDepartmentAndMonth = (departmentId, month, year) => {
 	month = parseInt(month, 10);
-	if(!year) year = 2017;
+	if(!year) year = 2018;
 	return new Promise(async (resolve, reject) => {
 		Bill_sale_header.findOne({ department: departmentId, month: month, year: year }, (err, header) => {
 			console.log(header);

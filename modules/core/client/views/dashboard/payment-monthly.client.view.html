@@ -45,27 +45,27 @@
 				<td>S/. {{ item.total }}</td>
 				<td>
 					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento' || item.total == 0">-</label>
-					<input type="text" class="form-control input-sm" ng-model="item.payed" ng-show="item.status == 'Pending' && item.total != 0">
+					<input type="text" class="form-control input-sm" ng-model="item.payed" ng-show="item.status == 'Pendiente' && item.total != 0">
 				</td>
 				<td>
 					<label ng-show="item.status == 'Pagado' || item.total == 0 ">-</label>
 					<label ng-show="item.status == 'Refinanciamiento'">{{ item.differente }}</label>
-					<div ng-show="item.status == 'Pending'">{{ item.total - item.payed | number: 2 }}</div>
+					<div ng-show="item.status == 'Pendiente'">{{ item.total - item.payed | number: 2 }}</div>
 				</td>
 				<td>
 					<label ng-show="item.total == 0">-</label>
 					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento'">{{ item.paymentOwner }}</label>
-					<input type="text" class="form-control" ng-show="item.status == 'Pending' && item.total != 0" ng-model="item.paymentOwner">				
+					<input type="text" class="form-control" ng-show="item.status == 'Pendiente' && item.total != 0" ng-model="item.paymentOwner">				
 				</td>
 				<td>
 					<label ng-show="item.total == 0">-</label>
-					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento'">{{ item.transactionNumber }}</label>	<input type="text" class="form-control" ng-show="item.status == 'Pending' && item.total != 0" ng-model="item.transactionNumber">	
+					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento'">{{ item.transactionNumber }}</label>	<input type="text" class="form-control" ng-show="item.status == 'Pendiente' && item.total != 0" ng-model="item.transactionNumber">	
 				</td>
 				<td>
 					<label ng-show="item.total == 0">No hay deuda</label>
 					<label ng-show="item.status == 'Pagado'">Cancelado</label>
 					<a href="#" ng-show="item.status == 'Refinanciamiento'" data-toggle="modal" data-target="#refinance">Refinanciamiento</a>
-					<button class="btn btn-info" ng-click="vm.confirmPay(item)" ng-show="item.status == 'Pending' && item.total != 0">Pagar</button>
+					<button class="btn btn-info" ng-click="vm.confirmPay(item)" ng-show="item.status == 'Pendiente' && item.total != 0">Pagar</button>
 				</td>
 			</tr>
 		</tbody>

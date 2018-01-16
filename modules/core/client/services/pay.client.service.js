@@ -11,7 +11,7 @@
     var me = this;
     me.calculatePay = function(month, year, departmentId, options) {
       var query;
-      if(!year) year = 2017;
+      if(!year) year = 2018;
       if(departmentId === null) query = '?month=' + month + '&year=' + year;
       else query = '?month=' + month + '&departmentId=' + departmentId + '&year=' + year;
 

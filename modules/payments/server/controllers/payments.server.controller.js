@@ -126,7 +126,7 @@ exports.requestPaymentData = async (req, res) => {
   let options = {};
   let departmentData = {};
   let current_month = '';
-  let status = 'Pending';
+  let status = 'Pendiente';
   let today = moment().format('M');
   let responseData = [];
   let fullName = '';
