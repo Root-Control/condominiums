@@ -27,6 +27,9 @@ module.exports = {
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/condominio/js/plugins/jquery/jquery.min.js',
         'public/lib/condominio/js/plugins/jquery/jquery-ui.min.js',
+        'public/lib/condominio/js/plugins/bootstrap/bootstrap.min.js',
+        'public/lib/condominio/js/plugins.js',
+        'public/lib/condominio/js/actions.js',        
         'public/lib/sweetalert2/dist/sweetalert2.js',
         // endbower
       ]
