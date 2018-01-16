@@ -24,11 +24,14 @@
       "main": [
         "dist/css/bootstrap.css",
         "dist/css/bootstrap-theme.css",
-        "less/bootstrap.less"
+        "less/bootstrap.less",
+        "dist/js/bootstrap.min.js"
       ]
     },
     "jquery": {
-      "main": []
+      "main": [
+        "dist/jquery.min.js"
+      ]
     }
   },
   "devDependencies": {

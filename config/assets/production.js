@@ -23,12 +23,12 @@ module.exports = {
         'public/lib/angular-resource/angular-resource.min.js',
         'public/lib/angular-ui-notification/dist/angular-ui-notification.min.js',
         'public/lib/angular-ui-router/release/angular-ui-router.min.js',
+        'public/lib/jquery/dist/jquery.min.js',
+        'public/lib/bootstrap/dist/js/bootstrap.min.js',
         'public/lib/ng-file-upload/ng-file-upload.min.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
-        'public/lib/jquery/dist/jquery.min.js',
+        'public/lib/sweetalert2/dist/sweetalert2.min.js',
         'public/lib/jquery-ui/jquery-ui.min.js',
-        'public/lib/bootstrap/dist/js/bootstrap.min.js',
-        'public/lib/sweetalert2/dist/sweetalert2.js',
         // endbower
       ]
     },
