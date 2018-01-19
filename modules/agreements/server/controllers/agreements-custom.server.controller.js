@@ -30,7 +30,7 @@ exports.getUserContract = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });      
     } else {
-      if(agreements.length > 0)       res.json({ exists: true });
+      if(agreements.length > 0) res.json({ exists: true });
       else res.json({ exists: false });
     }
   });
