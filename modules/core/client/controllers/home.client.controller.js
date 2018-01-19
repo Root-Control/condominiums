@@ -48,7 +48,7 @@
       vm.personalServices = [];
       vm.groupServices = [];
       vm.globalServices = [];
-      Pay.calculatePay(month, 2017, null, {
+      Pay.calculatePay(month, 2018, null, {
         success: function(response) {
           vm.information = response.data.informative;
           vm.lastConsume = response.data.lastConsume;
