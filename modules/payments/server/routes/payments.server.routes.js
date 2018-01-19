@@ -14,6 +14,9 @@ module.exports = function (app) {
   app.route('/api/requestpaymentdata')
     .get(payments.requestPaymentData);
 
+  app.route('/api/generatepay')
+    .post(payments.generatePaymentToPdf);
+
   // Single payment routes
   app.route('/api/payments/:paymentId').all(paymentsPolicy.isAllowed)
     .get(payments.read)

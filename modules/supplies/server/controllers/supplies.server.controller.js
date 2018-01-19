@@ -84,6 +84,7 @@ exports.update = function (req, res) {
   supplie.serviceId = req.body.serviceId;
   supplie.entityId = req.body.entityId;
   supplie.typeSupply = req.body.typeSupply;
+  supplie.active = req.body.active;
 
   supplie.save(function (err) {
     if (err) {
@@ -120,15 +121,20 @@ exports.list = function (req, res) {
   let query = {};
   if (req.query.type) {
     query.type = parseInt(req.query.type, 10);
-    query.condominium = req.query.condominium;
+    //query.condominium = req.query.condominium;
     query.active = true;
   }
+  console.log(query);
   Supplie.find(query).sort('-created').populate('user', 'displayName').exec(function (err, supplies) {
     if (err) {
+      console.log('err');
+      console.log(err);
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      console.log('supplies');
+      console.log(supplies);
       res.json(supplies);
     }
   });

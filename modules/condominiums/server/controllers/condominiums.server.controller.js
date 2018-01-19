@@ -70,6 +70,7 @@ exports.updateCondominiumSupplies = async (req, res) => {
     key.entityId = condominiumId;
     key.condominium = condominiumId;
     key.type = key.typeSupply;
+    key.active = true;
   });
   console.log(supplies);
   await Supply.bulkSupplies(supplies);

@@ -28,6 +28,7 @@ exports.create = function (req, res) {
         key.supplyDescription = group.name;
         key.entityId = group._id;
         key.type = 2;
+        key.active = true;
         key.condominium = group.condominium;
       });
       await Supply.bulkSupplies(supplies);
@@ -74,6 +75,7 @@ exports.update = function (req, res) {
         key.supplyDescription = group.name;
         key.entityId = group._id;
         key.condominium = group.condominium;
+        key.active = true;
         key.type = 2;
       });
       await Supply.bulkSupplies(supplies);

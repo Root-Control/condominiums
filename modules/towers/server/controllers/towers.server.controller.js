@@ -30,6 +30,7 @@ exports.create = function (req, res) {
           key.supplyDescription = tower.name;
           key.entityId = tower._id;
           key.type = 3;
+          key.active = true;
           key.condominium = tower.groupAssigned.condominium;
         });
         await Supply.bulkSupplies(supplies);
@@ -78,6 +79,7 @@ exports.update = function (req, res) {
           key.supplyDescription = tower.name;
           key.entityId = tower._id;
           key.condominium = tower.groupAssigned.condominium;
+          key.active = true;
           key.type = 3;
         });
         await Supply.bulkSupplies(supplies);

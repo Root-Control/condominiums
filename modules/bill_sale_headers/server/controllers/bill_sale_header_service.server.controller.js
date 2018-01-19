@@ -77,3 +77,48 @@ exports.updateHeaderStatus = async (req, res) => {
  /**
  * Update Header status
  */
+
+
+ exports.getBillByMonthAndYear = (month, year, options) => {
+  	let headers;
+ 	return new Promise(async (resolve, reject) => {
+ 		if(options = {} || !options) headers = await this.getAllBills(month, year);
+ 		if(options.towerId) headers = await this.getAllBillsByTowerId(month, year, towerId);
+ 		if(options.groupId) headers = await this.getAllBillsByGroupId(month, year, groupId);
+ 		if(options.departamentId) headers = await this.getBillByDepartmentId(month, year, departmentId);
+ 		resolve(headers);
+ 	});
+
+ 	//	Casos
+ 	//	Si solo elige descargar, se descarga todo
+ 	//	Si elige descargar por torre
+ 	//	Si elige descargar por grupo
+ 	//	Si elige por un grupo en específico
+ 	//	Si elige por una torre en específica
+ 	//	Si elige por un departamento en específico
+ }
+
+
+ exports.getAllBills = (month, year) => {
+ 	return new Promise( async (resolve, reject) => {
+	  	Bill_sale_header.find({ month: month, year: year }, async(err, result) => {
+	  		if(err) reject(err);
+	  		else resolve(result);
+	 	});		
+	  })
+ };
+
+ exports.getAllBillsByGroupId = async (month, year, groupId) => {
+ 	//	Obtener el grupo y buscar todas sus torres
+ 	//	De todas las torres buscar todos los departamentos
+ 	//	De todos los departamentos buscar sus cabeceras por mes y año
+ };
+
+ exports.getAllBillsByTowerId = async (month, year, towerId) => {
+ 	//	De la torre buscar todos sus departamentos
+ 	//	De todos los departamentos buscar sus cabeceras por mes y año
+ };
+
+ exports.getBillByDepartmentId = async (month, year, departmentId) => {
+ 	//	Del departamento buscar su cabecera por mes y año
+ };

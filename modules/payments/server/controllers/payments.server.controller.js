@@ -189,8 +189,35 @@ exports.requestPaymentData = async (req, res) => {
   res.json(responseData);
 };
 
-exports.generatePaymentToPdf = async (type, month) => {
+exports.generatePaymentToPdf = async (req, res) => {
+  let groupAvgSypply,
+    bills = [],
+    towerDetails = [],
+    groupDetails = [],
+    personalDetails = [],
+    condominiumDetails = [],
+    agreement,
+    headers,
+    details,
+    month;
+
+  headers = await BillHeader.getBillByMonthAndYear(req.body.month, req.body.year);
+
+
+  for(let i = 0; i< headers.length; i++) {
+    month = await BillDetails.getMonthName(req.body.month);
+    agreement = await Agreement.getAgreementByDepartment(headers[i].department);
+    details =  await BillDetails.getDetailsByHeader(headers[i]._id);
+  }
+  console.log(details);
+  //  Iterar cabeceras,  buscar contratos por cada cabecera
+
+
+
+  res.json(details);
   //  Types -> 1.- Global, 2- Grupal, 3.- Torre, 4.- Departamento , 5.- Personal (global)
+  //  Obtener todas las cabeceras del mes
+
 };
 
 function setYearAndMonth(month) {

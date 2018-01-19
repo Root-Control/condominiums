@@ -48,6 +48,7 @@
         vm.supply.typeSupply = vm.towerIdentifier;
         vm.supply.serviceId = key._id;
         vm.supply.entityId = '';
+        vm.supply.active = true;
         vm.supplyCreator.push(vm.supply);
         vm.supply = {};
       });
