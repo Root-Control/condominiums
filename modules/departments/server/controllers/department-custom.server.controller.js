@@ -137,30 +137,3 @@ let search = async (code) => {
     }).populate('tower', 'name');
   });
 };
-
-
-function listDepartments2(id) {
-  return new Promise((resolve, reject) => {
-    Department.find({ _id: id }).sort('-created').select('_id').exec(function (err, departments) {
-      resolve(departments.length);
-    });
-  });
-}
-
-
-var Keys2 = mongoose.model('Key');
-function keys() {
-  return new Promise((resolve, reject) => {
-    Keys2.find().exec(async function (err, keys) {
-      for(var i = 0 ; i < keys.length; i++) {
-        let existent = await listDepartments2(keys[i].department);
-        if(existent > 0) console.log('existe');
-        if(existent == 0) {
-          keys[i].remove();
-          console.log('no existe');
-        }
-      }
-    });
-  });
-}
-keys();
