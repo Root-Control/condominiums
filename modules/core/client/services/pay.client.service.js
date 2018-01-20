@@ -38,11 +38,13 @@
     me.paymentDetails = function(data, options) {
       var allmonths = '';
       var status = '';
-      console.log(data);
+      var year = '';
+
       if(data.status) status = '&status=' + data.status;
       if(data.allmonths) allmonths = '&allmonths=' + data.allmonths;
+      if(data.year) year = '&year=' + data.year;
 
-      $http.get('/api/requestpaymentdata?code=' + data.code + status + allmonths)
+      $http.get('/api/requestpaymentdata?code=' + data.code + status + allmonths + year)
         .then(options.success, options.error);
     };
 
