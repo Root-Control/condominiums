@@ -10,8 +10,8 @@ module.exports = {
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
         'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
-        'public/lib/condominio/css/theme-default.css',
         'public/lib/sweetalert2/dist/sweetalert2.css',
+        'public/lib/components-font-awesome/css/font-awesome.css'
         // endbower
       ],
       js: [
