@@ -7,14 +7,26 @@ var path = require('path'),
   mongoose = require('mongoose'),
   Client = mongoose.model('Client'),
   User = require(path.resolve('./modules/users/server/controllers/users/users.authentication.server.controller')),
+  UserValidate = require(path.resolve('./modules/users/server/controllers/users/users.custom-queries.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
  * Create an client
  */
-exports.create = function (req, res) {
+exports.create = async (req, res) => {
   var client = new Client(req.body);
   client.user = req.user;
+
+  let data = {};
+  data.username = client.document;
+  data.email = client.email;
+  let exists = await UserValidate.validateAvailableUser(data);
+
+  if(exists) {
+    return res.status(422).send({
+        message: 'No se puede crear el usuario, por favor verifica dni o email'
+      });
+  }
 
   client.save(function (err) {
     if (err) {

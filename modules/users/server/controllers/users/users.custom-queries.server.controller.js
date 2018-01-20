@@ -16,3 +16,12 @@ exports.userClientPopulation = async user => {
   });
 };
 
+exports.validateAvailableUser = async data => {
+	return new Promise((resolve, reject) => {
+		User.find( { $or:[ { 'username': data.username }, { 'email': data.email }]}, function(err, users) {
+			if(users.length > 0) resolve(true);
+			else resolve(false);
+		});
+	});
+ };
+
