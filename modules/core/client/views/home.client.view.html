@@ -23,7 +23,7 @@
 
   .detail-pay {
       color: #fff !important;
-      background-color: #000 !important;  
+      background: #403b62 !important;
       padding: 5px 15px !important; 
   }
   .items thead th{
@@ -74,7 +74,7 @@
     <h3>SISTEMA DE CONTROL DE CONDOMINIOS</h3>
   </div>
 
-    <div class="row">
+    <div class="row" ng-show="vm.authentication.user.roles == 'user'">
         <div class="form-group col-md-2 col-sm-12">
             <label for="">Selecciona el año:</label>
             <select name="" id="" class="form-control" ng-model="vm.yearSelected" ng-options="obj.text as obj.value for obj in vm.years" ng-change="vm.getTotals()">

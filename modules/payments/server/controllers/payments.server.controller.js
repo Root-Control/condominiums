@@ -175,6 +175,7 @@ exports.requestPaymentData = async (req, res) => {
       departmentData.client = fullName;
       departmentData.status = headers[i].status;
       departmentData.paymentOwner = headers[i].paymentOwner;
+      departmentData.year = headers[i].year;
 
       departmentData.transactionNumber = existentPayment ? existentPayment.transactionNumber : '';
       departmentData.difference = existentPayment ? existentPayment.difference : '';
