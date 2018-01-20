@@ -74,6 +74,17 @@
     <h3>SISTEMA DE CONTROL DE CONDOMINIOS</h3>
   </div>
 
+    <div class="row">
+        <div class="form-group col-md-2 col-sm-12">
+            <label for="">Selecciona el año:</label>
+            <select name="" id="" class="form-control" ng-model="vm.yearSelected" ng-options="obj.text as obj.value for obj in vm.years" ng-change="vm.getTotals()">
+                
+            </select>
+        </div>        
+    </div>
+    <br/>
+
+
   <div class="alert alert-danger" role="alert" ng-show="!vm.contract" style="color: #af4342">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span class="sr-only">Error:</span>

@@ -13,6 +13,10 @@
     vm.authentication = Authentication;
     vm.contract = true;
 
+    vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 } ];
+
+    vm.yearSelected = 2018;
+
     vm.chargeMonths = function() {
       Pay.verifyContract({
         success: function(response) {
@@ -26,7 +30,7 @@
     };
 
     vm.getTotals = function() {
-      Pay.getTotals({
+      Pay.getTotals(vm.yearSelected, {
         success: function(response) {
           vm.userData = true;
           vm.months = response.data;
@@ -48,7 +52,7 @@
       vm.personalServices = [];
       vm.groupServices = [];
       vm.globalServices = [];
-      Pay.calculatePay(month, 2018, null, {
+      Pay.calculatePay(month, vm.yearSelected, null, {
         success: function(response) {
           vm.information = response.data.informative;
           vm.lastConsume = response.data.lastConsume;

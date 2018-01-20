@@ -7,7 +7,11 @@
 //	1.- Generar pagos
 
 
-2.- Activable - desactivable services & supplies
+
+1.- Crear indices bill_sale_headers  -> db.bill_sale_headers.dropIndexes()
+https://docs.mongodb.com/manual/tutorial/manage-indexes/
+
+
 3.- Nuevo item (Refinanciamiento)
 
 4.- Fix servicio de empleados

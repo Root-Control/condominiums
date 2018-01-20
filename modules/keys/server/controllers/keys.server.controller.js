@@ -24,6 +24,18 @@ exports.create = function (keys) {
   });
 };
 
+exports.findKeyAndRemove = async id => {
+  console.log(id);
+  return new Promise((resolve, reject) => {
+    Key.findOne({ department: id }).exec(async (err, key) => {
+      key.remove(async (err, result) => {
+        if(err) reject();
+        else resolve();
+      });
+    }); 
+  });
+};
+
 exports.getDataDepartmentsByGroup = identifier => {
   let data = {};
   let departments = [];

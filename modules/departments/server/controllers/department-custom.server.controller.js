@@ -18,6 +18,9 @@ let path = require('path'),
 exports.generateBill = async function (req, res) {
   let current_month =  moment().format('M');
   let current_year =  moment().format('Y');
+
+  let year = req.query.year;
+  if(!year) year = current_year;
   current_month = 0;
 
   let departments = await listDepartments();
@@ -33,11 +36,12 @@ exports.generateBill = async function (req, res) {
       dep.status = 'Pendiente';
       dep.department = departments[x]._id;
       dep.month = i;
-      dep.year = parseInt(current_year, 10);
-      dep.due_date = new Date(current_year + '-' + i + '-' + '25');
+      dep.year = parseInt(year, 10);
+      dep.due_date = new Date(year + '-' + i + '-' + '25');
       arrayDepartment.push(dep);
       dep = {};
     }
+    console.log(arrayDepartment);
     Bill.dumpHeaders(arrayDepartment, function (){
       x++;
       if(x < departments.length) {

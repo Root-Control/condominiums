@@ -71,7 +71,7 @@ exports.update = function (req, res) {
   department.floor = req.body.floor;
   department.tower = req.body.tower;
 
-  department.save(function (err) {
+  department.save(async err =>{
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -88,12 +88,13 @@ exports.update = function (req, res) {
 exports.delete = function (req, res) {
   var department = req.department;
 
-  department.remove(function (err) {
+  department.remove(async err =>{
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      await Keys.findKeyAndRemove(department._id)
       res.json(department);
     }
   });

@@ -31,7 +31,7 @@ var Bill_sale_headerSchema = new Schema({
   },
   year: {
     type: Number,
-    default: 2017
+    default: 2018
   },
   due_date: {
     type: Date,
@@ -47,6 +47,6 @@ var Bill_sale_headerSchema = new Schema({
   }
 });
 
-Bill_sale_headerSchema.index({ department: 1, month: 1 }, { unique: true });
+Bill_sale_headerSchema.index({ department: 1, month: 1, year: 1 }, { unique: true });
 
 mongoose.model('Bill_sale_header', Bill_sale_headerSchema);

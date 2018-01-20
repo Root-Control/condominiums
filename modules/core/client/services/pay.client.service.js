@@ -19,8 +19,9 @@
       .then(options.success, options.error);
     };
 
-    me.getTotals = function(options) {
-      $http.get('/api/gettotals')
+    me.getTotals = function(year, options) {
+      var query = year ? '?year=' + year : '';
+      $http.get('/api/gettotals' + query)
         .then(options.success, options.error);
     };
 
