@@ -8,11 +8,7 @@
 
 
 
-//	Año en consumo
 //	Registrados aparezcan (pero monto registrado)
-//	En listar consumos q aparezca toda su data (año mes)
-//	No aparecen servicios grupales
-//  borrar consumos ( masivamente)
 //	Cuando registres consumos, que aparescan los qu eno estan registrados.
 
 

@@ -159,6 +159,9 @@ exports.service_consumptionByID = function (req, res, next, id) {
 
 let createTransaction = async (consumed, user) => {
   return new Promise(async (resolve, reject) =>{
+    let year = parseInt(consumed.year, 10);
+    console.log('AÑOOOOOOOOO');
+    console.log(year);
     let globalIdentifier = consumed.globalIdentifier;
     let type = consumed.service.type;
     let qty_consumption = consumed.consumed || 0;
@@ -204,9 +207,7 @@ let createTransaction = async (consumed, user) => {
     let qtyDivision = data.qty;
     let totalAmount = twoDecimals(amount / data.qty);
 
-    console.log('departmentsToapply');
-    console.log(departmentsToapply);
-    let billHeaders = await BillHeader.getHeadersByDepartments(departmentsToapply, month);
+    let billHeaders = await BillHeader.getHeadersByDepartments(departmentsToapply, month, year);
 
     let x = 0;
     let detail = {};

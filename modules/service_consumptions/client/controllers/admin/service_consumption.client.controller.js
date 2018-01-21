@@ -21,6 +21,8 @@
       type: 'Grupo'
     };
 
+    console.log('2018-01-21T22:19:23.400Z');
+
     vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 } ];
 
     vm.yearSelected = 2018;

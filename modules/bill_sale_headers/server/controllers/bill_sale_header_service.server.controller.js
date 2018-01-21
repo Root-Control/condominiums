@@ -19,10 +19,11 @@ exports.dumpHeaders = (data, callback) => {
   });
 };
 
-exports.getHeadersByDepartments = async (departments, month) => {
+exports.getHeadersByDepartments = async (departments, month, year) => {
+	if(!year) year = 2018;
 	let headerArray = [];
 	return new Promise(async (resolve, reject) => {
-		await Bill_sale_header.find({ department: { $in: departments }, month: month }, (err, headers) => {
+		await Bill_sale_header.find({ department: { $in: departments }, month: month, year: year }, (err, headers) => {
 			for(let i = 0; i< headers.length; i++) {
 				headerArray.push(headers[i]._id);
 			}
@@ -36,7 +37,6 @@ exports.getHeaderIdByDepartmentAndMonth = (departmentId, month, year) => {
 	if(!year) year = 2018;
 	return new Promise(async (resolve, reject) => {
 		Bill_sale_header.findOne({ department: departmentId, month: month, year: year }, (err, header) => {
-			console.log(header);
 			resolve(header);
 		});
 	});

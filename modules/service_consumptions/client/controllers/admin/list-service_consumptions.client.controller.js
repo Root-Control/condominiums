@@ -11,7 +11,10 @@
     var vm = this;
 
     vm.service_consumptions = Service_consumptionsService.query();
-    console.log(vm.service_consumptions);
+
+    vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 } ];
+	vm.yearSelected = 2018;
+
 
     vm.deleteConsumption = function(id) {
     	Messages.confirmAction()
