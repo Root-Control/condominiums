@@ -15,6 +15,9 @@ module.exports = function (app) {
   app.route('/api/bulk/service_consumptions')
     .post(service_consumptions.bulkConsumption);
 
+  app.route('/api/service_consumptions/massivedelete/:id')
+    .delete(service_consumptions.deleteMassiveConsumptions);
+
   // Single service_consumption routes
   app.route('/api/service_consumptions/:service_consumptionId').all(service_consumptionsPolicy.isAllowed)
     .get(service_consumptions.read)

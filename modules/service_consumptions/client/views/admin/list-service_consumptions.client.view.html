@@ -7,19 +7,35 @@
       </a>
     </h1>
   </div>
-  <div class="list-group">
-    <a data-ng-repeat="service_consumption in vm.service_consumptions" data-ui-sref="admin.service_consumptions.edit({service_consumptionId: service_consumption._id})" class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span data-ng-bind="service_consumption.created | date:'mediumDate'"></span>
-        by
-        <span ng-if="service_consumption.user" ng-bind="service_consumption.user.displayName"></span>
-        <span ng-if="!service_consumption.user">Usuario Eliminado</span>
-      </small>
-      <h4 class="list-group-item-heading" data-ng-bind="service_consumption.service.name"></h4>
-      <p class="list-group-item-text" data-ng-bind="service_consumption.total"></p>
-    </a>
-  </div>
+  <table class="table table-responsive">
+    <thead>
+      <th>Año</th>
+      <th>Mes</th>
+      <th>Código</th>
+      <th>Suministro</th>
+      <th>Tipo de servicio</th>
+      <th>Usuario</th>
+      <th>Monto registrado</th>
+      <th>Acciones</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in vm.service_consumptions">
+        <td>{{ item.year }}</td>
+        <td>{{ item.month | monthName }}</td>
+        <td>{{ item.supplyCode }}</td>
+        <td>{{ item.serviceName }}</td>
+        <td>{{ item.type | serviceType }}</td>
+        <td>{{ item.user.displayName }}</td>
+        <td>{{ item.total }}</td>
+        <td>
+          <a href="#" ng-click="vm.deleteConsumption(item._id)">
+            <i class="glyphicon glyphicon-trash"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
   <div class="alert alert-warning text-center" data-ng-if="service_consumptions.$resolved && !service_consumptions.length">
     No service_consumptions yet, why don't you <a data-ui-sref="admin.service_consumptions.create">create one</a>?
   </div>

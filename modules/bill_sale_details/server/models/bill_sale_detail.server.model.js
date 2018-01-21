@@ -48,6 +48,10 @@ var Bill_sale_detailSchema = new Schema({
     type: Number,
     default: 0
   },
+  transaction_id: {
+    type: String,
+    default: ''
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'

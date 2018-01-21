@@ -8,6 +8,14 @@
 
 
 
+//	Año en consumo
+//	Registrados aparezcan (pero monto registrado)
+//	En listar consumos q aparezca toda su data (año mes)
+//	No aparecen servicios grupales
+//  borrar consumos ( masivamente)
+//	Cuando registres consumos, que aparescan los qu eno estan registrados.
+
+
 1.- Crear indices bill_sale_headers  -> db.bill_sale_headers.dropIndexes()
 https://docs.mongodb.com/manual/tutorial/manage-indexes/
 

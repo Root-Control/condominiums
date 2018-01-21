@@ -233,3 +233,12 @@ exports.getMonthName = function (month) {
       break;
   }
 }
+
+exports.deleteBillDetailTransaction = async id => {
+  return new Promise((resolve, reject) => {
+    Bill_sale_detail.remove({ transaction_id: id }).exec(async (err, details) => {
+      if(err) reject();
+      else resolve(details);
+    });
+  });
+};

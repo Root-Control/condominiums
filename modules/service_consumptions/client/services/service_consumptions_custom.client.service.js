@@ -14,8 +14,13 @@
       .then(options.success, options.error);
     };
 
+    me.deleteMassiveConsumptions = function(id, options) {
+      $http.delete('/api/service_consumptions/massivedelete/' + id)
+      .then(options.success, options.error);
+    };
     return {
-      bulkConsumption: me.bulkServiceConsumption
+      bulkConsumption: me.bulkServiceConsumption,
+      deleteMassiveConsumptions: me.deleteMassiveConsumptions
     }
   }
 }());

@@ -21,6 +21,10 @@
       type: 'Grupo'
     };
 
+    vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 } ];
+
+    vm.yearSelected = 2018;
+
     vm.typeConsumption = function (id, type) {
       vm.tabSelected.id = id;
       vm.tabSelected.type = type;
@@ -38,6 +42,7 @@
       vm.supplies.$promise.then(function (data) {
         for (var i = 0; i < data.length; i++) {
           vm.consumption.supplyCode = data[i].supplyCode;
+          vm.consumption.year = vm.yearSelected;
           vm.consumption.serviceName = data[i].serviceName;
           vm.consumption.supplyDescription = data[i].supplyDescription;
           vm.consumption.globalIdentifier = data[i].entityId;
@@ -63,7 +68,7 @@
           for (var i = 0; i < vm.departments.length; i++) {
             vm.consumption.supplyCode = 'Servicio individual';
             vm.consumption.serviceName = vm.service[0].name;
-            vm.consumption.year = new Date().getFullYear();
+            vm.consumption.year = vm.yearSelected;
             vm.consumption.supplyDescription = vm.departments[i].code;
             vm.consumption.globalIdentifier = vm.departments[i]._id;
             vm.consumption.month = vm.month;
@@ -101,7 +106,6 @@
     vm.registerServices = function () {
       if (vm.tabSelected.id === 4 || vm.tabSelected.id === 5) {
         vm.verification = vm.servicesVerification();
-        console.log(vm.verification);
         if(!vm.verification) return false;
       }
 

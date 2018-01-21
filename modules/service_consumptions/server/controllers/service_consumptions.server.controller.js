@@ -211,8 +211,6 @@ let createTransaction = async (consumed, user) => {
     let x = 0;
     let detail = {};
     let iterateHeaders = function(headers) {
-      console.log('headers');
-      console.log(headers);
       detail = {
         user: user,
         supplyCode: supplyCode,
@@ -222,7 +220,8 @@ let createTransaction = async (consumed, user) => {
         totalAmount: totalAmount || 0,
         billHeader: headers[x],
         consumed: qty_consumption,
-        type: type
+        type: type,
+        transaction_id: consumed._id
       };
 
       billDetail.create(detail, function() {
@@ -252,6 +251,20 @@ function twoDecimals(num, decimals = 2) {
     num = num.toString().split('e');
     return sign * (num[0] + 'e' + (num[1] ? (+num[1] - decimals) : -decimals));
 }
+
+exports.deleteMassiveConsumptions = async(req, res) => {
+  let id = req.params.id;
+  let response;
+  Service_consumption.remove({ _id: id }).exec(async(err, consumption) => {
+    if(consumption.result.ok === 1) {
+      response = await billDetail.deleteBillDetailTransaction(id);
+      res.json({ deleted: response.result.n, success: true });
+    } else {
+      res.json({ deleted: 0, success: false });
+    }
+  });
+};
+
 
 process.on('unhandledRejection', (err) => { 
   console.error(err)
