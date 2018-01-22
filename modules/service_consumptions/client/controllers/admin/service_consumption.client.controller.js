@@ -9,7 +9,7 @@
 
   function Service_consumptionsAdminController($q, $scope, $state, $window, service_consumption, Authentication, Notification, SuppliesService, Consumption, CondominiumsService, DepartmentCustomService, ServicesService) {
     var vm = this;
-
+    vm.loading = false;
     vm.service_consumption = service_consumption;
     vm.authentication = Authentication;
     vm.monthSelected = false;
@@ -20,8 +20,6 @@
       id: 2,
       type: 'Grupo'
     };
-
-    console.log('2018-01-21T22:19:23.400Z');
 
     vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 } ];
 
@@ -121,12 +119,13 @@
         alert('Faltan ' + emptyValues + ' Suministros por agregar');
         return false;
       }
+      vm.loading = true;
       Consumption.bulkConsumption(vm.consumptions, {
         success: function (response) {
-          alert('Registrado correctamente');
-          console.log(response);
+          vm.loading = false;
         },
         error: function (err) {
+          vm.loading = false;
           console.log(err);
         }
       });

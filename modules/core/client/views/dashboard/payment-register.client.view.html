@@ -90,15 +90,13 @@
       <div class="input-group">
         <label for="year">Seleccionar año:</label>
         <select id="year" class="form-control" ng-model="vm.yearSelected">
+          <option value="2013">2013</option>
+          <option value="2014">2014</option>
+          <option value="2015">2015</option>
           <option value="2016">2016</option>
           <option value="2017">2017</option>
           <option value="2018">2018</option>
         </select>
-        <span class="input-group-btn">
-          <button class="btn btn-secondary"type="button">
-            <i class="fa fa-sort-desc" aria-hidden="true"></i>
-          </button>
-        </span>
       </div>
     </div>
 	  <div class="col-lg-3">
@@ -107,11 +105,6 @@
 	      <select class="form-control" id="month" ng-model="vm.monthSelected">
 	      	<option value="{{ item.month }}" ng-repeat="item in vm.months">{{ item.name }}</option>
 	      </select>
-	      <span class="input-group-btn">
-	        <button class="btn btn-secondary"type="button">
-	        	<i class="fa fa-sort-desc" aria-hidden="true"></i>
-	        </button>
-	      </span>
 	    </div>
 	  </div>
 	</div>
