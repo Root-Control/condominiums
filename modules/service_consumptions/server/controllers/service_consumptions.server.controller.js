@@ -122,7 +122,7 @@ exports.delete = function (req, res) {
  * List of Service_consumptions
  */
 exports.list = function (req, res) {
-  Service_consumption.find().sort('-created').populate('user', 'displayName').populate('service', 'name').exec(function (err, service_consumptions) {
+  Service_consumption.find().sort('-created').limit(20).populate('user', 'displayName').populate('service', 'name').exec(function (err, service_consumptions) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)

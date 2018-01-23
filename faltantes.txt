@@ -12,8 +12,8 @@
 //	Cuando registres consumos, que aparescan los qu eno estan registrados.
 
 
-1.- Crear indices bill_sale_headers  -> db.bill_sale_headers.dropIndexes()
-https://docs.mongodb.com/manual/tutorial/manage-indexes/
+1.- Consumo de servicios, que se filtren por año y mes
+
 
 
 3.- Nuevo item (Refinanciamiento)

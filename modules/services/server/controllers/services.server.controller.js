@@ -92,7 +92,7 @@ exports.getUnregisteredServices = async (req, res) => {
   let type = req.body.type;
   let registered = await Supplie.getRegisteredSuppliesByEntity(entityId);
   let data = {};
-  Service.find({ type: type , _id: { "$nin": registered.idServices }, condominium: req.body.condominium }).exec(function (err, services) {
+  Service.find({ type: type , _id: { "$nin": registered.idServices }, condominium: req.body.condominium, active: true }).exec(function (err, services) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)

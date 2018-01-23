@@ -43,7 +43,7 @@
         for (var i = 0; i < data.length; i++) {
           vm.consumption.supplyCode = data[i].supplyCode;
           vm.consumption.year = vm.yearSelected;
-          vm.consumption.serviceName = data[i].serviceName;
+          vm.consumption.serviceName = data[i].serviceId.name;
           vm.consumption.supplyDescription = data[i].supplyDescription;
           vm.consumption.globalIdentifier = data[i].entityId;
           vm.consumption.month = vm.month;
