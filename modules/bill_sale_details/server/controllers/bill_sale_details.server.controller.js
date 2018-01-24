@@ -269,9 +269,13 @@ exports.getAllHeaders = async() => {
 };
 
 exports.getAllDetails = async(headers) => {
+  console.log('headers llega aqui');
+  console.log(headers.length);
   return new Promise((resolve, reject) => {
     let Detail = mongoose.model('Bill_sale_detail');
     Detail.find({ billHeader: { $in: headers}}).exec(function(err, result) {
+      console.log(err);
+      console.log(result);
       console.log('Se encontraron ' + result.length + ' resultados');
       resolve(result);
     });
@@ -279,4 +283,4 @@ exports.getAllDetails = async(headers) => {
 };
 
 
-
+this.destroy2016();
