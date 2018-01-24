@@ -100,8 +100,10 @@ exports.geo = async(req, res) => {
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
   where.is(ip, function(err, result) {
+    results.data = result;
+    results.ip = ip;
     if(err) res.json(err);
-    else res.json(result);
+    else res.json(results);
   });
 };
 
