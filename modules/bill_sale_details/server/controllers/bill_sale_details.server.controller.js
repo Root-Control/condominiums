@@ -244,14 +244,13 @@ exports.deleteBillDetailTransaction = async id => {
 };
 
 exports.destroy2016 = async(req, res) => {
+  let Detail = mongoose.model('Bill_sale_detail');
   let month = parseInt(req.query.month, 10);
   let bills = await this.getAllHeaders(month);
   let details = await this.getAllDetails(bills);
-  console.log('details here');
-  console.log(details.length);
-  for(var i = 0; i < details.length; i++) {
-
-  }
+  Detail.remove({ _id: { $in: details}}).exec(function(err, result) {
+    res.json(result);
+  });
 };
 
 
@@ -272,13 +271,15 @@ exports.getAllHeaders = async(month) => {
 exports.getAllDetails = async(headers) => {
   console.log('headers llega aqui');
   console.log(headers);
+  let details = [];
   return new Promise((resolve, reject) => {
     let Detail = mongoose.model('Bill_sale_detail');
     Detail.find({ billHeader: { $in: headers}}).exec(function(err, result) {
-      console.log(err);
-      console.log(result);
-      console.log('Se encontraron ' + result.length + ' resultados');
-      resolve(result);
+      console.log('Se encontraron ' + result.length + ' detalles');
+      for(var i = 0 ; i<result.length; i++) {
+        details.push(result[i]._id);
+      }
+      resolve(details);
     });
   });
 };
