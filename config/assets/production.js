@@ -12,7 +12,7 @@ module.exports = {
         'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
         'public/lib/sweetalert2/dist/sweetalert2.min.css',
         'public/lib/components-font-awesome/css/font-awesome.min.css',
-        'public/lib/loaders.css/loaders.min.css'
+        'public/lib/loaders.css/loaders.css',
         // endbower
       ],
       js: [
