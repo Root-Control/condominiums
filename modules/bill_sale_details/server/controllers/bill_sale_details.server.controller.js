@@ -255,14 +255,20 @@ exports.destroyAll = function() {
     for(var i = 0; i < departments.length; i++) {
       departmentsArray.push(departments[i]._id);
     }
-
+    console.log('departmentsArray');
+    console.log(departmentsArray);
     Bill.find({ department: { $in: departmentsArray}, year: 2016 }, (err, headers) => {
       let headerArray =  [];
+      console.log('length');
+      console.log(headers.length);
       for(var x = 0; x < headers.length; x++) {
         headerArray.push(headers[x]._id);
       }
-
+      console.log('headerArray');
+      console.log(headerArray.length);
       Details.find({ billHeader: { $in: headerArray }}, async (err, details) => {
+        console.log('details');
+        console.log(details);
         for(var z = 0; z < details.length; z++) {
           await this.removeAll(details[z]);
         }
@@ -274,6 +280,7 @@ exports.destroyAll = function() {
 };
 
 exports.removeAll = detail => {
+  console.log('removeallcalled');
   return new Promise((resolve, reject) => {
     detail.remove();
     console.log('removed');
