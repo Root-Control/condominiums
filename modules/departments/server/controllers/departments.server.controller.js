@@ -34,7 +34,8 @@ exports.create = function (req, res) {
                 tower: department.tower,
                 group: group._id,
                 condominium: group.condominium,
-                user: req.user
+                user: req.user,
+                active: true
               };
               Keys.create(data)
                 .then(async result =>{
