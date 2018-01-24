@@ -34,6 +34,10 @@
             <p class="help-block error-text" ng-message="required">El nombre de la torre es requerido.</p>
           </div>
         </div>        
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="deactivate" ng-model="vm.tower.active">
+            <label class="form-check-label" for="deactivate">Torre Activa</label>
+        </div> 
 
         <div class="col-md-12" ng-show="vm.supplyCreator.length >0">
           <h2>Servicios de torre</h2>

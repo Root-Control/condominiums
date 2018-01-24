@@ -64,6 +64,7 @@ exports.update = function (req, res) {
   tower.name = req.body.name;
   tower.description = req.body.description;
   tower.groupAssigned = req.body.groupAssigned;
+  tower.active = req.body.active;
   
   var supplies = req.body.supplyCreator;
   delete req.body.supplyCreator;

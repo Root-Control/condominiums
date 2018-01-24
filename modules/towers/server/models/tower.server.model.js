@@ -35,6 +35,10 @@ var TowerSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Group'
   },
+  active: {
+    type: Boolean,
+    default: true
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'
