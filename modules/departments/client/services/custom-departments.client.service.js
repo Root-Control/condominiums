@@ -19,9 +19,15 @@
         .then(options.success, options.error);
     };
 
+    me.getQtyActiveDepartments = function(options) {
+      $http.get('/api/departments/activedepartments')
+        .then(options.success, options.error);
+    }
+
     return {
       departmentsByCondominium: me.getDepartmentsByCondominiumId,
-      searchDepartments: me.searchDepartmentsByCodeRegex
+      searchDepartments: me.searchDepartmentsByCodeRegex,
+      activeDepartments: me.getQtyActiveDepartments
     }
   }
 }());

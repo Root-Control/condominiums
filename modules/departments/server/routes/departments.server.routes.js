@@ -19,6 +19,8 @@ module.exports = function (app) {
   app.route('/api/getdepartmentsbycode')
     .get(custom_departments.getDepartmentsByCodeRegex);
 
+  app.route('/api/departments/activedepartments')
+    .get(custom_departments.getActiveDepartmentsQty);
   // Single department routes
   app.route('/api/departments/:departmentId').all(departmentsPolicy.isAllowed)
     .get(departments.read)

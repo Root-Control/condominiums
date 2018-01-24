@@ -133,6 +133,11 @@ exports.getDepartmentsByCodeRegex = (req, res) => {
   });
 };
 
+exports.getActiveDepartmentsQty = async(req, res) => {
+  let totals = await Keys.activeDepartments();
+  res.json(totals);
+};
+
 let search = async (code) => {
   return new Promise((resolve, reject) => {
     Department.find({ code: new RegExp(code, 'i') }, function(err, department) {

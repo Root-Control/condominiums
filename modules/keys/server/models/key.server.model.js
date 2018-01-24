@@ -33,6 +33,10 @@ var KeySchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Condominium'
   },
+  active: {
+    type: Boolean,
+    default: true
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'

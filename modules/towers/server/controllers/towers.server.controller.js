@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Tower = mongoose.model('Tower'),
+  Key = require(path.resolve('./modules/keys/server/controllers/keys.server.controller')),
   CustomGroup = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
   Supply = require(path.resolve('./modules/supplies/server/controllers/supplies.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -58,7 +59,7 @@ exports.read = function (req, res) {
 /**
  * Update an tower
  */
-exports.update = function (req, res) {
+exports.update = async (req, res) => { 
   var tower = req.tower;
 
   tower.name = req.body.name;
@@ -68,6 +69,8 @@ exports.update = function (req, res) {
   
   var supplies = req.body.supplyCreator;
   delete req.body.supplyCreator;
+
+  await Key.updateActiveKeys(tower._id, req.body.active);
 
   tower.save(function (err) {
     if (err) {

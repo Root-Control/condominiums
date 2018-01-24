@@ -41,7 +41,7 @@ exports.getDataDepartmentsByGroup = identifier => {
   let departments = [];
   return new Promise((resolve, reject) => {
     //  group
-    Key.find({ group: identifier }).exec(function (err, keys) {
+    Key.find({ group: identifier, active: true }).exec(function (err, keys) {
       for (let i = 0; i < keys.length; i++) {
         departments.push(keys[i].department);
       }
@@ -57,7 +57,7 @@ exports.getDataDepartmentsByTower = identifier => {
   let departments = [];
   //  tower
   return new Promise((resolve, reject) => {
-    Key.find({ tower: identifier }).exec(function (err, keys) {
+    Key.find({ tower: identifier, active: true }).exec(function (err, keys) {
       for (let i = 0; i < keys.length; i++) {
         departments.push(keys[i].department);
       }
@@ -74,7 +74,7 @@ exports.getDataDepartmentsByCondominium = identifier => {
   console.log('Promise called');
   //  Condominium
   return new Promise((resolve, reject) => {
-    Key.find({ condominium: identifier }).exec(function (err, keys) {
+    Key.find({ condominium: identifier, active: true }).exec(function (err, keys) {
       for (let i = 0; i < keys.length; i++) {
         departments.push(keys[i].department);
       }
@@ -90,6 +90,23 @@ exports.getGroupByDepartmentId = identifier => {
     Key.findOne({ department: identifier }).populate('department', 'code').populate('condominium', 'name').populate('tower', 'name').populate('group', 'name').exec(function (err, key) {
       if(err) reject(err);
       else resolve(key);
+    });
+  });
+};
+
+exports.updateActiveKeys = async (toweridentifier, status) => {
+  return new Promise((resolve, reject) => {
+    Key.update({ tower: toweridentifier }, { active: status }, { multi: true, upsert: false }, function(err, result) {
+      if(err) reject();
+      else resolve();
+    });
+  });
+};
+
+exports.activeDepartments = async() => {
+  return new Promise((resolve, reject) => {
+    Key.count({ active: true }).exec(function(err, result) {
+      resolve({ qty: result });
     });
   });
 };
