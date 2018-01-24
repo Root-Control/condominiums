@@ -243,6 +243,7 @@ exports.deleteBillDetailTransaction = async id => {
   });
 };
 
+//  http://18.231.92.119/api/destroy?month=12
 exports.destroy2016 = async(req, res) => {
   let Detail = mongoose.model('Bill_sale_detail');
   let month = parseInt(req.query.month, 10);
