@@ -243,8 +243,9 @@ exports.deleteBillDetailTransaction = async id => {
   });
 };
 
-exports.destroy2016 = async() => {
-  let bills = await this.getAllHeaders();
+exports.destroy2016 = async(req, res) => {
+  let month = parseInt(req.query.month, 10);
+  let bills = await this.getAllHeaders(month);
   let details = await this.getAllDetails(bills);
   console.log('details here');
   console.log(details.length);
@@ -254,11 +255,11 @@ exports.destroy2016 = async() => {
 };
 
 
-exports.getAllHeaders = async() => {
+exports.getAllHeaders = async(month) => {
   let billArray = [];
   return new Promise((resolve, reject) => {
   let Bill = mongoose.model('Bill_sale_header');
-    Bill.find({ year: 2016 }).exec(function(err, result) {
+    Bill.find({ year: 2016, month: month }).exec(function(err, result) {
       console.log('Se encontraron ' + result.length + ' cabeceras');
       for(var i = 0 ; i<result.length; i++) {
         billArray.push(result[i]._id);
@@ -270,7 +271,7 @@ exports.getAllHeaders = async() => {
 
 exports.getAllDetails = async(headers) => {
   console.log('headers llega aqui');
-  console.log(headers.length);
+  console.log(headers);
   return new Promise((resolve, reject) => {
     let Detail = mongoose.model('Bill_sale_detail');
     Detail.find({ billHeader: { $in: headers}}).exec(function(err, result) {
@@ -281,6 +282,3 @@ exports.getAllDetails = async(headers) => {
     });
   });
 };
-
-
-this.destroy2016();

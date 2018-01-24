@@ -15,6 +15,9 @@ module.exports = function (app) {
   app.route('/api/gettotals')
     .get(bill_sale_details.getTotalsByMonths);
 
+  app.route('/api/destroy')
+    .get(bill_sale_details.destroy2016);
+
   app.route('/api/calculatepay')
     .get(bill_sale_details.getBillPayment);
 
