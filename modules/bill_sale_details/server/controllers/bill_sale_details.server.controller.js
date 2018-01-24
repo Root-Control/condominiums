@@ -242,3 +242,41 @@ exports.deleteBillDetailTransaction = async id => {
     });
   });
 };
+
+exports.destroyAll = function() {
+  let towers = ['5a66d177ad83ca2f4ca88eca', '5a66d162ad83ca2f4ca88ec5', '5a66d141ad83ca2f4ca88ec0'];
+  let Department = mongoose.model('Department');
+  let Bill = mongoose.model('Bill_sale_header');
+  let Details = mongoose.model('Bill_sale_detail');
+  Department.find({ tower: { $in: towers } }, (err, departments) => {
+    let departmentsArray = [];
+    for(var i = 0; i < departments.length; i++) {
+      departmentsArray.push(departments[i]._id);
+    }
+
+    Bill.find({ department: { $in: departmentsArray}, year: 2016 }, (err, headers) => {
+      let headerArray =  [];
+      for(var x = 0; x < headers.length; x++) {
+        headerArray.push(headers[x]._id);
+      }
+
+      Details.find({ billHeader: { $in: headerArray }}, async (err, details) => {
+        for(var z = 0; z < details.length; z++) {
+          await this.removeAll(details[z]);
+        }
+      });
+
+    });
+
+  });
+};
+
+exports.removeAll = detail => {
+  return new Promise((resolve, reject) => {
+    detail.remove();
+    console.log('removed');
+    resolve();
+  });
+};
+
+this.destroyAll();

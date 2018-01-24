@@ -5,9 +5,9 @@
     .module('service_consumptions.admin')
     .controller('Service_consumptionsAdminController', Service_consumptionsAdminController);
 
-  Service_consumptionsAdminController.$inject = ['$q', '$scope', '$state', '$window', 'service_consumptionResolve', 'Authentication', 'Notification', 'SuppliesService', 'Consumption', 'CondominiumsService', 'DepartmentCustomService', 'ServicesService'];
+  Service_consumptionsAdminController.$inject = ['$q', '$scope', '$state', '$window', 'service_consumptionResolve', 'Authentication', 'Notification', 'SuppliesService', 'Consumption', 'CondominiumsService', 'DepartmentCustomService', 'ServicesService', 'Messages'];
 
-  function Service_consumptionsAdminController($q, $scope, $state, $window, service_consumption, Authentication, Notification, SuppliesService, Consumption, CondominiumsService, DepartmentCustomService, ServicesService) {
+  function Service_consumptionsAdminController($q, $scope, $state, $window, service_consumption, Authentication, Notification, SuppliesService, Consumption, CondominiumsService, DepartmentCustomService, ServicesService, Messages) {
     var vm = this;
     vm.loading = false;
     vm.service_consumption = service_consumption;
@@ -123,6 +123,7 @@
       Consumption.bulkConsumption(vm.consumptions, {
         success: function (response) {
           vm.loading = false;
+           Messages.successMessage('Se registraron los consumos correctamente!');
         },
         error: function (err) {
           vm.loading = false;

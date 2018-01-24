@@ -146,11 +146,11 @@
           </tr>
           <tr>
             <th colspan="2">WEBSITE:</th>
-            <td colspan="2">555 77 855</td>
+            <td colspan="2">HTTP://WWW.VECINOINFORMADO.COM</td>
           </tr>
           <tr>
             <th colspan="2">MOROSIDAD:</th>
-            <td colspan="2">555 77 855</td>
+            <td colspan="2">NO</td>
           </tr>           
         </table>          
           </div>
@@ -197,12 +197,12 @@
                   <tr ng-repeat="item in vm.globalServices">
                     <td>{{ item.supplyCode }}</td>
                     <td>{{ item.serviceName }}</td>
-                    <td>S/. {{ item.totalAmount }}</td>
+                    <td>S/. {{ item.totalAmount | number:2 }}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+            <div class="row" style="margin-left: 0px; margin-right: 0px;" ng-show="vm.personalServices.length > 0">
               <table class="table table-bordered items individualpayment">
                 <div class="text-center"><b>Personal</b></div>
                 <thead>
@@ -225,7 +225,7 @@
         </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" ng-show="vm.groupServices.length > 0">
           <div class="col-sm-10 col-md-offset-1">
         <div class="panel panel-default">
           <div class="panel-heading detail-pay text-center">
@@ -244,7 +244,7 @@
                   <tr ng-repeat="item in vm.groupServices">
                     <td>{{ item.supplyCode }}</td>
                     <td>{{ item.serviceName }}</td>
-                    <td>S/. {{ item.totalAmount }}</td>
+                    <td>S/. {{ item.totalAmount | number:2 }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -253,7 +253,7 @@
         </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" ng-show="vm.towerServices.length > 0">
           <div class="col-sm-10 col-md-offset-1">
         <div class="panel panel-default">
           <div class="panel-heading detail-pay text-center">Importe de torre para la Torre  {{ vm.information.tower.name }} - Afectan {{ vm.towerServices[0].qtyDivision }} Departamentos</div>
@@ -282,10 +282,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" ng-click="vm.print()" id="print">
-          Print
+          Imprimir
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" id="close">
-          Close
+          Cerrar
         </button>
       </div>
     </div>

@@ -9,8 +9,9 @@
 
   function Service_consumptionsAdminListController(Service_consumptionsService, Consumption, Messages) {
     var vm = this;
+    var today = new Date();
 
-    vm.service_consumptions = Service_consumptionsService.query();
+    vm.service_consumptions = Service_consumptionsService.query({ year: 2018, month: today.getMonth() + 1 });
 
     vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 } ];
 	vm.yearSelected = 2018;

@@ -30,10 +30,7 @@ exports.verifyPreviousConsume = async (departmentId, month) => {
   let year;
   if (month > 1) previousMonth = month - 1, year = new Date().getFullYear();
   else previousMonth = 12, year = new Date().getFullYear() - 1;
-  
-  console.log(previousMonth);
-  console.log(year);
-  
+    
   return new Promise((resolve, reject) => {
     Service_consumption.findOne({ type: 4, globalIdentifier: departmentId, month: previousMonth, year: year}).exec(function (err, service_consumptions) {
       if (err) reject(err);
@@ -122,7 +119,7 @@ exports.delete = function (req, res) {
  * List of Service_consumptions
  */
 exports.list = function (req, res) {
-  Service_consumption.find().sort('-created').limit(20).populate('user', 'displayName').populate('service', 'name').exec(function (err, service_consumptions) {
+  Service_consumption.find(req.query).sort('-created').limit(20).populate('user', 'displayName').populate('service', 'name').exec(function (err, service_consumptions) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
