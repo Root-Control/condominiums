@@ -127,8 +127,6 @@ exports.list = function (req, res) {
   console.log(query);
   Supplie.find(query).sort('-created').populate('user', 'displayName').populate('serviceId').exec(function (err, supplies) {
     if (err) {
-      console.log('err');
-      console.log(err);
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });

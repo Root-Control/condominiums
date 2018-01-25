@@ -69,6 +69,18 @@
         }
       });
     };
+
+    vm.deleteSupply = function(item) {
+      CustomSupply.deleteSupply(item, {
+        success: function(response) {
+          console.log(response.data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    };
+
     if (!vm.authentication.user.condominium) vm.condominiums = CondominiumsService.query();
     else vm.getUnregisteredServices();
   } 

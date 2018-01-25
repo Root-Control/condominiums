@@ -14,8 +14,13 @@
   			.then(options.success, options.error);
   	};
 
+  	me.deleteSupply = function(data, options) {
+  		$http.delete('/api/supplies/' + data._id, data)
+  			.then(options.success, options.error);
+  	};
   	return {
-  		changeStatus: me.changeStatus
+  		changeStatus: me.changeStatus,
+  		deleteSupply: me.deleteSupply
   	};
   }
 }());
