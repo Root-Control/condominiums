@@ -5,9 +5,9 @@
     .module('core')
     .controller('CondominiumServiceController', CondominiumServiceController);
 
-  CondominiumServiceController.$inject = ['$scope', '$state', 'Authentication', 'CustomService', 'CondominiumsService', 'CondominiumCustomService'];
+  CondominiumServiceController.$inject = ['$scope', '$state', 'Authentication', 'CustomService', 'CondominiumsService', 'CondominiumCustomService', 'CustomSupply'];
 
-  function CondominiumServiceController($scope, $state, Authentication, CustomService, CondominiumsService, CondominiumCustomService) {
+  function CondominiumServiceController($scope, $state, Authentication, CustomService, CondominiumsService, CondominiumCustomService, CustomSupply) {
     var vm = this;
     vm.authentication = Authentication;
     vm.typeIdentifier = [1, 5];
@@ -59,6 +59,16 @@
       });
     };
 
+    vm.changeSupplyStatus = function(item) {
+      CustomSupply.changeStatus(item, {
+        success: function(response) {
+          console.log(response.data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    };
     if (!vm.authentication.user.condominium) vm.condominiums = CondominiumsService.query();
     else vm.getUnregisteredServices();
   } 
