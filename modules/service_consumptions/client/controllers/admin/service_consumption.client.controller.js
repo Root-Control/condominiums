@@ -123,7 +123,7 @@
       Consumption.bulkConsumption(vm.consumptions, {
         success: function (response) {
           vm.loading = false;
-           Messages.successMessage('Se registraron los consumos correctamente!');
+          Messages.successMessage('Se registraron los consumos correctamente!');
         },
         error: function (err) {
           vm.loading = false;

@@ -90,7 +90,9 @@ exports.delete = function (req, res) {
 exports.getUnregisteredServices = async (req, res) => {
   let entityId = req.body.entityId;
   let type = req.body.type;
+  console.log(type);
   let registered = await Supplie.getRegisteredSuppliesByEntity(entityId);
+  console.log(registered);
   let data = {};
   Service.find({ type: type , _id: { "$nin": registered.idServices }, condominium: req.body.condominium, active: true }).exec(function (err, services) {
     if (err) {

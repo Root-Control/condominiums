@@ -5,9 +5,9 @@
     .module('core')
     .controller('CondominiumServiceController', CondominiumServiceController);
 
-  CondominiumServiceController.$inject = ['$scope', '$state', 'Authentication', 'CustomService', 'CondominiumsService', 'CondominiumCustomService', 'CustomSupply'];
+  CondominiumServiceController.$inject = ['$scope', '$state', 'Authentication', 'CustomService', 'CondominiumsService', 'CondominiumCustomService', 'CustomSupply', 'Messages'];
 
-  function CondominiumServiceController($scope, $state, Authentication, CustomService, CondominiumsService, CondominiumCustomService, CustomSupply) {
+  function CondominiumServiceController($scope, $state, Authentication, CustomService, CondominiumsService, CondominiumCustomService, CustomSupply, Messages) {
     var vm = this;
     vm.authentication = Authentication;
     vm.typeIdentifier = [1, 5];
@@ -51,7 +51,7 @@
       var data = { _id: vm.authentication.user.condominium || vm.condominium._id, supplyCreator: vm.supplyCreator, name: vm.condominium ? vm.condominium.name: 'Condominio' };
       CondominiumCustomService.registerCondominiumServices(data, {
         success: function (response) {
-          if (response.data.success) alert(response.data.message);
+          if (response.data.success) Messages.successMessage(response.data.message);
         },
         error: function (err) {
           console.log(err);
@@ -71,13 +71,16 @@
     };
 
     vm.deleteSupply = function(item) {
-      CustomSupply.deleteSupply(item, {
-        success: function(response) {
-          console.log(response.data);
-        },
-        error: function(err) {
-          console.log(err);
-        }
+    Messages.confirmAction()
+      .then(function() {
+        CustomSupply.deleteSupply(item, {
+          success: function(response) {
+            Messages.successMessage('Se ha eliminado este suministro correctamente!');
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
       });
     };
 
