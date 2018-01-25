@@ -5,9 +5,9 @@
     .module('towers.admin')
     .controller('TowersAdminController', TowersAdminController);
 
-  TowersAdminController.$inject = ['$scope', '$state', '$window', 'towerResolve', 'Authentication', 'Notification', 'GroupsService', 'ServicesService', 'CustomService'];
+  TowersAdminController.$inject = ['$scope', '$state', '$window', 'towerResolve', 'Authentication', 'Notification', 'GroupsService', 'ServicesService', 'CustomService', 'CustomSupply'];
 
-  function TowersAdminController($scope, $state, $window, tower, Authentication, Notification, GroupsService, Service, CustomService) {
+  function TowersAdminController($scope, $state, $window, tower, Authentication, Notification, GroupsService, Service, CustomService, CustomSupply) {
     var vm = this;
 
     vm.typeIdentifier = 3;
@@ -28,7 +28,6 @@
       entityId: vm.tower._id,
       type: vm.typeIdentifier
     };
-    console.log(vm.data);
 
     CustomService.unregisteredServices(vm.data, {
       success: function (response) {
@@ -89,5 +88,16 @@
         Notification.error({ message: res.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Tower save error!' });
       }
     }
+
+    vm.changeSupplyStatus = function(item) {
+      CustomSupply.changeStatus(item, {
+        success: function(response) {
+          console.log(response.data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    };
   }
 }());
