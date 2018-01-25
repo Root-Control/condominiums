@@ -76,12 +76,16 @@
               <th>Servicio</th>
               <th>N° Suministro</th>
               <th>Descripción</th>
+              <th>Activo?</th>
             </thead>
             <tbody>
               <tr ng-repeat="item in vm.registered">
                 <td>{{ item.serviceName }}</td>
                 <td>{{ item.supplyCode }}</td>
                 <td>{{ item.supplyDescription }}</td>
+                <td>
+                 <toggle ng-model="item.active" ng-change="vm.changeSupplyStatus(item)" onstyle="btn-success" offstyle="btn-danger" on="Si" off="No"></toggle>
+                </td>
               </tr>
             </tbody>
           </table>

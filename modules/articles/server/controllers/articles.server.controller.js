@@ -94,19 +94,6 @@ exports.list = function (req, res, promise) {
   });
 };
 
-exports.geo = async(req, res) => {
-  let results = {};
-  let where = require('node-where');
-  let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
-  where.is(ip, function(err, result) {
-    results.data = result;
-    results.ip = ip;
-    if(err) res.json(err);
-    else res.json(results);
-  });
-};
-
 /**
  * Article middleware
  */

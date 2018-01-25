@@ -165,11 +165,14 @@ exports.supplieByID = function (req, res, next, id) {
 };
 
 exports.listAndUpdateSupplieStatus = (serviceId, status) => {
+  console.log(serviceId);
   return new Promise(async (resolve, reject) => {
     Supplie.find().exec(async(err, supplies) => {
       if(err) reject(err);
       else {
         for(let i = 0; i < supplies.length; i++) {
+          console.log('supplies here');
+          console.log(supplies[i]);
           if(supplies[i].serviceId.toString() == serviceId.toString()) {
             supplies[i].active = status;
             await supplies[i].save();

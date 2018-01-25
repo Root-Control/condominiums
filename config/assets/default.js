@@ -12,7 +12,8 @@ module.exports = {
         'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
         'public/lib/sweetalert2/dist/sweetalert2.css',
         'public/lib/components-font-awesome/css/font-awesome.css',
-        'public/lib/loaders.css/loaders.css'
+        'public/lib/loaders.css/loaders.css',
+        'public/lib/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.css'
         // endbower
       ],
       js: [
@@ -33,6 +34,7 @@ module.exports = {
         'public/lib/condominio/js/plugins/bootstrap/bootstrap.min.js',
         'public/lib/condominio/js/plugins.js',
         'public/lib/condominio/js/actions.js',
+        'public/lib/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.js'
         // endbower
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

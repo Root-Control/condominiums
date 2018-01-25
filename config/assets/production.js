@@ -13,6 +13,7 @@ module.exports = {
         'public/lib/sweetalert2/dist/sweetalert2.min.css',
         'public/lib/components-font-awesome/css/font-awesome.min.css',
         'public/lib/loaders.css/loaders.css',
+        'public/lib/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.min.css'
         // endbower
       ],
       js: [
@@ -31,6 +32,7 @@ module.exports = {
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/sweetalert2/dist/sweetalert2.min.js',
         'public/lib/jquery-ui/jquery-ui.min.js',
+        'public/lib/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.min.js'
         // endbower
       ]
     },

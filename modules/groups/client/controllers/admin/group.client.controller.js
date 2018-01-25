@@ -5,9 +5,9 @@
     .module('groups.admin')
     .controller('GroupsAdminController', GroupsAdminController);
 
-  GroupsAdminController.$inject = ['$scope', '$state', '$window', 'groupResolve', 'Authentication', 'Notification', 'CondominiumsService', 'ServicesService', 'CustomService'];
+  GroupsAdminController.$inject = ['$scope', '$state', '$window', 'groupResolve', 'Authentication', 'Notification', 'CondominiumsService', 'ServicesService', 'CustomService', 'CustomSupply'];
 
-  function GroupsAdminController($scope, $state, $window, group, Authentication, Notification, CondominiumsService, Service, CustomService) {
+  function GroupsAdminController($scope, $state, $window, group, Authentication, Notification, CondominiumsService, Service, CustomService, CustomSupply) {
     var vm = this;
 
     vm.typeIdentifier = 2;
@@ -18,6 +18,17 @@
     vm.save = save;
     vm.supplyCreator = [];
     vm.supply = {};
+
+    vm.changeSupplyStatus = function(item) {
+      CustomSupply.changeStatus(item, {
+        success: function(response) {
+          console.log(response.data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    };
 
     vm.getUnregisteredServices = function () {
       vm.data = {
