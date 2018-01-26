@@ -84,7 +84,7 @@
 	    <div class="input-group">
 	      <input type="text" id="search" class="form-control" placeholder="Ingresa el departamento" ng-model="vm.code"  ng-keypress="vm.searchDepartment($event)">
 	      <span class="input-group-btn">
-	        <button class="btn btn-secondary"type="button">
+	        <button class="btn btn-secondary" type="button" ng-click="vm.searchDepartment()">
 	        	<i class="fa fa-search" aria-hidden="true"></i>
 	        </button>
 	      </span>

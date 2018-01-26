@@ -13,17 +13,21 @@
 
     vm.searchDepartment = function (key) {
       if (key.which === 13) {
-        DepartmentCustomService.searchDepartments(vm.code, {
-          success: function (response) {
-            vm.departments = response.data;
-            console.log(vm.departments);
-          },
-          error: function (err) {
-            console.log(err);
-          }
-        });
+        vm.searchDepartment();
       }
     };
+
+    vm.searchDepartment = function() {
+      DepartmentCustomService.searchDepartments(vm.code, {
+        success: function (response) {
+          vm.departments = response.data;
+          console.log(vm.departments);
+        },
+        error: function (err) {
+          console.log(err);
+        }
+      });      
+    }
 
     vm.createBillHeader = function (departmentId) {
       vm.department = [];
@@ -117,6 +121,10 @@
     vm.print = function() {
       vm.printElement(document.getElementById("printable"));
       window.print();
+      setTimeout(function() {
+        var printSection = document.getElementById("printSection");
+        printSection.parentNode.removeChild(printSection);
+      }, 2000);
     };
 
     vm.printElement = function(elem, append, delimiter) {
