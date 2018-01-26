@@ -50,6 +50,15 @@
           roles: ['superadmin', 'admin', 'c-admin']
         }       
       })
+      .state('condominium-config', {
+        url: '/dashboard/condominium-config',
+        templateUrl: '/modules/core/client/views/dashboard/condominium-config.client.view.html',
+        controller: 'CondominiumConfigController',
+        controllerAs: 'vm',
+        data: {
+          roles: ['superadmin', 'admin', 'c-admin']
+        }       
+      })      
       .state('aqua-service', {
         url: '/dashboard/aqua-service',
         templateUrl: '/modules/core/client/views/dashboard/aqua-service.client.view.html',
