@@ -3,12 +3,13 @@
 /**
  * Module dependencies.
  */
+require('dotenv').config();
 var config = require('../config'),
   mongooseService = require('./mongoose'),
   express = require('./express'),
   chalk = require('chalk'),
   seed = require('./mongo-seed');
-
+ 
 function seedDB() {
   if (config.seedDB && config.seedDB.seed) {
     console.log(chalk.bold.red('Warning:  Database seeding is turned on'));

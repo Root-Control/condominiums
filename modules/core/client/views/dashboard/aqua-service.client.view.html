@@ -1,0 +1,79 @@
+<section>
+  <div class="jumbotron text-center">
+    <h3>Modificación de consumo de agua</h3>
+  </div>
+  <div class="col-md-12">
+  	<div class="col-md-3 col-sm-12">
+  		<div class="form-group">
+  			<label for="year">Selecciona el año: </label>
+            <select name="" id="year" class="form-control" ng-model="vm.selectedYear" ng-options="obj.text as obj.value for obj in vm.years">
+                
+            </select>
+  		</div>
+  	</div>
+  	<div class="col-md-3 col-sm-12">
+	    <div class="form-group">
+	      <label class="control-label" for="name">Indica el mes: </label>
+	        <select ng-model="vm.selectedMonth" class="form-control">
+	            <option value="{{ item.value }}" data-ng-repeat="item in vm.months">{{ item.name }}</option>
+	        </select>
+	    </div> 
+  	</div>
+  	<div class="col-md-3 col-sm-12">
+  		<div class="form-group">
+  			<label for="tower">Selecciona la torre:</label>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width: 72%;">
+			    {{ vm.selectedTowerName }}
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			    <li ng-repeat="item in vm.towers">
+			    	<a href="#" ng-click="vm.selectTower(item)">{{ item.name }}</a>
+			    </li>
+			  </ul>
+			</div>
+  		</div>
+  	</div>
+  	<div class="col-md-3 col-sm-12">
+		<div class="form-group">
+			<label for=""></label>
+	  		<button class="btn btn-success" ng-click="vm.validateFields();" style="display: block">
+	  			Buscar
+	  		</button>			
+		</div>
+  	</div>  	  	
+  </div>
+  <h4 ng-show="vm.consumptions.length == 0">
+  	No hay información
+  </h4>
+  <table class="table table-responsive" ng-show="vm.consumptions.length > 0">
+  	<thead>
+  		<th>Servicio</th>
+  		<th>Departamento</th>
+  		<th>Codigo de suministro</th>
+  		<th>Lectura Anterior</th>
+  		<th>Lectura Actual</th>
+  		<th>Precio promedio	</th>
+  		<th>Monto</th>
+  		<th>Editable?</th>
+  		<th>Acciones</th>
+  	</thead>
+  	<tbody>
+  		<tr ng-repeat="item in vm.consumptions">
+  			<td>{{ item.consumption.serviceName }}</td>
+  			<td>{{ item.consumption.globalIdentifier.code }}</td>
+  			<td>{{ item.consumption.supplyCode }}</td>
+  			<td>{{ item.lastConsume }}</td>
+  			<td><input type="text" ng-model="item.consumption.consumed"></td>
+  			<td>{{ item.avgWaterSupply }}</td>
+  			<td>{{ (item.consumption.consumed - item.lastConsume) * item.avgWaterSupply | number: 2 }}</td>
+  			<td>Si</td>
+  			<td><a href="#">Eliminar</a></td>
+  		</tr>
+  	</tbody>
+  </table>
+</section> 	
+
+
+

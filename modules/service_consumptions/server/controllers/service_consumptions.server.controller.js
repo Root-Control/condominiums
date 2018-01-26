@@ -263,6 +263,25 @@ exports.deleteMassiveConsumptions = async(req, res) => {
   });
 };
 
+exports.getAquaConsumptionsByTowerAndYear = async(req, res) => {
+  let towerId = req.query.towerId;
+  let month = req.query.month;
+  let year = req.query.year;
+  let lastConsume;
+  let avgWaterSupply;
+  let result = await Keys.getDataDepartmentsByTower(towerId);
+  let response = [];
+  Service_consumption.find({ globalIdentifier: { $in: result.departments }, month: month, year: year, type: 4 }).populate('globalIdentifier', null, 'Department').exec(async(err, result) => {
+    for(var i = 0; i< result.length; i++) {
+      let lastMonthConsume = await this.verifyPreviousConsume(result[i].globalIdentifier._id, month);
+      lastConsume = lastMonthConsume ? lastMonthConsume.consumed : 0;
+      avgWaterSupply = (result[i].total / (result[i].consumed - lastConsume)).toFixed(2);
+      response.push({ avgWaterSupply: avgWaterSupply, lastConsume: lastConsume, consumption: result[i], editable: true });
+    }
+    res.json(response);
+  });
+
+};
 
 process.on('unhandledRejection', (err) => { 
   console.error(err)

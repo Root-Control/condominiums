@@ -9,6 +9,7 @@
 
   function monthName() {
     return function(month) {
+      month = parseInt(month, 10);
       switch(month) {
         case 1:
           return 'Enero';

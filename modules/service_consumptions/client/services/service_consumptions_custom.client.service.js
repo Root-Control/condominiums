@@ -18,9 +18,16 @@
       $http.delete('/api/service_consumptions/massivedelete/' + id)
       .then(options.success, options.error);
     };
+
+    me.getAquaConsumptionsByTower = function(data, options) {
+      var query = 'towerId=' + data.towerId + '&month=' + data.month + '&year=' + data.year;
+      $http.get('/api/service_consumptions/getwaterconsumption?' + query)
+        .then(options.success, options.error);
+    };
     return {
       bulkConsumption: me.bulkServiceConsumption,
-      deleteMassiveConsumptions: me.deleteMassiveConsumptions
+      deleteMassiveConsumptions: me.deleteMassiveConsumptions,
+      getAquaConsumptionsByTower: me.getAquaConsumptionsByTower
     }
   }
 }());

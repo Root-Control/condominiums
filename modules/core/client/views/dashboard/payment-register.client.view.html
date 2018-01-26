@@ -44,7 +44,7 @@
 
   
     #printSection, #printSection * {
-      zoom: 97%;
+      zoom: 100%;
       visibility:visible;
       font-family: Californian;
     }
@@ -147,44 +147,40 @@
         <div class="row">
           <div class="col-xs-12 visible-xs text-center">
             <div class="col-xs-6">
-              <img src="./images/innovecrt.png" alt="100px">
+              <img src="https://s3-us-west-2.amazonaws.com/condominiociudadnueva/innovecrt.png" alt="100px">
             </div>
             <div class="col-xs-6">
-              <img src="./images/ciudadnueva.png" alt="" width="100px;">
+              <img src="https://s3-us-west-2.amazonaws.com/condominiociudadnueva/ciudadnueva.png" alt="" width="100px;">
             </div>
           </div>
           <div class="col-sm-3 hidden-xs">
-            <img src="./images/innovecrt.png" alt="">
+            <img src="https://s3-us-west-2.amazonaws.com/condominiociudadnueva/innovecrt.png" alt="">
           </div>
-          <div class="col-sm-6">
-        <table class="table table-responsive boleta individualpayment">
-          <tr>
-            <th colspan="2">PROPIETARIO:</th>
-            <td colspan="2">{{ vm.authentication.user.displayName }}</td>
-          </tr>
-          <tr>
-            <th>CUOTA MES:</th>
-            <td>{{ vm.monthSelected }}</td> 
-            <th>DEUDA TOTAL:</th>
-            <td>S/. {{ vm.total }}</td>           
-          </tr>
-          <tr>
-            <th colspan="2">CUENTA ABONAR:</th>
-            <td colspan="2">555 77 855</td>
-          </tr>
-          <tr>
-            <th colspan="2">WEBSITE:</th>
-            <td colspan="2">555 77 855</td>
-          </tr>
-          <tr>
-            <th colspan="2">MOROSIDAD:</th>
-            <td colspan="2">555 77 855</td>
-          </tr>           
-        </table>          
-          </div>
-          <div class="col-sm-3 hidden-xs">
-            <img src="./images/ciudadnueva.png" alt="">
-          </div>
+        <div class="col-sm-6">
+          <table class="table table-responsive boleta individualpayment">
+            <tr>
+              <th colspan="2">PROPIETARIO:</th>
+              <td colspan="2">{{ vm.authentication.user.displayName }}</td>
+            </tr>
+            <tr>
+              <th>CUOTA MES:</th>
+              <td>{{ vm.monthSelected | monthName }}</td> 
+              <th>DEUDA TOTAL:</th>
+              <td>S/. {{ vm.total }}</td>           
+            </tr>
+            <tr>
+              <th colspan="2">CUENTA ABONAR:</th>
+              <td colspan="2">555 77 855</td>
+            </tr>
+            <tr>
+              <th colspan="2">WEBSITE:</th>
+              <td colspan="2">http://www.vecinoinformado.com</td>
+            </tr>        
+          </table>          
+        </div>
+        <div class="col-sm-3 hidden-xs">
+          <img src="https://s3-us-west-2.amazonaws.com/condominiociudadnueva/ciudadnueva.png" alt="">
+        </div>
         </div>
         <br/>
         <div class="row">
@@ -310,13 +306,16 @@
       </div>
       <div class="modal-footer">
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-3" style="display: none;">
             <input type="text" class="form-control" ng-model="vm.userpay"  ng-show="vm.header.status === 'Pendiente'">
           </div>
           <div class="col-sm-3">
-            <button style="width: 100%;" type="button" class="btn btn-success" ng-click="vm.confirmAndPay()" id="pay" ng-show="vm.header.status === 'Pendiente'"> PAGAR</button>
+            <button style="width: 100%; display: none;" type="button" class="btn btn-success" ng-click="vm.confirmAndPay()" id="pay" ng-show="vm.header.status === 'Pendiente'"> PAGAR</button>
           </div>
           <div class="col-sm-6">
+        <button type="button" class="btn btn-primary" ng-click="vm.print()" id="print">
+          Imprimir
+        </button>          
             <button type="button" class="btn btn-primary" data-dismiss="modal" id="close">CERRAR</button>
           </div>
         </div>

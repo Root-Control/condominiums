@@ -50,6 +50,15 @@
           roles: ['superadmin', 'admin', 'c-admin']
         }       
       })
+      .state('aqua-service', {
+        url: '/dashboard/aqua-service',
+        templateUrl: '/modules/core/client/views/dashboard/aqua-service.client.view.html',
+        controller: 'AquaController',
+        controllerAs: 'vm',
+        data: {
+          roles: ['superadmin', 'admin', 'c-admin']
+        }       
+      })
       .state('payment-register', {
         url: '/dashboard/payment-register',
         templateUrl: '/modules/core/client/views/dashboard/payment-register.client.view.html',
