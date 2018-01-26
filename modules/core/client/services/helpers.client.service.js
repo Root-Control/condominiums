@@ -10,7 +10,7 @@
   function Helpers($http) {
     var me = this;
     me.getMonths = function() {
-     let months = [];
+     var months = [];
      months.push({ name: 'Enero', value: 1 }, { name: 'Febrero', value: 2 });
      months.push({ name: 'Marzo', value: 3 }, { name: 'Abril', value: 4 });
      months.push({ name: 'Mayo', value: 5 }, { name: 'Junio', value: 6 });
