@@ -80,8 +80,8 @@
 
 	<div class="row">
 	  <div class="col-lg-6">
+      <label for="search">Buscar departamento:</label>
 	    <div class="input-group">
-        <label for="search">Buscar departamento:</label>
 	      <input type="text" id="search" class="form-control" placeholder="Ingresa el departamento" ng-model="vm.code"  ng-keypress="vm.searchDepartment($event)">
 	      <span class="input-group-btn">
 	        <button class="btn btn-secondary"type="button">
@@ -164,7 +164,7 @@
           <table class="table table-responsive boleta individualpayment">
             <tr>
               <th colspan="2">PROPIETARIO:</th>
-              <td colspan="2">{{ vm.authentication.user.displayName }}</td>
+              <td colspan="2">{{ vm.fullUser.displayName }}</td>
             </tr>
             <tr>
               <th>CUOTA MES:</th>

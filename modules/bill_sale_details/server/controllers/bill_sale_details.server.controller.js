@@ -18,12 +18,19 @@ var path = require('path'),
  * Create an bill_sale_detail
  */
 exports.getBillPayment = async (req, res) => {
+  let user = req.user;
   let totals = [];
   let lastConsume = 0;
   let month = req.query.month;
   let year = req.query.year;
   let department;
-  let fullUser;
+  let fullUser = {};
+  let contract;
+  if(user.roles[0] != 'user') {
+    contract = await Agreements.getAgreementByDepartment(req.query.departmentId);
+    if(contract) fullUser = await Users.getUserByClientId(contract.clientId);
+    else fullUser.displayName = 'No asignado';
+  }
   //  Caso Admin, si ha elegido un departament Id 
   if(req.query.departmentId) {
     department = { departmentId: req.query.departmentId };

@@ -25,3 +25,12 @@ exports.validateAvailableUser = async data => {
 	});
  };
 
+
+exports.getUserByClientId = async clientId => {
+  return new Promise(async (resolve, reject) => {
+    User.findOne({ client: clientId }).populate('client').select('displayName').exec((err, result) => {
+      if(err) reject();
+      else resolve(result);
+    });
+  });
+};
