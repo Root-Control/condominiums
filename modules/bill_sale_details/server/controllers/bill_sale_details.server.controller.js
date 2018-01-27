@@ -8,10 +8,11 @@ var path = require('path'),
   Bill_sale_detail = mongoose.model('Bill_sale_detail'),
   Keys = require(path.resolve('./modules/keys/server/controllers/keys.server.controller')),
   Groups = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
-  Consumptions = require(path.resolve('./modules/service_consumptions/server/controllers/service_consumptions.server.controller')),
-  Agreements = require(path.resolve('./modules/agreements/server/controllers/agreements-custom.server.controller')),
   Users = require(path.resolve('./modules/users/server/controllers/users/users.custom-queries.server.controller')),
+  Agreements = require(path.resolve('./modules/agreements/server/controllers/agreements-custom.server.controller')),
+  Configurations = require(path.resolve('./modules/configurations/server/controllers/configurations-custom.server.controller')),
   Bill_header= require(path.resolve('./modules/bill_sale_headers/server/controllers/bill_sale_header_service.server.controller')),
+  Consumptions = require(path.resolve('./modules/service_consumptions/server/controllers/service_consumptions.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -43,6 +44,7 @@ exports.getBillPayment = async (req, res) => {
 
   //  Get AVG WATER AND LAST CONSUME
   let condominiumData = await Keys.getGroupByDepartmentId(department.departmentId);
+  let condominiumDetails = await Configurations.getConfiguration(condominiumData.condominium._id);
   let avgWaterSupply = await Groups.getAvgWaterSupply(condominiumData.group);
   let lastConsumption = await Consumptions.verifyPreviousConsume(department.departmentId, month);
   if(lastConsumption) lastConsume = lastConsumption.consumed;
@@ -64,7 +66,8 @@ exports.getBillPayment = async (req, res) => {
     total: total.toFixed(2),
     avgWaterSupply: avgWaterSupply,
     lastConsume: lastConsume,
-    informative: condominiumData
+    informative: condominiumData,
+    condominiumDetails: condominiumDetails
   };
   res.json(data);
 };

@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Supplie = mongoose.model('Supplie'),
+  Consumed = require(path.resolve('./modules/service_consumptions/server/controllers/service_consumptions.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -117,7 +118,16 @@ exports.delete = function (req, res) {
 /**
  * List of Supplies
  */
-exports.list = function (req, res) { 
+exports.list = async (req, res) => { 
+  //  Tengo año
+  //  Tengo mes
+  //  Tengo tipo
+  let month = parseInt(req.query.month, 10);
+  let year = parseInt(req.query.year, 10);
+  let type = parseInt(req.query.type, 10);
+
+  //let registeredSupplies = await Consumed.getRegisteredConsumption(year, month, type);
+
   let query = {};
   if (req.query.type) {
     query.type = parseInt(req.query.type, 10);

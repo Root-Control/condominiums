@@ -39,6 +39,23 @@ exports.verifyPreviousConsume = async (departmentId, month) => {
   }); 
 };
 
+exports.getRegisteredConsumption = async (year, month, type) => {
+  month = parseInt(month, 10);
+  year = parseInt(year, 10);
+  type = parseInt(type, 10);
+  let registeredSupplies = [];
+  return new Promise((resolve, reject) => {
+    Service_consumption.find({ type: type, year: year, month: month }).exec(async (err, results) => {
+      if(err) reject();
+      else {
+        for(let i = 0; i<results.length; i++) {
+          
+        }
+      }
+    });
+  });
+
+};
 
 /**
  * Create an service_consumption

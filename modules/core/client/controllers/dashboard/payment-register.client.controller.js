@@ -41,6 +41,7 @@
       vm.personalServices = [];
       Pay.calculatePay(vm.monthSelected, vm.yearSelected, departmentId, {
         success: function (response) {
+          vm.condominiumDetails = response.data.condominiumDetails;
           vm.fullUser = response.data.fullUser;
           vm.information = response.data.informative;
           vm.lastConsume = response.data.lastConsume;

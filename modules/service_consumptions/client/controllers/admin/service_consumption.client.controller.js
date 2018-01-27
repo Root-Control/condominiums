@@ -37,7 +37,7 @@
       vm.individual = false;
       vm.consumptions = [];
       vm.type = type;
-      vm.supplies = SuppliesService.query({ type: id, condominium: vm.condominium, active: true });
+      vm.supplies = SuppliesService.query({ type: id, condominium: vm.condominium, active: true, year: vm.yearSelected, month: vm.month });
 
       vm.supplies.$promise.then(function (data) {
         for (var i = 0; i < data.length; i++) {

@@ -12,6 +12,10 @@
 //	Cuando registres consumos, que aparescan los qu eno estan registrados.
 
 
+
+.- Fix, al traer los supplies por mes y año, (torre si es agua), verificaar los registrados y crear un query que los elimine
+
+
 1.- Consumo de servicios, que se filtren por año y mes
 
 
