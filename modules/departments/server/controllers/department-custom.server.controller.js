@@ -119,6 +119,39 @@ exports.getDepartmentsByCondominium = async(req, res) => {
   });
 };
 
+exports.getDepartmentsByTower = async(req, res) => {
+  let departmentsResponse = [];
+  let data =  {};
+  let registered;
+  Department.find({ tower: req.query.towerId }).sort('-created').populate('user', 'displayName').exec( async function (err, departments) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    else {
+      data.year = req.query.year;
+      data.month = req.query.month;
+      data.departments = departments;
+      let alreadyRegistered = await Consumptions.getCurrentRegisteredSupplies(data);
+      departments = deleteRegisteredConsumptions(alreadyRegistered, departments);
+      //  Aqui
+      //  Obtener el grupo de cada departamento y traer su avgWater
+      for(let i = 0; i < departments.length; i++) {
+        let lastConsume = 0;
+        let keyData = await Keys.getGroupByDepartmentId(departments[i]._id);
+        let avgWaterSupply = await Groups.getAvgWaterSupply(keyData.group);
+        let lastConsumption = await Consumptions.verifyPreviousConsume(departments[i]._id, req.query.month);
+        if(lastConsumption) lastConsume = lastConsumption.consumed;
+        departmentsResponse.push({ _id: departments[i]._id, code: departments[i].code, description: departments[i].description, avgWaterSupply: avgWaterSupply, lastConsume: lastConsume })
+        //  LastConsume
+      }
+
+      res.json(departmentsResponse);
+    }
+  });
+};
+
 exports.getDepartmentsByCodeRegex = (req, res) => {
   return new Promise(async(resolve, reject) => {
     let type = typeof req;
@@ -145,4 +178,15 @@ let search = async (code) => {
       else resolve(department);
     }).populate('tower', 'name');
   });
+};
+
+let deleteRegisteredConsumptions = (alreadyRegistered, departments) => {
+  let registered;
+  let response = [];
+  for(let i = 0; i< departments.length; i++) {
+    let registered = alreadyRegistered.includes(departments[i]._id.toString());
+    if(!registered) response.push(departments[i]);
+  }
+
+  return response;
 };

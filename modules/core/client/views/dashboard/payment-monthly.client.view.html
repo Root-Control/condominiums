@@ -14,9 +14,9 @@
             <select name="" id="" class="form-control" ng-model="vm.yearSelected" ng-options="obj.text as obj.value for obj in vm.years" ng-change="vm.getTotals()">
                 
             </select>
-        </div> 		 
+        </div> 		
+        <label for="search">Buscar departamento:</label> 
 	    <div class="input-group">
-	        <label for="search">Buscar departamento:</label>
 		      <input type="text" id="search" class="form-control" placeholder="Ingresa el departamento" ng-model="vm.code"  ng-keypress="vm.searchDepartment($event)">
 		      <span class="input-group-btn">
 		        <button class="btn btn-secondary"type="button">

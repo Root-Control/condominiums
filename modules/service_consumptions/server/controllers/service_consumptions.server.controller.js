@@ -300,6 +300,26 @@ exports.getAquaConsumptionsByTowerAndYear = async(req, res) => {
 
 };
 
+exports.getCurrentRegisteredSupplies = async(data) => {
+  let ids = [];
+  for(let i = 0; i < data.departments.length; i++) {
+    ids.push(data.departments[i]._id);
+  }
+
+  return new Promise((resolve, reject) => {
+    let response = [];
+    Service_consumption.find({ year: data.year, month: data.month, globalIdentifier: { $in: ids } }).exec((err, results) => {
+      if(err) reject(err);
+      else {
+        for(let x = 0; x < results.length; x++) {
+          response.push(results[x].globalIdentifier.toString());
+        }
+      }
+     resolve(response);
+    });
+  });
+};
+
 process.on('unhandledRejection', (err) => { 
   console.error(err)
   process.exit(1)

@@ -5,9 +5,9 @@
     .module('service_consumptions.admin')
     .controller('Service_consumptionsAdminController', Service_consumptionsAdminController);
 
-  Service_consumptionsAdminController.$inject = ['$q', '$scope', '$state', '$window', 'service_consumptionResolve', 'Authentication', 'Notification', 'SuppliesService', 'Consumption', 'CondominiumsService', 'DepartmentCustomService', 'ServicesService', 'Messages'];
+  Service_consumptionsAdminController.$inject = ['$q', '$scope', '$state', '$window', 'service_consumptionResolve', 'Authentication', 'Notification', 'SuppliesService', 'Consumption', 'CondominiumsService', 'DepartmentCustomService', 'ServicesService', 'Messages', 'TowersService'];
 
-  function Service_consumptionsAdminController($q, $scope, $state, $window, service_consumption, Authentication, Notification, SuppliesService, Consumption, CondominiumsService, DepartmentCustomService, ServicesService, Messages) {
+  function Service_consumptionsAdminController($q, $scope, $state, $window, service_consumption, Authentication, Notification, SuppliesService, Consumption, CondominiumsService, DepartmentCustomService, ServicesService, Messages, TowersService) {
     var vm = this;
     vm.loading = false;
     vm.service_consumption = service_consumption;
@@ -15,6 +15,13 @@
     vm.monthSelected = false;
     vm.consumption = {};
     vm.consumptions = [];
+
+    vm.globalConsumption = [];
+    vm.groupConsumption = [];
+    vm.personalConsumption = [];
+    vm.departmentConsumption = [];
+    vm.towerConsumption = [];
+
     vm.month = 0;
     vm.tabSelected = {
       id: 2,
@@ -53,18 +60,67 @@
           vm.consumptions.push(vm.consumption);
           vm.consumption = {};
         }
+
+          vm.serviceTypes = { global: true, group: true, tower: true, department: true, personal: true };
+
+          switch (id) {
+            case 1:
+              vm.globalConsumption = vm.consumptions;
+              //  Le decimos que limpie todos menos el global
+              vm.serviceTypes.global = false
+              vm.clearConsumptions();
+              break;
+            case 2:
+              vm.groupConsumption = vm.consumptions;
+              vm.serviceTypes.group = false;
+              vm.clearConsumptions();
+              break;
+            case 3:
+              vm.towerConsumption = vm.consumptions;
+              vm.serviceTypes.tower = false
+              vm.clearConsumptions();
+              break;
+            case 4:
+              vm.departmentConsumption = vm.consumptions;
+              vm.serviceTypes.department = false
+              vm.clearConsumptions();
+              break;
+            case 5:
+              vm.clearConsumptions();
+              vm.serviceTypes.personal = false
+              vm.personalConsumption = vm.consumptions;
+              break;
+          }
       });
     };
 
+    vm.clearConsumptions = function() {
+      //  Si types global existe o es true, le damos el valor de un array vacio
+      vm.groupConsumption = vm.serviceTypes.group ? []: vm.groupConsumption;
+      vm.towerConsumption = vm.serviceTypes.tower ? []: vm.towerConsumption;
+      vm.globalConsumption = vm.serviceTypes.global ? []: vm.globalConsumption;      
+      vm.personalConsumption = vm.serviceTypes.personal ? []: vm.personalConsumption;
+      vm.departmentConsumption = vm.serviceTypes.department ? []: vm.departmentConsumption; 
+    };
+
     vm.individualSupplies = function (id, type) {
+
+      if (vm.authentication.user.roles[0] === 'superadmin') vm.towers = TowersService.query();
+      else vm.towers = TowersService.query({ condominiumId: vm.authentication.user.condominium });
+      vm.serviceTypes = { global: true, group: true, tower: true, department: true, personal: true };
+      vm.serviceTypes.department = false
+      vm.clearConsumptions(); 
+      if(!vm.towerId) return false;
+
       vm.individual = true;
       vm.service = ServicesService.query({ type: id, condominium: vm.condominium });
       vm.type = type;
       vm.consumptions = [];
       var condominium = vm.condominium ? vm.condominium : vm.authentication.user.condominium;
-      DepartmentCustomService.departmentsByCondominium(condominium, vm.month, {
+      DepartmentCustomService.getDepartmentsByTowerId(vm.towerId, vm.month, vm.yearSelected, {
         success: function (response) {
           vm.departments = response.data;
+          console.log(vm.departments);
           for (var i = 0; i < vm.departments.length; i++) {
             vm.consumption.supplyCode = 'Servicio individual';
             vm.consumption.serviceName = vm.service[0].name;
@@ -84,6 +140,9 @@
             vm.consumptions.push(vm.consumption);
             vm.consumption = {};
           }
+ 
+          vm.departmentConsumption = vm.consumptions;
+         
         },
         error: function (response) {
           console.log(response);

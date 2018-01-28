@@ -14,6 +14,11 @@
       .then(options.success, options.error);
     };
 
+    me.getDepartmentsByTowerId = function(towerId, month, year, options) {
+      $http.get('/api/departmentsbytower?towerId=' + towerId + '&month=' + month + '&year=' + year)
+      .then(options.success, options.error);
+    };
+
     me.searchDepartmentsByCodeRegex = function(code, options) {
       $http.get('/api/getdepartmentsbycode?code=' + code)
         .then(options.success, options.error);
@@ -27,7 +32,8 @@
     return {
       departmentsByCondominium: me.getDepartmentsByCondominiumId,
       searchDepartments: me.searchDepartmentsByCodeRegex,
-      activeDepartments: me.getQtyActiveDepartments
+      activeDepartments: me.getQtyActiveDepartments,
+      getDepartmentsByTowerId: me.getDepartmentsByTowerId
     }
   }
 }());

@@ -16,6 +16,9 @@ module.exports = function (app) {
   app.route('/api/departmentsbycondominium')
     .get(custom_departments.getDepartmentsByCondominium);
 
+  app.route('/api/departmentsbytower')
+    .get(custom_departments.getDepartmentsByTower);
+
   app.route('/api/getdepartmentsbycode')
     .get(custom_departments.getDepartmentsByCodeRegex);
 

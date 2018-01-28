@@ -51,40 +51,74 @@
         <a class="nav-link" id="contact-tab" data-toggle="tab" href="#department" role="tab" aria-controls="contact" aria-selected="false" ng-click="vm.typeConsumption(4, 'Departamento')">Departamento</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#department" role="tab" aria-controls="contact" aria-selected="false" ng-click="vm.typeConsumption(5, 'Personal')">Personal</a>
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="contact" aria-selected="false" ng-click="vm.typeConsumption(5, 'Personal')">Personal</a>
       </li>
     </ul>
-    <div class="tab-content" id="myTabContent" ng-show="vm.tabSelected.id < 4">
-        <table class="table table-responsive table-striped">
+    <div class="tab-content" id="group">
+        <table class="table table-responsive table-striped" ng-show="vm.groupConsumption.length > 0">
           <thead>
             <th>Servicio</th>
             <th>{{ vm.type }}</th>
             <th>Código de suministro</th>
-            <th ng-show="vm.individual">Lectura anterior</th>
-            <th ng-show="vm.individual">Lectura actual</th>
-            <th ng-show="vm.individual">Precio Promedio</th>
             <th>Monto</th>
           </thead>
           <tbody>
-            <tr ng-repeat="item in vm.consumptions">
+            <tr ng-repeat="item in vm.groupConsumption">
               <td>{{ item.serviceName }}</td>
               <td>{{ item.supplyDescription }}</td>
               <td>{{ item.supplyCode }}</td>
-              <td ng-show="vm.individual">
-                <span ng-show="!item.emptyLastConsume">{{ item.lastConsume }}</span>
-                <input type="text" class="form-control" name="" ng-model="item.lastConsume" ng-show="item.emptyLastConsume">
-              </td>
-              <td ng-show="vm.individual"><input type="text" ng-model="item.consumed" class="form-control"></td>
-              <td ng-show="vm.individual">{{ item.avgWaterSupply }}</td>
-              <td><input ng-show="!vm.individual" ="text" ng-model="item.total" class="form-control">
-                <span ng-show="vm.individual">{{ (item.consumed - item.lastConsume) * item.avgWaterSupply  }}</span>
+              <td><input ng-show="!vm.individual" type="text" ng-model="item.total" class="form-control">
               </td>
             </tr>
           </tbody>
         </table>
     </div>
-    <div class="tab-content" id="myTabContent" ng-show="vm.tabSelected.id == 4">
-        <table class="table table-responsive table-striped">
+    <div class="tab-content" id="tower">
+        <table class="table table-responsive table-striped" ng-show="vm.towerConsumption.length > 0">
+          <thead>
+            <th>Servicio</th>
+            <th>{{ vm.type }}</th>
+            <th>Código de suministro</th>
+            <th>Monto</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.towerConsumption">
+              <td>{{ item.serviceName }}</td>
+              <td>{{ item.supplyDescription }}</td>
+              <td>{{ item.supplyCode }}</td>
+              <td><input ng-show="!vm.individual" type="text" ng-model="item.total" class="form-control">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="tab-content" id="condominium">
+        <table class="table table-responsive table-striped" ng-show="vm.globalConsumption.length > 0">
+          <thead>
+            <th>Servicio</th>
+            <th>{{ vm.type }}</th>
+            <th>Código de suministro</th>
+            <th>Monto</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.globalConsumption">
+              <td>{{ item.serviceName }}</td>
+              <td>{{ item.supplyDescription }}</td>
+              <td>{{ item.supplyCode }}</td>
+              <td><input ng-show="!vm.individual" ="text" ng-model="item.total" class="form-control">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="tab-content" id="department">
+      <div class="form-group" ng-show="vm.tabSelected.id == 4">
+        <label for="">Elige torre:</label>
+        <select name="" id="" class="form-control" ng-model="vm.towerId" ng-change="vm.typeConsumption(4, 'Departamento')">
+          <option ng-value="item._id" ng-repeat="item in vm.towers">{{ item.name }}</option>
+        </select>
+      </div>
+        <table class="table table-responsive table-striped" ng-show="vm.departmentConsumption.length > 0">
           <thead>
             <th>Servicio</th>
             <th>{{ vm.type }}</th>
@@ -95,7 +129,7 @@
             <th>Monto</th>
           </thead>
           <tbody>
-            <tr ng-repeat="item in vm.consumptions">
+            <tr ng-repeat="item in vm.departmentConsumption">
               <td>{{ item.serviceName }}</td>
               <td>{{ item.supplyDescription }}</td>
               <td>{{ item.supplyCode }}</td>
@@ -112,8 +146,8 @@
           </tbody>
         </table>
     </div>
-    <div class="tab-content" id="myTabContent" ng-show="vm.tabSelected.id == 5">
-        <table class="table table-responsive table-striped">
+    <div class="tab-content" id="personal">
+        <table class="table table-responsive table-striped" ng-show="vm.personalConsumption.length > 0">
           <thead>
             <th>Servicio</th>
             <th>{{ vm.type }}</th>
@@ -123,7 +157,7 @@
             <th>Monto</th>
           </thead>
           <tbody>
-            <tr ng-repeat="item in vm.consumptions">
+            <tr ng-repeat="item in vm.personalConsumption">
               <td>{{ item.serviceName }}</td>
               <td>{{ item.supplyDescription }}</td>
               <td>{{ item.supplyCode }}</td>
