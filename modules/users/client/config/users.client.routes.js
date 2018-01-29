@@ -66,7 +66,8 @@
       })
       .state('authentication.signup', {
         url: '/signup',
-        templateUrl: '/modules/users/client/views/authentication/signup.client.view.html',
+        //templateUrl: '/modules/users/client/views/authentication/signup.client.view.html',
+        templateUrl: '/modules/users/client/views/authentication/signin.client.view.html',
         controller: 'AuthenticationController',
         controllerAs: 'vm',
         data: {

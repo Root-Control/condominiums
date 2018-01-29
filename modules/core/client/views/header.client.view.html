@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         </button>
-        <a ui-sref="home" class="navbar-brand">C.CONTROL V1.0</a>
+        <a ui-sref="home" class="navbar-brand">Vecino informado - Control de pagos</a>
     </div>
     <nav class="navbar-collapse" uib-collapse="!vm.isCollapsed" role="navigation">
         <ul class="nav navbar-nav" ng-if="vm.menu.shouldRender(vm.authentication.user);">
@@ -22,11 +22,11 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" ng-hide="vm.authentication.user">
             <li ui-sref-active="active">
-                <a ui-sref="authentication.signup">Sign Up</a>
+                <!-- <a ui-sref="authentication.signup">Sign Up</a> -->
             </li>
             <li class="divider-vertical"></li>
             <li ui-sref-active="active">
-                <a ui-sref="authentication.signin">Sign In</a>
+                <a ui-sref="authentication.signin">Iniciar Sesión</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right" ng-show="vm.authentication.user">
