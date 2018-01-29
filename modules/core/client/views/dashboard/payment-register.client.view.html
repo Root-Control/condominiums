@@ -192,7 +192,7 @@
             <table class="table table-responsive boleta individualpayment">
           <tr>
             <th>LECTURA PREVIA:</th>
-            <td>{{ vm.lastConsume }}</td>
+            <td>{{ vm.individuals.consumed - (vm.individuals.amount / vm.avgWaterSupply) }}</td>
             <th>VALOR M3:</th>
             <td>{{  vm.avgWaterSupply }}</td>
             <th>AGUA MES:</th>
@@ -201,7 +201,7 @@
             <th>LECTURA ACTUAL:</th>
             <td>{{ vm.individuals.consumed }}</td>
             <th>CONSUMO:</th>
-            <td>{{ vm.individuals.consumed - vm.lastConsume}}</td>
+            <td>{{ vm.individuals.amount / vm.avgWaterSupply }}</td>
             <th>S/. {{ vm.individuals.amount }}</th>         
           </tr>           
         </table>
