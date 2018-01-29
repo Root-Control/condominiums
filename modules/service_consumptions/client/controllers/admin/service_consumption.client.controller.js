@@ -197,7 +197,9 @@
       vm.consumptions.forEach(function(key) {
         if(vm.tabSelected.id === 4) key.total = (key.consumed - key.lastConsume) * key.avgWaterSupply;
         else if (vm.tabSelected.id === 5) key.total = (key.consumed * key.qtyWorkers).toFixed(2);
-        if(key.total < 1 || isNaN(key.total)) vm.errorsOrnegativeTotal = vm.errorsOrnegativeTotal + 1;
+        if(key.total < 0) key.total = ((key.consumed - key.lastConsume) * key.avgWaterSupply) * -1;      
+
+        if(isNaN(key.total)) vm.errorsOrnegativeTotal = vm.errorsOrnegativeTotal + 1;
       });
       if(vm.errorsOrnegativeTotal > 0) {
         alert('Verifica los datos por favor');
