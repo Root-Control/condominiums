@@ -5,7 +5,8 @@
     .module('core')
     .controller('AquaController', AquaController);
 
-  AquaController.$inject = ['$window', '$scope', '$state', 'Authentication', 'Messages', 'TowersService', 'Helpers', 'Consumption'];
+  AquaController.$inject = ['$window', '$scope', '$state', 'Authentication', 'Messages', 'TowersService', 'Helpers', 'Consumption']
+  ;
 
   function AquaController($window, $scope, $state, Authentication, Messages, TowersService, Helpers, Consumption) {
     var vm = this;
@@ -50,6 +51,27 @@
     		}
     	});
     };
+
+    vm.deleteAquaRecord = function(id) {
+        Messages.confirmAction()
+        .then(function() {
+            Consumption.deleteMassiveConsumptions(id, {
+                success: function(response) {
+                    if(response.data.success) {
+                        Messages.successMessage('Se eliminó el consumo registrado, se eliminaron también ' + response.data.deleted + ' registros en las boletas.');
+                        for(var i = 0; i<vm.consumptions.length; i++) {
+                            if(vm.consumptions[i].consumption._id == id) {
+                                vm.consumptions.splice(i, 1);
+                            }
+                        }
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        });        
+    }
 
     vm.months = Helpers.getMonths();
   }

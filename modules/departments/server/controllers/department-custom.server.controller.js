@@ -77,6 +77,17 @@ exports.createBillHeadersByDepartment = async(department) => {
   });
 };
 
+exports.populateDepartment = async departmentId => {
+
+  return new Promise(async (resolve, reject) => {
+    //  Deep-Population, deep population, deeppoulation
+    Department.findOne({ _id: departmentId }).populate({ path: 'tower', populate: { path: 'groupAssigned' }}).exec(async(err, department) => {
+      if(err) console.log(err);
+      else resolve(department);      
+    })
+  });
+}
+
 function listDepartments() {
   return new Promise((resolve, reject) => {
     Department.find().sort('-created').populate('user', 'displayName').exec(function (err, departments) {

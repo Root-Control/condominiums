@@ -6,6 +6,7 @@
 let path = require('path'),
   mongoose = require('mongoose'),
   Service_consumption = mongoose.model('Service_consumption'),
+  Department = require(path.resolve('./modules/departments/server/controllers/department-custom.server.controller')),
   Keys = require(path.resolve('./modules/keys/server/controllers/keys.server.controller')),
   billDetail = require(path.resolve('./modules/bill_sale_details/server/controllers/bill_sale_details.server.controller')),
   Groups = require(path.resolve('./modules/groups/server/controllers/groups-custom.server.controller')),
@@ -291,13 +292,15 @@ exports.getAquaConsumptionsByTowerAndYear = async(req, res) => {
   Service_consumption.find({ globalIdentifier: { $in: result.departments }, month: month, year: year, type: 4 }).populate('globalIdentifier', null, 'Department').exec(async(err, result) => {
     for(var i = 0; i< result.length; i++) {
       let lastMonthConsume = await this.verifyPreviousConsume(result[i].globalIdentifier._id, month);
-      lastConsume = lastMonthConsume ? lastMonthConsume.consumed : 0;
-      avgWaterSupply = (result[i].total / (result[i].consumed - lastConsume)).toFixed(2);
+      let departmentData = await Department.populateDepartment(result[i].globalIdentifier._id);
+      let avgWaterSupply = departmentData.tower.groupAssigned.avgWaterSupply;
+      lastConsume = lastMonthConsume ? lastMonthConsume.consumed : (result[i].consumed - (result[i].total / avgWaterSupply));
+      //avgWaterSupply = (result[i].total / (result[i].consumed - lastConsume)).toFixed(2);
+      console.log(lastConsume);
       response.push({ avgWaterSupply: avgWaterSupply, lastConsume: lastConsume, consumption: result[i], editable: true });
     }
     res.json(response);
   });
-
 };
 
 exports.getCurrentRegisteredSupplies = async(data) => {
@@ -318,6 +321,10 @@ exports.getCurrentRegisteredSupplies = async(data) => {
      resolve(response);
     });
   });
+};
+
+exports.updateAquaConsumptions = (req, res) => {
+
 };
 
 process.on('unhandledRejection', (err) => { 
