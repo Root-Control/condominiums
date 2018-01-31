@@ -69,7 +69,14 @@
   			<td>{{ item.avgWaterSupply }}</td>
   			<td>{{ (item.consumption.consumed - item.lastConsume) * item.avgWaterSupply | number: 2 }}</td>
   			<td>Si</td>
-  			<td><a href="#" ng-click="vm.deleteAquaRecord(item.consumption._id)">Eliminar</a></td>
+  			<td>
+          <a href="">
+            <i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+          </a>        
+          <a href="#" ng-click="vm.deleteAquaRecord(item.consumption._id)">
+            <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+          </a>
+        </td>
   		</tr>
   	</tbody>
   </table>

@@ -9,10 +9,11 @@
 
   function Messages($http) {
     var me = this;
-    me.confirmAction = function() {
+    me.confirmAction = function(message) {
+      if (!message) message = 'Estás seguro de realizar esta acción?'
       return new Promise(function(resolve, reject) {
         swal({
-          title: 'Estás seguro de realizar esta acción?',
+          title: message,
           text: "No podrás revertir estos cambios!",
           type: 'warning',
           showCancelButton: true,

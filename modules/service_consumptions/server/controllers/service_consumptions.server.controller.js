@@ -295,8 +295,6 @@ exports.getAquaConsumptionsByTowerAndYear = async(req, res) => {
       let departmentData = await Department.populateDepartment(result[i].globalIdentifier._id);
       let avgWaterSupply = departmentData.tower.groupAssigned.avgWaterSupply;
       lastConsume = lastMonthConsume ? lastMonthConsume.consumed : (result[i].consumed - (result[i].total / avgWaterSupply));
-      //avgWaterSupply = (result[i].total / (result[i].consumed - lastConsume)).toFixed(2);
-      console.log(lastConsume);
       response.push({ avgWaterSupply: avgWaterSupply, lastConsume: lastConsume, consumption: result[i], editable: true });
     }
     res.json(response);

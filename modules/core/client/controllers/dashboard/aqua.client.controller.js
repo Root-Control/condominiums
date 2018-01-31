@@ -53,7 +53,7 @@
     };
 
     vm.deleteAquaRecord = function(id) {
-        Messages.confirmAction()
+        Messages.confirmAction('Estás seguro que deseas eliminar este consumo?')
         .then(function() {
             Consumption.deleteMassiveConsumptions(id, {
                 success: function(response) {
