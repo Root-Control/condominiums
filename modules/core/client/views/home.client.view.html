@@ -171,14 +171,7 @@
             <th>CONSUMO:</th>
             <td>{{ vm.individuals.amount / vm.avgWaterSupply }}</td>
             <th>S/. {{ vm.individuals.amount }}</th>         
-          </tr>
-         <tr ng-show="vm.aditionals.discount.length > 0 || vm.aditionals.penalization.length > 0">
-            <th>DESCUENTOS:</th>
-            <td>S/. {{ vm.aditionals.totalDiscount }}</td>
-            <th>MULTAS:</th>
-            <td>S/. {{ vm.aditionals.totalPenalization }}</td>
-            <th>TOTAL: S/. {{ (vm.aditionals.totalDiscount - vm.aditionals.totalPenalization) | absolute }}</th>
-          </tr>                     
+          </tr>                    
         </table>
           </div>
         <div class="row">
@@ -258,30 +251,66 @@
         </div>
         <div class="row" ng-show="vm.towerServices.length > 0">
           <div class="col-sm-10 col-md-offset-1">
-        <div class="panel panel-default">
-          <div class="panel-heading detail-pay text-center">Importe de torre para la Torre  {{ vm.information.tower.name }} - Afectan {{ vm.towerServices[0].qtyDivision }} Departamentos</div>
-          <div class="panel-body">
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
-              <table class="table table-bordered items individualpayment">
-                <div class="text-center"><b>Servicios</b></div>
-                <thead>
-                  <th>Codigo/Suministro</th>
-                  <th>Descripción</th>
-                  <th>Total</th>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="item in vm.towerServices">
-                    <td>{{ item.supplyCode }}</td>
-                    <td>{{ item.serviceName }}</td>
-                    <td>S/. {{ item.totalAmount }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>            
+            <div class="panel panel-default">
+              <div class="panel-heading detail-pay text-center">Importe de torre para la Torre  {{ vm.information.tower.name }} - Afectan {{ vm.towerServices[0].qtyDivision }} Departamentos</div>
+            <div class="panel-body">
+              <div class="row" style="margin-left: 0px; margin-right: 0px;">
+                <table class="table table-bordered items individualpayment">
+                  <div class="text-center"><b>Servicios</b></div>
+                  <thead>
+                    <th>Codigo/Suministro</th>
+                    <th>Descripción</th>
+                    <th>Total</th>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="item in vm.towerServices">
+                      <td>{{ item.supplyCode }}</td>
+                      <td>{{ item.serviceName }}</td>
+                      <td>S/. {{ item.totalAmount }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>            
+            </div>
+            </div>
           </div>
         </div>
+        <div class="row" ng-show="vm.aditionals.penalization.length > 0 || vm.aditionals.discount > 0">
+          <div class="col-sm-10 col-md-offset-1">
+            <div class="panel panel-default">
+              <div class="panel-heading detail-pay text-center">Multas y/o Descuentos individuales</div>
+              <div class="panel-body">
+                <div class="row" style="margin-left: 0px; margin-right: 0px;">
+                  <table class="table table-bordered items individualpayment">
+                    <thead>
+                      <th>Monto</th>
+                      <th>Descripción</th>
+                      <th>Mes</th>
+                      <th>Año</th>
+                      <th>Tipo</th>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.aditionals.penalization">
+                        <td>S/. {{ item.amount }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.month | monthName }}</td>
+                        <td>{{ item.year }}</td>
+                        <td style="color: red;">S/. {{ item.type == 2 ? 'Multa' : 'Descuento' }}</td>
+                      </tr>
+                      <tr ng-repeat="item in vm.aditionals.discount">
+                        <td>S/. {{ item.amount }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.month | monthName }}</td>
+                        <td>{{ item.year }}</td>
+                        <td style="color: green;">S/. {{ item.type == 2 ? 'Multa' : 'Descuento' }}</td>
+                      </tr>                      
+                    </tbody>
+                  </table>
+                </div>            
+              </div>
+            </div>
           </div>
-        </div>                
+        </div>                         
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" ng-click="vm.print()" id="print">
