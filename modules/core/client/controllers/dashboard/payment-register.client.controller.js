@@ -5,11 +5,12 @@
     .module('core')
     .controller('PaymentRegisterController', PaymentRegisterController);
 
-  PaymentRegisterController.$inject = ['$window', '$scope', '$state', 'Authentication', 'DepartmentCustomService', 'Pay', 'Messages'];
+  PaymentRegisterController.$inject = ['$window', '$scope', '$state', 'Authentication', 'DepartmentCustomService', 'Pay', 'Messages', 'Helpers', 'AditionalsService'];
 
-  function PaymentRegisterController($window, $scope, $state, Authentication, DepartmentCustomService, Pay, Messages) {
+  function PaymentRegisterController($window, $scope, $state, Authentication, DepartmentCustomService, Pay, Messages, Helpers, AditionalsService) {
     var vm = this;
     vm.authentication = Authentication;
+    vm.aditional = {};
 
     vm.searchDepartment = function (key) {
       if (key.which === 13) {
@@ -41,6 +42,7 @@
       vm.personalServices = [];
       Pay.calculatePay(vm.monthSelected, vm.yearSelected, departmentId, {
         success: function (response) {
+          vm.aditionals = response.data.aditionals;
           vm.condominiumDetails = response.data.condominiumDetails;
           vm.fullUser = response.data.fullUser;
           vm.information = response.data.informative;
@@ -80,20 +82,8 @@
       });
     };
 
-    vm.months = [];
+    vm.months = Helpers.getMonths();   
     vm.userData = true;
-    vm.months.push({ month: 1, name: 'Enero' });
-    vm.months.push({ month: 2, name: 'Febrero' });
-    vm.months.push({ month: 3, name: 'Marzo' });
-    vm.months.push({ month: 4, name: 'Abril' });
-    vm.months.push({ month: 5, name: 'Mayo' });
-    vm.months.push({ month: 6, name: 'Junio' });
-    vm.months.push({ month: 7, name: 'Julio' });
-    vm.months.push({ month: 8, name: 'Agosto' });
-    vm.months.push({ month: 9, name: 'Setiembre' });
-    vm.months.push({ month: 10, name: 'Octubre' });
-    vm.months.push({ month: 11, name: 'Noviembre' });
-    vm.months.push({ month: 12, name: 'Diciembre' });
 
     vm.confirmAndPay = function () {
       if(!vm.userpay) {
@@ -119,6 +109,66 @@
       });
     };
     //  https://limonte.github.io/sweetalert2/
+
+    vm.addAditional = function(item) {
+      vm.selectedDepartment = item.code;
+      vm.aditional.department = item._id;
+      vm.aditional.month = vm.monthSelected;
+      vm.aditional.year = vm.yearSelected;
+    };
+
+    vm.addPenaltyOrDiscount = function() {
+      var type = vm.aditional.type == 1 ? 'este descuento?': 'esta multa?';
+      if(isNaN(parseInt(vm.aditional.amount))) {
+        Messages.errorMessage('El monto debe ser numérico');
+        return false;
+      }
+        Messages.confirmAction('Estás seguro que deseas agregar ' + type)
+        .then(function() {
+          AditionalsService.addAditional(vm.aditional, {
+            success: function(response) {
+              Messages.successMessage('Registrado correctamente!');
+              $('#aditional').modal('hide');
+            },
+            error: function(err) {
+              Messages.errorMessage('Oops, ocurrió un error');
+            }
+          })
+        }); 
+    };
+
+    vm.showRegisteredAditionals = function(item) {
+      vm.selectedDepartment = item.code;
+      vm.data = { month: vm.monthSelected, year: vm.yearSelected, department: item._id }; 
+      AditionalsService.listAditionals(vm.data, {
+        success: function(response) {
+          vm.registeredAditional = response.data;
+        },
+        error: function(err) {
+          console.log(err.data);
+        }
+      })
+    };
+
+    vm.deleteAditionalConsumption = function(id) {
+        Messages.confirmAction('Estás seguro que deseas eliminar éste item?')
+          .then(function() {
+          AditionalsService.deleteAditional(id, {
+            success: function(response) {
+              for(var i = 0 ; i < vm.registeredAditional.length; i ++) {
+                if(vm.registeredAditional[i]._id == id) {
+                  vm.registeredAditional.splice(i, 1);
+                }
+              }
+              Messages.successMessage('Eliminado correctamente!');
+            },
+            error: function(err) {
+              Messages.errorMessage('Oops, ocurrió un error');
+            }
+          });
+        }); 
+    };
+
     vm.print = function() {
       vm.printElement(document.getElementById("printable"));
       window.print();

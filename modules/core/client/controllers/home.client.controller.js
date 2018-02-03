@@ -54,6 +54,9 @@
       vm.globalServices = [];
       Pay.calculatePay(month, vm.yearSelected, null, {
         success: function(response) {
+          vm.aditionals = response.data.aditionals;
+          vm.condominiumDetails = response.data.condominiumDetails;
+          vm.fullUser = response.data.fullUser;          
           vm.information = response.data.informative;
           vm.lastConsume = response.data.lastConsume;
           vm.avgWaterSupply = response.data.avgWaterSupply;

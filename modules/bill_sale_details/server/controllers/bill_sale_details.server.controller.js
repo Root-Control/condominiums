@@ -13,6 +13,7 @@ var path = require('path'),
   Configurations = require(path.resolve('./modules/configurations/server/controllers/configurations-custom.server.controller')),
   Bill_header= require(path.resolve('./modules/bill_sale_headers/server/controllers/bill_sale_header_service.server.controller')),
   Consumptions = require(path.resolve('./modules/service_consumptions/server/controllers/service_consumptions.server.controller')),
+  AditionalServices = require(path.resolve('./modules/aditionals/server/controllers/aditionals.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -22,43 +23,50 @@ exports.getBillPayment = async (req, res) => {
   let user = req.user;
   let totals = [];
   let lastConsume = 0;
-  let month = req.query.month;
-  let year = req.query.year;
+  let month = parseInt(req.query.month, 10);
+  let year = parseInt(req.query.year, 10);
   let department;
+  let departmentId;
   let fullUser = {};
   let contract;
+
+  //  No user
   if(user.roles[0] != 'user') {
     contract = await Agreements.getAgreementByDepartment(req.query.departmentId);
     if(contract) fullUser = await Users.getUserByClientId(contract.clientId);
     else fullUser.displayName = 'No asignado';
   }
+
   //  Caso Admin, si ha elegido un departament Id 
   if(req.query.departmentId) {
-    department = { departmentId: req.query.departmentId };
+    departmentId = req.query.departmentId;
   } else {
     fullUser = await Users.userClientPopulation(req.user);
     department = await Agreements.getDepartmentByAgreement(fullUser.client._id);
+    departmentId = department.departmentId._id;
   }
-  let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId, month, year);
+  let header = await Bill_header.getHeaderIdByDepartmentAndMonth(departmentId, month, year);
   let details = await this.getDetailsByHeader(header);
 
   //  Get AVG WATER AND LAST CONSUME
-  let condominiumData = await Keys.getGroupByDepartmentId(department.departmentId);
+  let condominiumData = await Keys.getGroupByDepartmentId(departmentId);
   let condominiumDetails = await Configurations.getConfiguration(condominiumData.condominium._id);
   let avgWaterSupply = await Groups.getAvgWaterSupply(condominiumData.group);
-  let lastConsumption = await Consumptions.verifyPreviousConsume(department.departmentId, month);
+  let lastConsumption = await Consumptions.verifyPreviousConsume(departmentId, month);
   if(lastConsumption) lastConsume = lastConsumption.consumed;
+  let aditionals = await AditionalServices.getAditionalsByDepartment({ department: departmentId, month: month, year: year });
   //  Get AVG WATER AND LAST CONSUME
-
   //  Get Condominium information
 
-
-  let total = 0;
+  let subtotal = 0;
   details.forEach((key) => {
-    total = total + key.totalAmount;
+    subtotal = subtotal + key.totalAmount;
   });
 
+  let total = (subtotal + aditionals.totalPenalization) - aditionals.totalDiscount;
+
   let data = {
+    aditionals: aditionals,
     fullUser: fullUser,
     department: department,
     header: header,
@@ -73,6 +81,7 @@ exports.getBillPayment = async (req, res) => {
 };
 
 exports.getTotalsByMonths = async (req, res) => {
+  let departmentId;
   let currentYear= (new Date()).getFullYear();
   let totalMonths = [];
   let month = req.query.month;
@@ -81,16 +90,21 @@ exports.getTotalsByMonths = async (req, res) => {
   let fullUser;
   fullUser = await Users.userClientPopulation(req.user);
   department = await Agreements.getDepartmentByAgreement(fullUser.client._id);
+  departmentId = department.departmentId._id;
 
   for(let i = 1; i<13; i++) {
+    let aditionals = await AditionalServices.getAditionalsByDepartment({ department: departmentId, month: i, year: year });
     let name = this.getMonthName(i);
-    let total = 0;
-    let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId._id, i, year);
+    let subtotal = 0;
+    let header = await Bill_header.getHeaderIdByDepartmentAndMonth(department.departmentId, i, year);
 
     let details = await this.getDetailsByHeader(header);
     details.forEach((key) => {
-      total = total + key.totalAmount;
+      subtotal = subtotal + key.totalAmount;
     });
+    let total = (subtotal + aditionals.totalPenalization) - aditionals.totalDiscount;
+    console.log(total);
+
     totalMonths.push({ month: i, total: total.toFixed(2), status: header.status, name: name });
   }
   res.json(totalMonths);

@@ -136,22 +136,18 @@
           </tr>
           <tr>
             <th>CUOTA MES:</th>
-            <td>{{ vm.monthSelected }}</td> 
+            <td>{{ vm.monthSelected | monthName }}</td> 
             <th>DEUDA TOTAL:</th>
             <td>S/. {{ vm.total }}</td>           
           </tr>
           <tr>
             <th colspan="2">CUENTA ABONAR:</th>
-            <td colspan="2">555 77 855</td>
+            <td colspan="2">{{ vm.condominiumDetails.account_number }}</td>
           </tr>
           <tr>
             <th colspan="2">WEBSITE:</th>
-            <td colspan="2">HTTP://WWW.VECINOINFORMADO.COM</td>
-          </tr>
-          <tr>
-            <th colspan="2">MOROSIDAD:</th>
-            <td colspan="2">NO</td>
-          </tr>           
+            <td colspan="2">{{ vm.condominiumDetails.website }}</td>
+          </tr>          
         </table>          
           </div>
           <div class="col-sm-3 hidden-xs">
@@ -164,7 +160,7 @@
             <table class="table table-responsive boleta individualpayment">
           <tr>
             <th>LECTURA PREVIA:</th>
-            <td>{{ vm.lastConsume }}</td>
+            <td>{{ vm.individuals.consumed - (vm.individuals.amount / vm.avgWaterSupply) }}</td>
             <th>VALOR M3:</th>
             <td>{{  vm.avgWaterSupply }}</td>
             <th>AGUA MES:</th>
@@ -173,9 +169,16 @@
             <th>LECTURA ACTUAL:</th>
             <td>{{ vm.individuals.consumed }}</td>
             <th>CONSUMO:</th>
-            <td>{{ vm.individuals.consumed - vm.lastConsume}}</td>
+            <td>{{ vm.individuals.amount / vm.avgWaterSupply }}</td>
             <th>S/. {{ vm.individuals.amount }}</th>         
-          </tr>           
+          </tr>
+         <tr ng-show="vm.aditionals.discount.length > 0 || vm.aditionals.penalization.length > 0">
+            <th>DESCUENTOS:</th>
+            <td>S/. {{ vm.aditionals.totalDiscount }}</td>
+            <th>MULTAS:</th>
+            <td>S/. {{ vm.aditionals.totalPenalization }}</td>
+            <th>TOTAL: S/. {{ (vm.aditionals.totalDiscount - vm.aditionals.totalPenalization) | absolute }}</th>
+          </tr>                     
         </table>
           </div>
         <div class="row">

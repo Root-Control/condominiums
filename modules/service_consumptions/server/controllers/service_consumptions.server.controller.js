@@ -281,6 +281,10 @@ exports.deleteMassiveConsumptions = async(req, res) => {
   });
 };
 
+exports.updateMassiveConsumptions = async(req, res) => {
+  console.log(req.params.id);
+};
+
 exports.getAquaConsumptionsByTowerAndYear = async(req, res) => {
   let towerId = req.query.towerId;
   let month = req.query.month;

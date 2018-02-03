@@ -19,6 +19,11 @@
       .then(options.success, options.error);
     };
 
+    me.updateMassiveConsumptions = function(data, options) {
+      $http.update('/api/service_consumptions/massiveupdate/' + data._id, data)
+      .then(options.success, options.error);
+    };
+
     me.getAquaConsumptionsByTower = function(data, options) {
       var query = 'towerId=' + data.towerId + '&month=' + data.month + '&year=' + data.year;
       $http.get('/api/service_consumptions/getwaterconsumption?' + query)

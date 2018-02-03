@@ -113,7 +113,7 @@
 	    <div class="input-group">
         <label for="month">Seleccionar mes de facturación:</label>
 	      <select class="form-control" id="month" ng-model="vm.monthSelected">
-	      	<option value="{{ item.month }}" ng-repeat="item in vm.months">{{ item.name }}</option>
+	      	<option value="{{ item.value }}" ng-repeat="item in vm.months">{{ item.name }}</option>
 	      </select>
 	    </div>
 	  </div>
@@ -127,6 +127,8 @@
 					<th>Piso</th>
 					<th>Torre</th>
 					<th>Acciones</th>
+          <th>Multas / Descuentos</th>
+          <th>Multas / Descuentos (registrados)</th>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in vm.departments">
@@ -134,6 +136,16 @@
 						<td>{{ item.floor }}</td>
 						<td>{{ item.tower.name }}</td>
 						<td><a href="#" data-toggle="modal" data-target="#Boleta" ng-click="vm.createBillHeader(item._id)">Ver detalle</a></td>
+            <td>
+              <a href="#" data-toggle="modal" data-target="#aditional" ng-click="vm.addAditional(item)">
+                <i class="fa fa-plus"></i>
+                Agregar
+              </a>
+            </td>
+            <td>
+              <a href="#" data-toggle="modal" data-target="#registeredAditionals" ng-click="vm.showRegisteredAditionals(item)"> Ver registros </a>
+            </td>
+
 					</tr>
 				</tbody>
 			</table>
@@ -214,7 +226,14 @@
             <th>CONSUMO:</th>
             <td>{{ vm.individuals.amount / vm.avgWaterSupply }}</td>
             <th>S/. {{ vm.individuals.amount }}</th>         
-          </tr>           
+          </tr>
+          <tr ng-show="vm.aditionals.discount.length > 0 || vm.aditionals.penalization.length > 0">
+            <th>DESCUENTOS:</th>
+            <td>S/. {{ vm.aditionals.totalDiscount }}</td>
+            <th>MULTAS:</th>
+            <td>S/. {{ vm.aditionals.totalPenalization }}</td>
+            <th>TOTAL: S/. {{ (vm.aditionals.totalDiscount - vm.aditionals.totalPenalization) | absolute }}</th>
+          </tr>                     
         </table>
           </div>
         <div class="row">
@@ -241,7 +260,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+            <div class="row" style="margin-left: 0px; margin-right: 0px;" ng-show="vm.personalServices.length > 0">
               <table class="table table-bordered items individualpayment">
                 <div class="text-center"><b>Personal</b></div>
                 <thead>
@@ -339,3 +358,100 @@
     </div>
   </div>
 </div>
+</div>
+
+
+<div class="modal fade" id="aditional" role="dialog" style="font-family: arial;">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Multas, Descuentos ({{ vm.yearSelected }} / {{ vm.monthSelected }})</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="">Departamento: </label>
+              <input type="text" ng-model="vm.selectedDepartment" class="form-control" disabled>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="">Tipo:</label>
+              <select name="" id="" class="form-control" ng-model="vm.aditional.type">
+                <option value=1>Descuento</option>
+                <option value=2>Multa</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="">Monto</label>
+              <input type="text" ng-model="vm.aditional.amount" class="form-control">
+            </div>                       
+            <div class="form-group col-md-12">
+              <label for="">Descripción: </label>
+              <textarea name="description" data-ng-model="vm.aditional.description" id="description" class="form-control" cols="30" rows="5" placeholder="Una breve descripción de la multa o descuento aplicado."></textarea>              
+            </div>           
+          </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-info"  ng-click="vm.addPenaltyOrDiscount()">Guardar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+<div class="modal fade" id="registeredAditionals" role="dialog" style="font-family: arial;">
+    <div class="modal-dialog modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Multas y descuentos registrados</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="">Departamento: {{ vm.selectedDepartment }} </label>
+            </div>
+            <p ng-show="vm.registeredAditional.length == 0"> No se han registrado multas y/o descuentos</p>
+            <div class="col-md-12" ng-show="vm.registeredAditional.length > 0">
+              <table class="table table-bordered table-responsive">
+               <thead>
+                 <th>Mes</th>
+                 <th>Año</th>
+                 <th>Tipo</th>
+                 <th>Descripción</th>
+                 <th>Monto</th>
+                 <th>Acciones</th>
+               </thead>
+               <tbody>
+                 <tr ng-repeat="item in vm.registeredAditional">
+                   <td>{{ item.month }}</td>
+                   <td>{{ item.year }}</td>
+                   <td>{{ item.type == 2 ? 'Multa': 'Descuento' }}</td>
+                   <td>{{ item.description }}</td>
+                   <td>{{ item.amount }}</td>
+                   <td class="text-center">
+                    <a href="#" ng-click="vm.deleteAditionalConsumption(item._id);">
+                      <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                   </td>
+                 </tr>
+               </tbody>
+              </table>              
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-info"  ng-click="vm.addPenaltyOrDiscount()">Guardar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
