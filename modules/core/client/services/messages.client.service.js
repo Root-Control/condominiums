@@ -31,7 +31,7 @@
     };
 
     me.successMessage = function(successMessage) {
-      swal('Enhorabuena!', successMessage, 'success')
+      swal('Enhorabuena!', successMessage, 'success');
     };
 
     me.errorMessage = function(message) {

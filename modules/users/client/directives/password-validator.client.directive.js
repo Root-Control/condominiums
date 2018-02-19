@@ -8,7 +8,7 @@
   passwordValidator.$inject = ['PasswordValidator'];
 
   function passwordValidator(PasswordValidator) {
-    var directive = {
+/*    var directive = {
       require: 'ngModel',
       link: link
     };
@@ -59,6 +59,6 @@
         }
         return status;
       };
-    }
+    }*/
   }
 }());

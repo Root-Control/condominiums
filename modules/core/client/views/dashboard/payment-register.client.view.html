@@ -21,7 +21,7 @@
       padding: 16px 20px;
       background: none;
       color: #656C78;
-      font-size: 14px;
+      font-size: 12px;
       text-transform: capitalize;
   }
 
@@ -29,6 +29,8 @@
       color: #fff !important;
       background-color: #000 !important;  
       padding: 5px 15px !important; 
+      font-size: 12px;
+      text-transform: uppercase;
   }
   .items thead th{
     background: #2e6da4 !important;
@@ -49,14 +51,25 @@
     body * {
       visibility:hidden;
     }
+    .panel-body {
+        padding: 5px;
+    }
 
-  
+    .modal-body {
+      padding: 0px 15px 15px 15px;
+    }
+
+    .panel {
+      margin-bottom: 8px;
+    }
+
+
     #printSection, #printSection * {
       zoom: 100%;
       visibility:visible;
       font-family: Californian;
       text-transform: capitalize;
-      font-size: 16px;
+      font-size: 12px;
     }
 
     #printSection {
@@ -202,7 +215,7 @@
             <tr>
               <th colspan="2">WEBSITE:</th>
               <td colspan="2">{{ vm.condominiumDetails.website }}</td>
-            </tr>        
+            </tr>                    
           </table>          
         </div>
         <div class="col-sm-3 hidden-xs">
@@ -213,21 +226,21 @@
         <div class="row">
           <div class="col-sm-10 col-md-offset-1">
             <table class="table table-responsive boleta individualpayment">
-          <tr>
-            <th>LECTURA PREVIA:</th>
-            <td>{{ vm.individuals.consumed - (vm.individuals.amount / vm.avgWaterSupply) }}</td>
-            <th>VALOR M3:</th>
-            <td>{{  vm.avgWaterSupply }}</td>
-            <th>AGUA MES:</th>
-          </tr>
-          <tr>
-            <th>LECTURA ACTUAL:</th>
-            <td>{{ vm.individuals.consumed }}</td>
-            <th>CONSUMO:</th>
-            <td>{{ vm.individuals.amount / vm.avgWaterSupply }}</td>
-            <th>S/. {{ vm.individuals.amount }}</th>         
-          </tr>                   
-        </table>
+              <tr>
+                <th>LECTURA PREVIA:</th>
+                <td>{{ vm.individuals.consumed - (vm.individuals.amount / vm.avgWaterSupply) }}</td>
+                <th>VALOR M3:</th>
+                <td>{{  vm.avgWaterSupply }}</td>
+                <th>AGUA MES:</th>
+              </tr>
+              <tr>
+                <th>LECTURA ACTUAL:</th>
+                <td>{{ vm.individuals.consumed }}</td>
+                <th>CONSUMO:</th>
+                <td>{{ vm.individuals.amount / vm.avgWaterSupply }}</td>
+                <th>S/. {{ vm.individuals.amount }}</th>         
+              </tr>                   
+            </table>
           </div>
         <div class="row">
           <div class="col-sm-10 col-md-offset-1">
