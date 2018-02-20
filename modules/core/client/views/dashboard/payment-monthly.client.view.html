@@ -1,4 +1,4 @@
-<section>
+<section style="font-size: 12px;">
   <div class="jumbotron text-center">
     <h3>Registro de pagos</h3>
   </div>
@@ -29,13 +29,12 @@
 	<br/>
 	<table class="table table-bordered" ng-show="vm.details.length > 0">
 		<thead>
-			<th>Nombre de torre</th>
 			<th>N. Dpto</th>
 			<th>Cliente</th>
 			<th>Estado</th>
 			<th>Mes</th>
 			<th>Total</th>
-			<th>Monto a pagar</th>
+			<th>Cuota</th>
 			<th>A cta.</th>
 			<th>Responsable</th>
 			<th>Nro Trans.</th>
@@ -43,29 +42,28 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in vm.details">
-				<td>{{ item.tower }}</td>
-				<td style="font-size: 12px;">{{ item.name }}</td>
-				<td>{{ item.client }}</td>
+				<td>{{ item.name }}</td>
+				<td class="col-md-2">{{ item.client }}</td>
 				<td>{{ item.status }}</td>
 				<td>{{ item.month }}</td>
-				<td>S/. {{ item.total }}</td>
-				<td>
+				<td>{{ item.total }}</td>
+				<td class="col-md-1">
 					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento' || item.total == 0">-</label>
 					<input type="text" class="form-control input-sm" ng-model="item.payed" ng-show="item.status == 'Pendiente' && item.total != 0">
 				</td>
-				<td>
+				<td class="col-md-1">
 					<label ng-show="item.status == 'Pagado' || item.total == 0 ">-</label>
 					<label ng-show="item.status == 'Refinanciamiento'">{{ item.difference }}</label>
 					<div ng-show="item.status == 'Pendiente' && item.total > 0">{{ item.total - item.payed | number: 2 }}</div>
 				</td>
-				<td>
+				<td class="col-md-2">
 					<label ng-show="item.total == 0">-</label>
 					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento'">{{ item.paymentOwner }}</label>
-					<input type="text" class="form-control" ng-show="item.status == 'Pendiente' && item.total != 0" ng-model="item.paymentOwner">				
+					<input type="text" class="form-control input-sm" ng-show="item.status == 'Pendiente' && item.total != 0" ng-model="item.paymentOwner">				
 				</td>
-				<td>
+				<td class="col-md-1">
 					<label ng-show="item.total == 0">-</label>
-					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento'">{{ item.transactionNumber }}</label>	<input type="text" class="form-control" ng-show="item.status == 'Pendiente' && item.total != 0" ng-model="item.transactionNumber">	
+					<label ng-show="item.status == 'Pagado' || item.status == 'Refinanciamiento'">{{ item.transactionNumber }}</label>	<input type="text" class="form-control input-sm " ng-show="item.status == 'Pendiente' && item.total != 0" ng-model="item.transactionNumber">	
 				</td>
 				<td>
 					<label ng-show="item.total == 0">No hay deuda</label>
