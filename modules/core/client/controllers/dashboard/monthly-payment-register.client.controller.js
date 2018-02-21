@@ -5,13 +5,14 @@
     .module('core')
     .controller('MonthlyPaymentRegisterController', MonthlyPaymentRegisterController);
 
-  MonthlyPaymentRegisterController.$inject = ['$window', '$scope', '$state', 'Authentication', 'DepartmentCustomService', 'Pay', 'Messages'];
+  MonthlyPaymentRegisterController.$inject = ['$window', '$scope', '$state', 'Authentication', 'DepartmentCustomService', 'Pay', 'Messages', 'Helpers'];
 
-  function MonthlyPaymentRegisterController($window, $scope, $state, Authentication, DepartmentCustomService, Pay, Messages) {
+  function MonthlyPaymentRegisterController($window, $scope, $state, Authentication, DepartmentCustomService, Pay, Messages, Helpers) {
     var vm = this;
     vm.authentication = Authentication;
     vm.allmonths = false;
     vm.yearSelected = 2018;
+    vm.months = Helpers.getMonths(); 
     vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 } ];
 
     vm.searchDepartment = function (key) {
@@ -19,8 +20,10 @@
         vm.data = {
           code: vm.code,
           allmonths : vm.allmonths,
-          year: vm.yearSelected
+          year: vm.yearSelected,
+          month: vm.monthSelected
         };
+        console.log(vm.data);
         Pay.paymentDetails(vm.data, {
           success: function (response) {
             vm.detailObject = {};

@@ -14,7 +14,13 @@
             <select name="" id="" class="form-control" ng-model="vm.yearSelected" ng-options="obj.text as obj.value for obj in vm.years" ng-change="vm.getTotals()">
                 
             </select>
-        </div> 		
+        </div>
+        <div class="form-group col-md-4 col-sm-12" ng-show="!vm.allmonths">
+            <label for="">Selecciona el mes:</label>
+			<select class="form-control" id="month" ng-model="vm.monthSelected">
+				<option value="{{ item.value }}" ng-repeat="item in vm.months">{{ item.name }}</option>
+			</select>
+        </div>         	
         <label for="search">Buscar departamento:</label> 
 	    <div class="input-group">
 		      <input type="text" id="search" class="form-control" placeholder="Ingresa el departamento" ng-model="vm.code"  ng-keypress="vm.searchDepartment($event)">

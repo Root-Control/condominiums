@@ -39,12 +39,14 @@
       var allmonths = '';
       var status = '';
       var year = '';
+      var month = '';
 
       if(data.status) status = '&status=' + data.status;
       if(data.allmonths) allmonths = '&allmonths=' + data.allmonths;
       if(data.year) year = '&year=' + data.year;
+      if(data.month) month = '&month=' + data.month;
 
-      $http.get('/api/requestpaymentdata?code=' + data.code + status + allmonths + year)
+      $http.get('/api/requestpaymentdata?code=' + data.code + status + allmonths + year + month)
         .then(options.success, options.error);
     };
 

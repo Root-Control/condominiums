@@ -29,6 +29,7 @@ exports.getBillPayment = async (req, res) => {
   let departmentId;
   let fullUser = {};
   let contract;
+  let due_date = await this.getDueDate(month, year);
 
   //  No user
   if(user.roles[0] != 'user') {
@@ -75,7 +76,8 @@ exports.getBillPayment = async (req, res) => {
     avgWaterSupply: avgWaterSupply,
     lastConsume: lastConsume,
     informative: condominiumData,
-    condominiumDetails: condominiumDetails
+    condominiumDetails: condominiumDetails,
+    due_date: due_date
   };
   res.json(data);
 };
@@ -216,6 +218,53 @@ exports.bill_sale_detailByID = function (req, res, next, id) {
   });
 };
 
+exports.deleteBillDetailTransaction = async id => {
+  return new Promise((resolve, reject) => {
+    Bill_sale_detail.remove({ transaction_id: id }).exec(async (err, details) => {
+      if(err) reject();
+      else resolve(details);
+    });
+  });
+};
+
+//  http://18.231.92.119/api/destroy?month=12
+exports.destroy2016 = async(req, res) => {
+  let Detail = mongoose.model('Bill_sale_detail');
+  let month = parseInt(req.query.month, 10);
+  let bills = await this.getAllHeaders(month);
+  let details = await this.getAllDetails(bills);
+  Detail.remove({ _id: { $in: details}}).exec(function(err, result) {
+    res.json(result);
+  });
+};
+
+
+exports.getAllHeaders = async(month) => {
+  let billArray = [];
+  return new Promise((resolve, reject) => {
+  let Bill = mongoose.model('Bill_sale_header');
+    Bill.find({ year: 2016, month: month }).exec(function(err, result) {
+      console.log('Se encontraron ' + result.length + ' cabeceras');
+      for(var i = 0 ; i<result.length; i++) {
+        billArray.push(result[i]._id);
+      }
+      resolve(billArray);
+    });
+  });
+};
+
+exports.getAllDetails = async(headers) => {
+  let details = [];
+  return new Promise((resolve, reject) => {
+    let Detail = mongoose.model('Bill_sale_detail');
+    Detail.find({ billHeader: { $in: headers}}).exec(function(err, result) {
+      for(var i = 0 ; i<result.length; i++) {
+        details.push(result[i]._id);
+      }
+      resolve(details);
+    });
+  });
+};
 
 exports.getMonthName = function (month) {
   switch(month) {
@@ -256,55 +305,24 @@ exports.getMonthName = function (month) {
       return 'Diciembre';
       break;
   }
-}
-
-exports.deleteBillDetailTransaction = async id => {
-  return new Promise((resolve, reject) => {
-    Bill_sale_detail.remove({ transaction_id: id }).exec(async (err, details) => {
-      if(err) reject();
-      else resolve(details);
-    });
-  });
 };
 
-//  http://18.231.92.119/api/destroy?month=12
-exports.destroy2016 = async(req, res) => {
-  let Detail = mongoose.model('Bill_sale_detail');
-  let month = parseInt(req.query.month, 10);
-  let bills = await this.getAllHeaders(month);
-  let details = await this.getAllDetails(bills);
-  Detail.remove({ _id: { $in: details}}).exec(function(err, result) {
-    res.json(result);
+exports.getDueDate = async (month, year) => {
+  return new Promise(resolve => {
+    let response;
+    let day = '05';
+    if(month === 12) {
+      month =  '01';
+      year = year + 1;
+      response = `${day}/${month}/${year}`;
+    } else {
+      month = month + 1;
+      if(month.toString().length < 2) {
+        month = '0' + month;
+      } 
+      response = `${day}/${month}/${year}`;
+    }
+    resolve(response);
   });
-};
 
-
-exports.getAllHeaders = async(month) => {
-  let billArray = [];
-  return new Promise((resolve, reject) => {
-  let Bill = mongoose.model('Bill_sale_header');
-    Bill.find({ year: 2016, month: month }).exec(function(err, result) {
-      console.log('Se encontraron ' + result.length + ' cabeceras');
-      for(var i = 0 ; i<result.length; i++) {
-        billArray.push(result[i]._id);
-      }
-      resolve(billArray);
-    });
-  });
-};
-
-exports.getAllDetails = async(headers) => {
-  console.log('headers llega aqui');
-  console.log(headers);
-  let details = [];
-  return new Promise((resolve, reject) => {
-    let Detail = mongoose.model('Bill_sale_detail');
-    Detail.find({ billHeader: { $in: headers}}).exec(function(err, result) {
-      console.log('Se encontraron ' + result.length + ' detalles');
-      for(var i = 0 ; i<result.length; i++) {
-        details.push(result[i]._id);
-      }
-      resolve(details);
-    });
-  });
 };

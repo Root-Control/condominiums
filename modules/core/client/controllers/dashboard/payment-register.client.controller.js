@@ -52,7 +52,8 @@
           vm.items = response.data.details;
           vm.total = response.data.total;
           vm.header = response.data.header;
-
+          vm.due_date = response.data.due_date;
+          
           vm.items.forEach(function(key) {
             switch(key.type) {
               case 1:

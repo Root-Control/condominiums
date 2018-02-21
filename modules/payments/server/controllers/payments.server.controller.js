@@ -135,9 +135,15 @@ exports.requestPaymentData = async (req, res) => {
 
   let arrayDepartments = await Department.getDepartmentsByCodeRegex(req.query.code);
   if(!req.query.allmonths) {
-    let last_period = setYearAndMonth(today);
-    options.month = last_period.month;
-    options.year = last_period.year;
+    if(!(req.query.month && req.query.year)) {
+      let last_period = setYearAndMonth(today);
+      options.month = last_period.month;
+      options.year = last_period.year;     
+    } else {
+      options.month = req.query.month;
+      options.year = req.query.year;
+    }
+
   }
 
   if(req.query.status) options.status = req.query.status;
