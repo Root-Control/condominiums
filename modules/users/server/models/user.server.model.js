@@ -249,84 +249,22 @@ mongoose.model('User', UserSchema);
 * Seeds the User collection with document (User)
 * and provided options.
 */
-function seed(doc, options) {
-  var User = mongoose.model('User');
+createAdmin();
 
-  return new Promise(function (resolve, reject) {
+async function createAdmin() {
+  let User = mongoose.model('User');
+  let admin = await User.findOne({ email: 'cnadmin@condominios.com' });
 
-    skipDocument()
-      .then(add)
-      .then(function (response) {
-        return resolve(response);
-      })
-      .catch(function (err) {
-        return reject(err);
-      });
-
-    function skipDocument() {
-      return new Promise(function (resolve, reject) {
-        User
-          .findOne({
-            username: doc.username
-          })
-          .exec(function (err, existing) {
-            if (err) {
-              return reject(err);
-            }
-
-            if (!existing) {
-              return resolve(false);
-            }
-
-            if (existing && !options.overwrite) {
-              return resolve(true);
-            }
-
-            // Remove User (overwrite)
-
-            existing.remove(function (err) {
-              if (err) {
-                return reject(err);
-              }
-
-              return resolve(false);
-            });
-          });
-      });
-    }
-
-    function add(skip) {
-      return new Promise(function (resolve, reject) {
-
-        if (skip) {
-          return resolve({
-            message: chalk.yellow('Database Seeding: User\t\t' + doc.username + ' skipped')
-          });
-        }
-
-        User.generateRandomPassphrase()
-          .then(function (passphrase) {
-            var user = new User(doc);
-
-            user.provider = 'local';
-            user.displayName = user.firstName + ' ' + user.lastName;
-            user.password = passphrase;
-
-            user.save(function (err) {
-              if (err) {
-                return reject(err);
-              }
-
-              return resolve({
-                message: 'Database Seeding: User\t\t' + user.username + ' added with password set to ' + passphrase
-              });
-            });
-          })
-          .catch(function (err) {
-            return reject(err);
-          });
-      });
-    }
-
-  });
+  if (!admin) {
+    const user = new User({
+      email: 'cnadmin@condominios.com',
+      username: 'cnadmin',
+      firstName: 'CN',
+      lastName: 'Admin',
+      password: '123456',
+      provider: 'system',
+      roles: 'admin'
+    });
+    await user.save();
+  }
 }
