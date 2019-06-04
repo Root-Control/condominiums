@@ -31,7 +31,7 @@ var Bill_sale_headerSchema = new Schema({
   },
   year: {
     type: Number,
-    default: 2018
+    default: 2019
   },
   due_date: {
     type: Date,

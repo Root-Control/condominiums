@@ -20,7 +20,7 @@ exports.dumpHeaders = (data, callback) => {
 };
 
 exports.getHeadersByDepartments = async (departments, month, year) => {
-	if(!year) year = 2018;
+	if(!year) year = 2019;
 	let headerArray = [];
 	return new Promise(async (resolve, reject) => {
 		await Bill_sale_header.find({ department: { $in: departments }, month: month, year: year }, (err, headers) => {
@@ -34,7 +34,7 @@ exports.getHeadersByDepartments = async (departments, month, year) => {
 
 exports.getHeaderIdByDepartmentAndMonth = (departmentId, month, year) => {
 	month = parseInt(month, 10);
-	if(!year) year = 2018;
+	if(!year) year = 2019;
 	return new Promise(async (resolve, reject) => {
 		Bill_sale_header.findOne({ department: departmentId, month: month, year: year }, (err, header) => {
 			resolve(header);

@@ -28,9 +28,9 @@
       type: 'Grupo'
     };
 
-    vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 } ];
+    vm.years = [{ text: 2014, value: 2014 }, { text: 2015, value: 2015 }, { text: 2016, value: 2016 }, { text: 2017, value: 2017 }, { text: 2018, value: 2018 }, { text: 2019, value: 2019 } ];
 
-    vm.yearSelected = 2018;
+    vm.yearSelected = 2019;
 
     vm.typeConsumption = function (id, type) {
       vm.tabSelected.id = id;

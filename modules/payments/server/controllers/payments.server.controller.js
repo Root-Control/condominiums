@@ -148,7 +148,7 @@ exports.requestPaymentData = async (req, res) => {
 
   if(req.query.status) options.status = req.query.status;
 
-  options.year = req.query.year ? req.query.year : 2018;
+  options.year = req.query.year ? req.query.year : 2019;
   
   for(let i = 0; i < arrayDepartments.length; i++) {
     //  Iteramos en todos los depas
