@@ -251,7 +251,7 @@ createAdmin();
 
 async function createAdmin() {
   let User = mongoose.model('User');
-  let admin = await User.findOne({ email: 'cnadmin@condominios.com' });
+  let admin = await User.findOne({ username: 'cnadmin' });
 
   if (!admin) {
     const user = new User({
