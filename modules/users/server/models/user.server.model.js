@@ -255,13 +255,23 @@ async function createAdmin() {
 
   if (!admin) {
     const user = new User({
-      email: 'cnadmin@condominios.com',
-      username: 'cnadmin',
-      firstName: 'CN',
+      email: 'superadmin@vecinoinformado.com',
+      username: 'superadmin',
+      firstName: 'Super',
       lastName: 'Admin',
-      password: '123456',
+      password: 'vi_123456',
       provider: 'system',
-      roles: 'admin'
+      roles: 'superadmin'
+    });
+    await user.save();
+    const user = new User({
+      email: 'cadmin@vecinoinformado.com',
+      username: 'Cadmin',
+      firstName: 'Condom',
+      lastName: 'Admin',
+      password: 'vi_123456',
+      provider: 'system',
+      roles: 'c-admin'
     });
     await user.save();
   }
