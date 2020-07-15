@@ -80,7 +80,7 @@
     "imagemin-pngquant": "~5.0.0",
     "jasmine-core": "~2.7.0",
     "jsonwebtoken": "^8.1.0",
-    "lodash": "~4.17.4",
+    "lodash": "~4.17.19",
     "lusca": "~1.5.1",
     "method-override": "~2.3.8",
     "moment": "^2.19.2",
